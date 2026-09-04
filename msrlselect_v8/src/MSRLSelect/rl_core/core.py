@@ -173,6 +173,10 @@ def stack_observations(observations, device):
 
 def collect_rollout(policy, env, patient_indices, lambda_cost, minimum_transitions=128, deterministic=False):
     old_policy = copy.deepcopy(policy).to(env.device).eval()
+    for parameter in old_policy.parameters():
+        parameter.requires_grad_(False)
+    if old_policy.training or any(parameter.requires_grad for parameter in old_policy.parameters()):
+        raise AssertionError("Old policy snapshot must be eval-mode and frozen")
     transitions = []
     episode_counter = 0
     while len(transitions) < minimum_transitions:
@@ -202,6 +206,7 @@ def collect_rollout(policy, env, patient_indices, lambda_cost, minimum_transitio
                     "reward": float(result["reward"][local]), "done": bool(result["done"][local]),
                     "next_value": float(next_value[local]), "risk_before": float(result["risk_before"][local]),
                     "risk_after": float(result["risk_after"][local]), "cost": float(result["cost"][local]),
+                    "old_policy_frozen": True,
                 })
         if len(transitions) >= minimum_transitions:
             break
