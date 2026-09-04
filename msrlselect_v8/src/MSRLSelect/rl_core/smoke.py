@@ -88,7 +88,8 @@ def main():
     q0 = initial_action_values(environment, patient_ids)
     positive = q0[q0 > 0].detach().cpu().numpy()
     lambda_cost = float(np.quantile(positive, 0.25)) if len(positive) else 0.0
-    targets = q0.argmax(1)
+    costs = environment.costs[torch.as_tensor(patient_ids, dtype=torch.long)].to(device)
+    targets = (q0 - lambda_cost * costs).argmax(1)
     optimizer = torch.optim.AdamW(policy.parameters(), lr=2e-3)
     for _ in range(800):
         observation = environment.reset(patient_ids, lambda_cost)
