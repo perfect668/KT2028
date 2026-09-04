@@ -102,7 +102,9 @@ class SequentialAcquireEnv:
         return {
             "patient_index": patient,
             "coarse": self.assets.coarse[patient.cpu()].to(self.device),
-            "fine_slots": self.assets.fine_slots[patient.cpu()].to(self.device),
+            # Keep the fixed K64 layout, but expose no unobserved fine values.
+            "fine_slots": (self.assets.fine_slots[patient.cpu()].to(self.device) *
+                           state.active[rows, :, None, None].to(self.assets.fine_slots.dtype)),
             "active_mask": state.active[rows].clone(),
             "acquire_order": state.order[rows].clone(),
             "risk": state.risk[rows].clone(), "entropy": state.entropy[rows].clone(),
@@ -227,8 +229,9 @@ def ppo_update(policy, optimizer, transitions, device, epochs=4, minibatch_size=
     rows = []
     count = len(actions)
     for epoch in range(epochs):
+        permutation = torch.randperm(count, device=device)
         for start in range(0, count, minibatch_size):
-            index = torch.arange(start, min(start + minibatch_size, count), device=device)
+            index = permutation[start:start + minibatch_size]
             batch = {key: value[index] for key, value in observations.items()}
             logits, value = policy(batch)
             distribution = torch.distributions.Categorical(logits=logits)
