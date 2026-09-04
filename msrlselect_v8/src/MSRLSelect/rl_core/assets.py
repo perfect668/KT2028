@@ -153,7 +153,8 @@ class FixedE2Ensemble:
         part_a, part_b = self.assets.calibration["partial"]
         part_b = part_b + [0.0] * (3 - len(part_b))
         ratio = count.float() / 64.0
-        partial = torch.sigmoid(part_a + part_b[0] * raw_logit + part_b[1] * ratio + part_b[2] * raw_logit * ratio)
+        # The calibration fit uses [z, z*rho, rho], in this order.
+        partial = torch.sigmoid(part_a + part_b[0] * raw_logit + part_b[1] * raw_logit * ratio + part_b[2] * ratio)
         full = torch.sigmoid(k64_a + k64_b[0] * raw_logit)
         return torch.where(count == 64, full, partial)
 
