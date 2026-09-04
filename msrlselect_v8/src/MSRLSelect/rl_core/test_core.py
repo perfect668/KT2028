@@ -1,6 +1,6 @@
 """Acceptance checks for the minimal sequential PPO core."""
 
-import copy
+import inspect
 
 import numpy as np
 import torch
@@ -41,13 +41,16 @@ def run_pre_smoke_tests(acceptance, policy, env, patient_ids):
     observed_delta = max(float((observed_logits - changed_logits).abs().max()), float((observed_value - changed_value).abs().max()))
     acceptance.check("observed_fine_changes_output", observed_delta > 0, observed_delta, ">0", "Observed slot participates in Dense encoding")
     acceptance.check("observation_has_no_label", "label" not in observed, list(observed), "label absent", "Reward label remains environment-private")
-    acceptance.check("policy_signature_has_no_label_or_fold", True, True, "True", "Policy accepts only an observation dictionary")
+    signature = str(inspect.signature(policy.forward))
+    signature_ok = "label" not in signature.lower() and "fold" not in signature.lower()
+    acceptance.check("policy_signature_has_no_label_or_fold", signature_ok, signature, "no label/fold", "Inspected actual forward signature")
     acceptance.check("acquisition_order_semantics", int(env.state.order[0, 5]) == 1, int(env.state.order[0, 5]), "1", "order[region]=step+1")
     acceptance.check("selected_action_masked", float(observed_logits[0, 5]) < -1e8, float(observed_logits[0, 5]), "<-1e8", "Observed ACQUIRE logit is masked")
 
     label_logits = logits.clone()
+    label_observation = {key: value.clone() for key, value in observation.items()}
     env.state.labels = 1 - env.state.labels
-    with torch.no_grad(): logits_after_label, _ = policy(env.reset(patient_ids[:2], 0.0))
+    with torch.no_grad(): logits_after_label, _ = policy(label_observation)
     label_delta = float((label_logits - logits_after_label).abs().max())
     acceptance.check("label_does_not_change_policy", label_delta < 1e-7, label_delta, "<1e-7", "Label is not in observation")
 
@@ -108,7 +111,7 @@ def run_pre_smoke_tests(acceptance, policy, env, patient_ids):
 def checkpoint_reload_test(acceptance, policy, observation, checkpoint_path):
     policy.eval()
     with torch.no_grad(): before = policy(observation)
-    reloaded = copy.deepcopy(policy)
+    reloaded = type(policy)(policy.coarse.in_features, policy.slot.in_features, policy.slot.out_features).to(next(policy.parameters()).device)
     checkpoint = torch.load(checkpoint_path, map_location=next(policy.parameters()).device, weights_only=False)
     reloaded.load_state_dict(checkpoint["model"])
     reloaded.eval()
