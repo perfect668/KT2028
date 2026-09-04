@@ -60,6 +60,7 @@ def serializable_transition(row):
         "old_log_prob": row["old_log_prob"], "value": row["value"], "reward": row["reward"],
         "done": row["done"], "risk_before": row["risk_before"], "risk_after": row["risk_after"],
         "cost": row["cost"], "advantage": row["advantage"], "return": row["return"],
+        "old_policy_frozen": row["old_policy_frozen"],
     }
 
 
@@ -123,6 +124,8 @@ def main():
             training_rows.append(row)
     acceptance.check("ppo_2000_real_transitions", len(all_transitions) >= 2000, len(all_transitions), ">=2000 complete-episode transitions", "All rewards came from fold-specific frozen E2; no episode truncation")
     acceptance.check("ppo_initial_ratio", abs(training_rows[0]["initial_ratio_mean"] - 1) < 1e-5, training_rows[0]["initial_ratio_mean"], "abs(ratio-1)<1e-5", "Old policy snapshot and stored detached log-prob")
+    old_frozen = all(row["old_policy_frozen"] for row in all_transitions)
+    acceptance.check("ppo_old_policy_frozen", old_frozen, old_frozen, "True", "Independent eval-mode snapshot has requires_grad=False during sampling")
     maximum_clip = max(row["clip_fraction"] for row in training_rows)
     acceptance.check("ppo_nonzero_clip_fraction", maximum_clip > 0, maximum_clip, ">0", "Four PPO epochs per rollout batch")
     all_shuffled = all(bool(row["minibatch_shuffled"]) for row in training_rows)
