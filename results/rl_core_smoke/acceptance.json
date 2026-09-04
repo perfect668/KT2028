@@ -1,5 +1,47 @@
 [
   {
+    "test_name": "fixed_e2_calibration_identity",
+    "status": "PASS",
+    "measured_value": "/root/autodl-tmp/surgen_hemicore/outputs/thesis_rl_v7/r1_online_ppo/metrics/e2_calibration_parameters.csv",
+    "threshold": "/root/autodl-tmp/surgen_hemicore/outputs/thesis_rl_v7/r1_online_ppo/metrics/e2_calibration_parameters.csv",
+    "evidence": "Exact Fixed E2 OOF calibration path"
+  },
+  {
+    "test_name": "fixed_e2_oof_checkpoint_inventory",
+    "status": "PASS",
+    "measured_value": 15,
+    "threshold": "15 exact fold/seed names",
+    "evidence": "No full-cohort or E2M checkpoint accepted"
+  },
+  {
+    "test_name": "fixed_e2_eval_and_frozen",
+    "status": "PASS",
+    "measured_value": true,
+    "threshold": "True",
+    "evidence": "All 15 loaded models inspected"
+  },
+  {
+    "test_name": "fixed_e2_no_grad_forward",
+    "status": "PASS",
+    "measured_value": false,
+    "threshold": "False",
+    "evidence": "Predict method enforces torch.no_grad"
+  },
+  {
+    "test_name": "observation_unobserved_fine_zero",
+    "status": "PASS",
+    "measured_value": 0.0,
+    "threshold": "==0",
+    "evidence": "Environment masks fine before constructing observation or rollout buffer"
+  },
+  {
+    "test_name": "partial_calibration_feature_order",
+    "status": "PASS",
+    "measured_value": 0.0,
+    "threshold": "<1e-12",
+    "evidence": "Independent [z, z*rho, rho] formula"
+  },
+  {
     "test_name": "unobserved_fine_invariance",
     "status": "PASS",
     "measured_value": 0.0,
@@ -9,7 +51,7 @@
   {
     "test_name": "observed_fine_changes_output",
     "status": "PASS",
-    "measured_value": 0.19484193623065948,
+    "measured_value": 0.19484227895736694,
     "threshold": ">0",
     "evidence": "Observed slot participates in Dense encoding"
   },
@@ -36,9 +78,9 @@
   {
     "test_name": "policy_signature_has_no_label_or_fold",
     "status": "PASS",
-    "measured_value": true,
-    "threshold": "True",
-    "evidence": "Policy accepts only an observation dictionary"
+    "measured_value": "(observation)",
+    "threshold": "no label/fold",
+    "evidence": "Inspected actual forward signature"
   },
   {
     "test_name": "acquisition_order_semantics",
@@ -106,7 +148,7 @@
   {
     "test_name": "label_affects_reward_not_policy",
     "status": "PASS",
-    "measured_value": 0.13334642892738324,
+    "measured_value": 0.13370557459339671,
     "threshold": ">0 reward delta",
     "evidence": "Label is private to reward computation"
   },
@@ -120,7 +162,7 @@
   {
     "test_name": "reward_telescoping",
     "status": "PASS",
-    "measured_value": 4.440892098500626e-16,
+    "measured_value": 0.0,
     "threshold": "<1e-6",
     "evidence": "Accumulated potential increments and costs telescope"
   },
@@ -129,7 +171,14 @@
     "status": "PASS",
     "measured_value": true,
     "threshold": "True",
-    "evidence": "Asset loader records every explicitly opened data path"
+    "evidence": "Every opened metadata, tensor, region, calibration and checkpoint path is recorded and loader-enforced"
+  },
+  {
+    "test_name": "first_action_net_gain_target",
+    "status": "PASS",
+    "measured_value": 0,
+    "threshold": "==0",
+    "evidence": "Target is argmax(DeltaPhi - lambda*region_cost)"
   },
   {
     "test_name": "first_action_warmstart_accuracy",
@@ -141,7 +190,7 @@
   {
     "test_name": "ppo_2000_real_transitions",
     "status": "PASS",
-    "measured_value": 2008,
+    "measured_value": 2025,
     "threshold": ">=2000 complete-episode transitions",
     "evidence": "All rewards came from fold-specific frozen E2; no episode truncation"
   },
@@ -155,9 +204,16 @@
   {
     "test_name": "ppo_nonzero_clip_fraction",
     "status": "PASS",
-    "measured_value": 0.8333333730697632,
+    "measured_value": 0.27272728085517883,
     "threshold": ">0",
     "evidence": "Four PPO epochs per rollout batch"
+  },
+  {
+    "test_name": "ppo_random_minibatch_shuffle",
+    "status": "PASS",
+    "measured_value": true,
+    "threshold": "True",
+    "evidence": "Fresh torch.randperm generated for every PPO epoch"
   },
   {
     "test_name": "ppo_losses_finite",
@@ -169,21 +225,21 @@
   {
     "test_name": "dense_encoder_gradient",
     "status": "PASS",
-    "measured_value": 0.35794293880462646,
+    "measured_value": 0.20161345601081848,
     "threshold": ">0",
     "evidence": "Gradient measured before clipping"
   },
   {
     "test_name": "actor_head_gradient",
     "status": "PASS",
-    "measured_value": 2.5362350940704346,
+    "measured_value": 2.2489681243896484,
     "threshold": ">0",
     "evidence": "Gradient measured before clipping"
   },
   {
     "test_name": "value_head_gradient",
     "status": "PASS",
-    "measured_value": 0.9582806825637817,
+    "measured_value": 0.5989341735839844,
     "threshold": ">0",
     "evidence": "Gradient measured before clipping"
   },
@@ -197,9 +253,43 @@
   {
     "test_name": "critic_fixed_batch_overfit_ev",
     "status": "PASS",
-    "measured_value": 0.9969919323921204,
+    "measured_value": 0.9790449142456055,
     "threshold": ">0.8",
     "evidence": "Overfit check on fixed real trajectory returns only"
+  },
+  {
+    "test_name": "checkpoint_contains_full_actor_critic",
+    "status": "PASS",
+    "measured_value": [
+      "acquire_head.bias",
+      "acquire_head.weight",
+      "active.weight",
+      "coarse.bias",
+      "coarse.weight",
+      "order.weight",
+      "region_block.0.bias",
+      "region_block.0.weight",
+      "region_block.1.bias",
+      "region_block.1.weight",
+      "scalar.0.bias",
+      "scalar.0.weight",
+      "scalar.2.bias",
+      "scalar.2.weight",
+      "slot.bias",
+      "slot.weight",
+      "slot_block.0.bias",
+      "slot_block.0.weight",
+      "slot_block.1.bias",
+      "slot_block.1.weight",
+      "slot_block.3.bias",
+      "slot_block.3.weight",
+      "stop_head.bias",
+      "stop_head.weight",
+      "value_head.bias",
+      "value_head.weight"
+    ],
+    "threshold": "Dense encoder + acquire + STOP + value",
+    "evidence": "Fresh model is reconstructed solely from checkpoint state_dict"
   },
   {
     "test_name": "checkpoint_reload_exact",
