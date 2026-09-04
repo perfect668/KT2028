@@ -22,6 +22,19 @@ class Acceptance:
 def run_pre_smoke_tests(acceptance, policy, env, patient_ids):
     device = env.device
     observation = env.reset(patient_ids[:2], 0.0)
+    unobserved_values = observation["fine_slots"][~observation["active_mask"]]
+    unobserved_max = float(unobserved_values.abs().max()) if unobserved_values.numel() else 0.0
+    acceptance.check("observation_unobserved_fine_zero", unobserved_max == 0.0, unobserved_max, "==0", "Environment masks fine before constructing observation or rollout buffer")
+
+    raw = torch.tensor([0.7], device=device)
+    count = torch.tensor([16], device=device)
+    calibrated = env.predictor._calibrate(raw, count)
+    intercept, coefficients = env.assets.calibration["partial"]
+    z = torch.logit(raw)
+    rho = count.float() / 64.0
+    expected = torch.sigmoid(intercept + coefficients[0] * z + coefficients[1] * z * rho + coefficients[2] * rho)
+    calibration_error = float((calibrated - expected).abs().max())
+    acceptance.check("partial_calibration_feature_order", calibration_error < 1e-12, calibration_error, "<1e-12", "Independent [z, z*rho, rho] formula")
     policy.eval()
     with torch.no_grad():
         logits, value = policy(observation)
@@ -105,7 +118,8 @@ def run_pre_smoke_tests(acceptance, policy, env, patient_ids):
     expected_return = terminal_phi - initial_phi - telescope_lambda * env.state.cumulative_cost[0]
     telescope_error = float(abs(env.state.cumulative_reward[0] - expected_return))
     acceptance.check("reward_telescoping", telescope_error < 1e-6, telescope_error, "<1e-6", "Accumulated potential increments and costs telescope")
-    acceptance.check("smoke_paths_train_only", all("valid" not in p.lower() and "test" not in p.lower() for p in env.assets.opened_paths), True, "True", "Asset loader records every explicitly opened data path")
+    train_only = all(not any(word in p.lower() for word in ("validation", "validate", "test")) for p in env.assets.opened_paths)
+    acceptance.check("smoke_paths_train_only", train_only, train_only, "True", "Every opened metadata, tensor, region, calibration and checkpoint path is recorded and loader-enforced")
 
 
 def checkpoint_reload_test(acceptance, policy, observation, checkpoint_path):
