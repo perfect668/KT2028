@@ -101,7 +101,7 @@ def main():
         first_accuracy = float((policy(observation)[0][:, :64].argmax(1) == targets).float().mean())
     acceptance.check("first_action_warmstart_accuracy", first_accuracy >= 0.95, first_accuracy, ">=0.95", "Eight real Train patients, STOP masked")
 
-    optimizer = torch.optim.AdamW(policy.parameters(), lr=3e-4)
+    optimizer = torch.optim.AdamW(policy.parameters(), lr=5e-5)
     all_transitions, training_rows = [], []
     while len(all_transitions) < 2000:
         requested = min(256, max(1, 2000 - len(all_transitions)))
