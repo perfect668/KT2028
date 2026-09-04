@@ -230,6 +230,7 @@ def ppo_update(policy, optimizer, transitions, device, epochs=4, minibatch_size=
     count = len(actions)
     for epoch in range(epochs):
         permutation = torch.randperm(count, device=device)
+        shuffled = not torch.equal(permutation, torch.arange(count, device=device))
         for start in range(0, count, minibatch_size):
             index = permutation[start:start + minibatch_size]
             batch = {key: value[index] for key, value in observations.items()}
@@ -255,5 +256,6 @@ def ppo_update(policy, optimizer, transitions, device, epochs=4, minibatch_size=
             rows.append({"epoch": epoch + 1, "actor_loss": float(actor_loss.detach()), "critic_loss": float(critic_loss.detach()),
                          "entropy_loss": float(entropy_loss.detach()), "approx_kl": float(approx_kl),
                          "clip_fraction": float(clip_fraction), "ratio_mean": float(ratio.mean().detach()),
+                         "minibatch_shuffled": shuffled,
                          "encoder_grad": encoder_grad, "actor_grad": actor_grad, "value_grad": value_grad})
     return rows, float(initial_ratio.mean())
