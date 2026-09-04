@@ -89,7 +89,11 @@ def main():
     positive = q0[q0 > 0].detach().cpu().numpy()
     lambda_cost = float(np.quantile(positive, 0.25)) if len(positive) else 0.0
     costs = environment.costs[torch.as_tensor(patient_ids, dtype=torch.long)].to(device)
-    targets = (q0 - lambda_cost * costs).argmax(1)
+    net_q0 = q0 - lambda_cost * costs
+    targets = net_q0.argmax(1)
+    independently_reconstructed = (q0 - torch.as_tensor(lambda_cost, device=device) * costs).argmax(1)
+    target_error = int((targets != independently_reconstructed).sum())
+    acceptance.check("first_action_net_gain_target", target_error == 0, target_error, "==0", "Target is argmax(DeltaPhi - lambda*region_cost)")
     optimizer = torch.optim.AdamW(policy.parameters(), lr=2e-3)
     for _ in range(800):
         observation = environment.reset(patient_ids, lambda_cost)
@@ -121,6 +125,8 @@ def main():
     acceptance.check("ppo_initial_ratio", abs(training_rows[0]["initial_ratio_mean"] - 1) < 1e-5, training_rows[0]["initial_ratio_mean"], "abs(ratio-1)<1e-5", "Old policy snapshot and stored detached log-prob")
     maximum_clip = max(row["clip_fraction"] for row in training_rows)
     acceptance.check("ppo_nonzero_clip_fraction", maximum_clip > 0, maximum_clip, ">0", "Four PPO epochs per rollout batch")
+    all_shuffled = all(bool(row["minibatch_shuffled"]) for row in training_rows)
+    acceptance.check("ppo_random_minibatch_shuffle", all_shuffled, all_shuffled, "True", "Fresh torch.randperm generated for every PPO epoch")
     finite = all(np.isfinite(row[key]) for row in training_rows for key in ("approx_kl", "actor_loss", "critic_loss"))
     acceptance.check("ppo_losses_finite", finite, finite, "True", "Actual minibatch diagnostics")
     for name, field in (("dense_encoder_gradient", "encoder_grad"), ("actor_head_gradient", "actor_grad"), ("value_head_gradient", "value_grad")):
