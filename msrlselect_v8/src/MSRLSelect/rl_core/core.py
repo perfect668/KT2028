@@ -230,6 +230,10 @@ def ppo_update(policy, optimizer, transitions, device, epochs=4, minibatch_size=
     advantages = torch.tensor([item["advantage"] for item in transitions], device=device)
     advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-6)
     with torch.no_grad():
+        old_values = torch.tensor([item["value"] for item in transitions], device=device)
+        raw_returns = returns.detach()
+        explained_variance = float(1.0 - ((raw_returns - old_values).var(unbiased=False) / raw_returns.var(unbiased=False).clamp_min(1e-12)))
+    with torch.no_grad():
         initial_ratio = torch.exp(torch.distributions.Categorical(logits=policy(observations)[0]).log_prob(actions) - old_log_prob)
     rows = []
     count = len(actions)
@@ -253,6 +257,7 @@ def ppo_update(policy, optimizer, transitions, device, epochs=4, minibatch_size=
             encoder_grad = float(policy.slot.weight.grad.norm())
             actor_grad = float(policy.acquire_head.weight.grad.norm())
             value_grad = float(policy.value_head.weight.grad.norm())
+            stop_grad = float(policy.stop_head.weight.grad.norm())
             torch.nn.utils.clip_grad_norm_(policy.parameters(), 0.5)
             optimizer.step()
             with torch.no_grad():
@@ -263,4 +268,6 @@ def ppo_update(policy, optimizer, transitions, device, epochs=4, minibatch_size=
                          "clip_fraction": float(clip_fraction), "ratio_mean": float(ratio.mean().detach()),
                          "minibatch_shuffled": shuffled,
                          "encoder_grad": encoder_grad, "actor_grad": actor_grad, "value_grad": value_grad})
+            rows[-1]["stop_grad"] = stop_grad
+            rows[-1]["explained_variance"] = explained_variance
     return rows, float(initial_ratio.mean())

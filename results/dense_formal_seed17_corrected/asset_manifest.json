@@ -1,0 +1,37 @@
+{
+  "data_root": "/root/autodl-tmp/surgen_hemicore",
+  "train_patients": 255,
+  "fixed_e2_checkpoints": [
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold0_seed1_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold0_seed17_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold0_seed42_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold1_seed1_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold1_seed17_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold1_seed42_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold2_seed1_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold2_seed17_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold2_seed42_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold3_seed1_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold3_seed17_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold3_seed42_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold4_seed1_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold4_seed17_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_oof_fold4_seed42_best.pt"
+  ],
+  "calibration_path": "/root/autodl-tmp/surgen_hemicore/outputs/thesis_rl_v7/r1_online_ppo/metrics/e2_calibration_parameters.csv",
+  "calibration_sha256": "b3731d7b802a0ef57ff7176c986c147323ab0326696f9683587cb0e985df2ed4",
+  "validation_read": true,
+  "test_read": false,
+  "validation_fixed_e2_paths": [
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_bottleneck_moe4_seed1_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_bottleneck_moe4_seed17_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_bottleneck_moe4_seed42_best.pt"
+  ],
+  "validation_fixed_e2_sha256": [
+    "aaa18ef8839f83f8325c920193ced6344b2f96101ae3ba3f115ea271095e6de8",
+    "a8e9ea60eeae0174f70ba043d9203817f845fe52d68e3348f4f0880fb81a6f87",
+    "37f18b5c183c4a927195fc735a82a993aa8fa7fc99a304adeb008d51ce65e4c4"
+  ],
+  "validation_checkpoint_count": 3,
+  "validation_checkpoint_rule": "complete E2_bottleneck_moe4 seed1/17/42; no OOF fold routing"
+}

@@ -1,0 +1,17 @@
+{
+  "train_complete": true,
+  "validation_run": true,
+  "test_run": false,
+  "checkpoint": "/root/autodl-tmp/surgen_hemicore/outputs/thesis_rl_v8/dense_formal_seed17_corrected/checkpoints/final_dense_seed17.pt",
+  "checkpoint_sha256": "c7ba6a3c094ce7a36e623c32d9853ee2cab842f6c99c683820039eb622ca4716",
+  "validation_fixed_e2_paths": [
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_bottleneck_moe4_seed1_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_bottleneck_moe4_seed17_best.pt",
+    "/root/autodl-tmp/surgen_hemicore/outputs/thesis_evidence_interface_v7/checkpoints/E2_bottleneck_moe4_seed42_best.pt"
+  ],
+  "validation_fixed_e2_sha256": [
+    "aaa18ef8839f83f8325c920193ced6344b2f96101ae3ba3f115ea271095e6de8",
+    "a8e9ea60eeae0174f70ba043d9203817f845fe52d68e3348f4f0880fb81a6f87",
+    "37f18b5c183c4a927195fc735a82a993aa8fa7fc99a304adeb008d51ce65e4c4"
+  ]
+}

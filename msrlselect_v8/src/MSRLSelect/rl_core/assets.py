@@ -189,3 +189,33 @@ class FixedE2Ensemble:
         p = probability.clamp(1e-6, 1 - 1e-6)
         entropy = -(p * p.log() + (1 - p) * (1 - p).log())
         return probability, entropy, disagreement, seed_probabilities
+
+
+class FixedE2ValidationEnsemble(FixedE2Ensemble):
+    """Validation ensemble: three complete Fixed E2 models, no OOF fold routing."""
+    def __init__(self, assets, device, checkpoint_paths):
+        self.assets, self.device = assets, torch.device(device)
+        self.models = []
+        for path in checkpoint_paths:
+            if "oof_fold" in str(path).lower() or "e2m" in str(path).lower():
+                raise AssertionError(f"Validation requires complete Fixed E2 checkpoint: {path}")
+            if Path(path).name not in {f"E2_bottleneck_moe4_seed{s}_best.pt" for s in (1,17,42)}:
+                raise AssertionError(f"Unexpected Validation checkpoint: {path}")
+            checkpoint = torch.load(path, map_location="cpu", weights_only=False)
+            model = EvidenceNet(assets.coarse.shape[-1]).to(self.device)
+            model.load_state_dict(checkpoint["model"]); model.eval()
+            for parameter in model.parameters(): parameter.requires_grad_(False)
+            self.models.append(model)
+        if len(self.models) != 3: raise AssertionError("Validation must load exactly three complete models")
+
+    @torch.no_grad()
+    def predict(self, patient_indices, active_mask):
+        indices = torch.as_tensor(patient_indices, dtype=torch.long, device=self.device)
+        active = torch.as_tensor(active_mask, dtype=torch.bool, device=self.device)
+        coarse = self.assets.coarse[indices.cpu()].to(self.device)
+        fine = self.assets.fine_slots[indices.cpu()].flatten(-2).to(self.device)
+        probs = torch.stack([torch.sigmoid(model(coarse, fine, active[:, None])[0][:, 0]) for model in self.models], 1)
+        raw_mean = probs.mean(1); probability = self._calibrate(raw_mean, active.sum(1))
+        disagreement = probs.std(1, unbiased=False); p = probability.clamp(1e-6, 1-1e-6)
+        entropy = -(p*p.log() + (1-p)*(1-p).log())
+        return probability, entropy, disagreement, probs

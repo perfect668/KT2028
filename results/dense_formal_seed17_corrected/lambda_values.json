@@ -1,0 +1,13 @@
+{
+  "values": [
+    0.0,
+    0.0003935273813882034,
+    0.0011797714321550856,
+    0.003516254591272361
+  ],
+  "positive_gain_count": 71861,
+  "source": "Train OOF legal DeltaPhi > 0",
+  "source_sha256": "def3caa9fedaf8a56457f70a6edad9305ccd4eb5077e98398a04a8c26bac22fb",
+  "state_count": 2295,
+  "state_lambda_samples": 9180
+}
