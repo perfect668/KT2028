@@ -1,7 +1,11 @@
 {
-  "path": "/root/autodl-tmp/surgen_hemicore/outputs/thesis_rl_v8/dense_formal_seed17_corrected/checkpoints/final_dense_seed17.pt",
-  "sha256": "c7ba6a3c094ce7a36e623c32d9853ee2cab842f6c99c683820039eb622ca4716",
-  "transitions": 200894,
+  "path": "/root/autodl-tmp/surgen_hemicore/outputs/thesis_rl_v8/dense_formal_seed17_corrected/checkpoints/final_dense_seed17_balanced.pt",
+  "sha256": "1fd38332787f3a76e481184dec6c16cbfb38778778703078577957cd67e535c7",
+  "transitions": 206850,
+  "resume_seed": 170036,
+  "resume_lambda": 0.003516254591272361,
+  "resume_rollout_transitions": 5956,
+  "old_checkpoint_sha256": "c7ba6a3c094ce7a36e623c32d9853ee2cab842f6c99c683820039eb622ca4716",
   "reload_max_abs_output_delta": 0.0,
   "fixed_e2_checkpoint_sha256": [
     "76d2f4c757cbca786e108584e87e8901d2a7bd23056eeab4b004e0800d221307",
