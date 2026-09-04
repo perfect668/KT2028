@@ -1,0 +1,16 @@
+{
+  "seed": 17,
+  "patients": 255,
+  "max_acquire_steps": 8,
+  "target_transitions": 200000,
+  "rollout_minimum": 4096,
+  "ppo_epochs": 4,
+  "minibatch_size": 512,
+  "clip": 0.2,
+  "lr": 5e-05,
+  "gamma": 1.0,
+  "gae_lambda": 0.95,
+  "device": "cuda",
+  "no_validation_during_training": true,
+  "no_test": true
+}

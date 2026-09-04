@@ -1,0 +1,14 @@
+{
+  "status": "TRAIN_COMPLETE",
+  "transitions": 204043,
+  "lambda_values": [
+    0.0,
+    0.0004416360819001208,
+    0.0013867060710262905,
+    0.004803944179993691
+  ],
+  "checkpoint": "/root/autodl-tmp/surgen_hemicore/outputs/thesis_rl_v8/dense_formal_seed17/checkpoints/final_dense_seed17.pt",
+  "checkpoint_sha256": "0fd0fba207e3b9acfd5848488f0f5d0057f5c4a4991fed5df4520edcfe4bcd29",
+  "validation_run": false,
+  "test_run": false
+}
