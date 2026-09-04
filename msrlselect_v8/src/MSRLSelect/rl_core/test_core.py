@@ -21,7 +21,18 @@ class Acceptance:
 
 def run_pre_smoke_tests(acceptance, policy, env, patient_ids):
     device = env.device
+    expected_calibration = (env.assets.root / "outputs/thesis_rl_v7/r1_online_ppo/metrics/e2_calibration_parameters.csv").resolve()
+    actual_calibration = env.assets.calibration_path.resolve()
+    acceptance.check("fixed_e2_calibration_identity", actual_calibration == expected_calibration and "e2m" not in str(actual_calibration).lower(), str(actual_calibration), str(expected_calibration), "Exact Fixed E2 OOF calibration path")
+    expected_names = {f"E2_oof_fold{fold}_seed{seed}_best.pt" for fold in range(5) for seed in (1, 17, 42)}
+    actual_names = {path.name for path in env.assets.checkpoint_paths}
+    acceptance.check("fixed_e2_oof_checkpoint_inventory", actual_names == expected_names, len(actual_names), "15 exact fold/seed names", "No full-cohort or E2M checkpoint accepted")
+    frozen = all(not model.training and all(not parameter.requires_grad for parameter in model.parameters()) for models in env.predictor.models.values() for model in models)
+    acceptance.check("fixed_e2_eval_and_frozen", frozen, frozen, "True", "All 15 loaded models inspected")
     observation = env.reset(patient_ids[:2], 0.0)
+    with torch.enable_grad():
+        risk_probe = env.predictor.predict(patient_ids[:2], observation["active_mask"])[0]
+    acceptance.check("fixed_e2_no_grad_forward", not risk_probe.requires_grad, risk_probe.requires_grad, "False", "Predict method enforces torch.no_grad")
     unobserved_values = observation["fine_slots"][~observation["active_mask"]]
     unobserved_max = float(unobserved_values.abs().max()) if unobserved_values.numel() else 0.0
     acceptance.check("observation_unobserved_fine_zero", unobserved_max == 0.0, unobserved_max, "==0", "Environment masks fine before constructing observation or rollout buffer")
@@ -127,6 +138,9 @@ def checkpoint_reload_test(acceptance, policy, observation, checkpoint_path):
     with torch.no_grad(): before = policy(observation)
     reloaded = type(policy)(policy.coarse.in_features, policy.slot.in_features, policy.slot.out_features).to(next(policy.parameters()).device)
     checkpoint = torch.load(checkpoint_path, map_location=next(policy.parameters()).device, weights_only=False)
+    keys = set(checkpoint["model"])
+    complete = any(key.startswith("slot.") for key in keys) and any(key.startswith("acquire_head.") for key in keys) and any(key.startswith("stop_head.") for key in keys) and any(key.startswith("value_head.") for key in keys)
+    acceptance.check("checkpoint_contains_full_actor_critic", complete, sorted(keys), "Dense encoder + acquire + STOP + value", "Fresh model is reconstructed solely from checkpoint state_dict")
     reloaded.load_state_dict(checkpoint["model"])
     reloaded.eval()
     with torch.no_grad(): after = reloaded(observation)
