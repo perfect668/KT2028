@@ -68,6 +68,13 @@ def _file_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _assert_train_only_path(path: Path):
+    lowered = [part.lower() for part in path.parts]
+    forbidden = ("validation", "validate", "test")
+    if any(any(word in part for word in forbidden) for part in lowered):
+        raise AssertionError(f"Non-Train asset access rejected: {path}")
+
+
 def load_train_assets(data_root) -> TrainAssets:
     root = Path(data_root).resolve()
     evidence = root / "outputs/thesis_evidence_interface_v7"
@@ -85,6 +92,8 @@ def load_train_assets(data_root) -> TrainAssets:
         evidence / "checkpoints" / f"E2_oof_fold{fold}_seed{seed}_best.pt"
         for fold in range(5) for seed in (1, 17, 42)
     ]
+    for path in required + checkpoints:
+        _assert_train_only_path(path)
     missing = [str(path) for path in required + checkpoints if not path.is_file()]
     if missing:
         raise FileNotFoundError("Missing required Fixed E2 assets:\n" + "\n".join(missing))
@@ -103,9 +112,10 @@ def load_train_assets(data_root) -> TrainAssets:
 
     coarse_rows = []
     region_root = root / "outputs/thesis_algorithm_upgrade_v5/stage1a_infrastructure/cache/regions_k64/train"
-    opened = [str(path) for path in required]
+    opened = [str(path) for path in required + checkpoints]
     for row in metadata.itertuples():
         region_path = region_root / f"{row.case_id}.npz"
+        _assert_train_only_path(region_path)
         if not region_path.is_file():
             raise FileNotFoundError(str(region_path))
         with np.load(region_path) as region:
