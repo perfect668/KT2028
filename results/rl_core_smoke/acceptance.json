@@ -202,6 +202,13 @@
     "evidence": "Old policy snapshot and stored detached log-prob"
   },
   {
+    "test_name": "ppo_old_policy_frozen",
+    "status": "PASS",
+    "measured_value": true,
+    "threshold": "True",
+    "evidence": "Independent eval-mode snapshot has requires_grad=False during sampling"
+  },
+  {
     "test_name": "ppo_nonzero_clip_fraction",
     "status": "PASS",
     "measured_value": 0.27272728085517883,
@@ -225,14 +232,14 @@
   {
     "test_name": "dense_encoder_gradient",
     "status": "PASS",
-    "measured_value": 0.20161345601081848,
+    "measured_value": 0.20161034166812897,
     "threshold": ">0",
     "evidence": "Gradient measured before clipping"
   },
   {
     "test_name": "actor_head_gradient",
     "status": "PASS",
-    "measured_value": 2.2489681243896484,
+    "measured_value": 2.2489187717437744,
     "threshold": ">0",
     "evidence": "Gradient measured before clipping"
   },
@@ -253,7 +260,7 @@
   {
     "test_name": "critic_fixed_batch_overfit_ev",
     "status": "PASS",
-    "measured_value": 0.9790449142456055,
+    "measured_value": 0.9790444374084473,
     "threshold": ">0.8",
     "evidence": "Overfit check on fixed real trajectory returns only"
   },
