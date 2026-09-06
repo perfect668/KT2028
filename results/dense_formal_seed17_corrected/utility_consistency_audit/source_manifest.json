@@ -1,0 +1,15 @@
+{
+  "execution_source_confirmed": true,
+  "repaired_formal_dense_sha256": "0034c23cfcb62e8b0b91c34c5022acd12d22174a57553d6b3efda4d8bd7659d4",
+  "archive_commit": "e1a6ec086d02ff2c29d26f0f4e216da7ce9495b2",
+  "files": {
+    "formal_dense.py": "7f8385f92692bf6eb98c15f160341151d12d837cd876464000bd50f58fb413a2",
+    "formal_dense_server_repaired.py": "0034c23cfcb62e8b0b91c34c5022acd12d22174a57553d6b3efda4d8bd7659d4",
+    "core.py": "cdf9f2bc527f3a6ae94d859d37ca9bca9e3b87ff742e1d703eafb9294394dd3d",
+    "checkpoint": "1fd38332787f3a76e481184dec6c16cbfb38778778703078577957cd67e535c7"
+  },
+  "source_evidence": "server formal_dense SHA256 matched archived e1a6ec source; no fabricated execution history",
+  "validation_read": false,
+  "test_read": false,
+  "training_run": false
+}
