@@ -1,0 +1,24 @@
+{
+  "source_confirmed": true,
+  "formal_dense_sha256": "4d3f8909af406fa3691230b610cf92d243a02a099b605529ba72382610e8c918",
+  "core_sha256": "cdf9f2bc527f3a6ae94d859d37ca9bca9e3b87ff742e1d703eafb9294394dd3d",
+  "states": 1992,
+  "max_abs_gain_diff": 0.8360993967409187,
+  "sign_mismatch_rate": 0.9914658634538153,
+  "best_action_change_rate": 1.0,
+  "old_selected_correct_mean_gain": -0.04958863453461774,
+  "old_selected_correct_regret": 0.04006877047994262,
+  "nonzero_history_cost_check": "warm-start cumulative_cost=0; selected-cost sum is nonzero for k>0; interface mismatch confirmed",
+  "validation_read": false,
+  "test_read": false,
+  "lambda_values_existing": [
+    0.0,
+    0.0003935273813882034,
+    0.0011797714321550856,
+    0.003516254591272361
+  ],
+  "cached_vs_environment_reward_max_abs_error": 0.0,
+  "cached_reward_validation": "exact same evidence_potential delta minus lambda*cost as SequentialAcquireEnv.step_actions",
+  "action_comparison_rows_with_lambdas": 7968,
+  "hand_case_sign_test": true
+}
