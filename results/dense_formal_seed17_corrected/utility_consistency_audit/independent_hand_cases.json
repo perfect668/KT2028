@@ -1,0 +1,74 @@
+[
+  {
+    "label": 0.0,
+    "p_before": 0.2,
+    "p_after": 0.1,
+    "improves": true,
+    "old_gain": -0.11028303565638342,
+    "unified_gain": 0.12528303565638343,
+    "expected_sign": 1
+  },
+  {
+    "label": 0.0,
+    "p_before": 0.2,
+    "p_after": 0.4,
+    "improves": false,
+    "old_gain": 0.257682072451781,
+    "unified_gain": -0.31768207245178104,
+    "expected_sign": -1
+  },
+  {
+    "label": 0.0,
+    "p_before": 0.8,
+    "p_after": 0.9,
+    "improves": false,
+    "old_gain": 0.6506471805599456,
+    "unified_gain": -0.7356471805599452,
+    "expected_sign": -1
+  },
+  {
+    "label": 0.0,
+    "p_before": 0.8,
+    "p_after": 0.6,
+    "improves": true,
+    "old_gain": -0.6231471805599453,
+    "unified_gain": 0.7631471805599457,
+    "expected_sign": 1
+  },
+  {
+    "label": 1.0,
+    "p_before": 0.2,
+    "p_after": 0.1,
+    "improves": false,
+    "old_gain": 0.6506471805599452,
+    "unified_gain": -0.7356471805599452,
+    "expected_sign": -1
+  },
+  {
+    "label": 1.0,
+    "p_before": 0.2,
+    "p_after": 0.4,
+    "improves": true,
+    "old_gain": -0.6231471805599453,
+    "unified_gain": 0.7631471805599452,
+    "expected_sign": 1
+  },
+  {
+    "label": 1.0,
+    "p_before": 0.8,
+    "p_after": 0.9,
+    "improves": true,
+    "old_gain": -0.11028303565638342,
+    "unified_gain": 0.12528303565638343,
+    "expected_sign": 1
+  },
+  {
+    "label": 1.0,
+    "p_before": 0.8,
+    "p_after": 0.6,
+    "improves": false,
+    "old_gain": 0.257682072451781,
+    "unified_gain": -0.31768207245178104,
+    "expected_sign": -1
+  }
+]
