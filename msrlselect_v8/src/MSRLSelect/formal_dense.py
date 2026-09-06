@@ -14,7 +14,7 @@ import torch
 import torch.nn.functional as F
 
 from MSRLSelect.rl_core.assets import FixedE2Ensemble, load_train_assets
-from MSRLSelect.rl_core.core import DenseActorCritic, SequentialAcquireEnv, collect_rollout, ppo_update
+from MSRLSelect.rl_core.core import DenseActorCritic, SequentialAcquireEnv, collect_rollout, ppo_update, evidence_potential
 
 
 def digest(path):
@@ -23,11 +23,6 @@ def digest(path):
         for b in iter(lambda: f.read(1024 * 1024), b""):
             h.update(b)
     return h.hexdigest()
-
-
-def phi(y, p, d):
-    p = p.clamp(1e-12, 1 - 1e-12)
-    return -(y * p.log() + (1 - y) * (1 - p).log()) - .25 * (y - p).square() - .05 * d
 
 
 def build_histories(n, seed):
@@ -51,7 +46,7 @@ def action_gains(env, states, device):
     active = torch.tensor(np.stack([s[3] for s in states]), dtype=torch.bool, device=device)
     labels = torch.tensor(env.assets.metadata.label.values[ids.cpu().numpy()], dtype=torch.float64, device=device)
     current_p, _, current_d, _ = env.predictor.predict(ids, active)
-    current_phi = phi(labels, current_p, current_d)
+    current_phi = evidence_potential(labels, current_p, current_d)
     q = torch.full((len(states), 64), float("nan"), dtype=torch.float64, device=device)
     costs = env.costs[ids.cpu()].to(device)
     for start in range(0, len(states), 64):
@@ -62,7 +57,7 @@ def action_gains(env, states, device):
         valid = ~active[start:end]
         nxt, _, nd, _ = env.predictor.predict(ids[start:end, None].expand(-1, 64).reshape(-1), candidate.reshape(-1, 64))
         yy = labels[start:end, None].expand(-1, 64).reshape(-1)
-        gain = (phi(yy, nxt, nd) - current_phi[start:end, None].expand(-1, 64).reshape(-1)).reshape(b, 64)
+        gain = (evidence_potential(yy, nxt, nd) - current_phi[start:end, None].expand(-1, 64).reshape(-1)).reshape(b, 64)
         q[start:end] = gain.double().masked_fill(~valid, float("nan"))
     return q, active, costs
 
@@ -87,7 +82,7 @@ def warmstart(policy, env, states, q, costs, device, lambda_values, output):
             ix = permutation[start:start + 256]; bi = base[ix]; lam = sample_lambda[ix]
             obs = {"patient_index": ids[bi], "coarse": coarse[bi], "fine_slots": slots[bi] * active[bi, :, None, None].to(slots.dtype),
                    "active_mask": active[bi], "acquire_order": order[bi], "risk": risk[bi], "entropy": entropy[bi],
-                   "disagreement": disagreement[bi], "step": active[bi].sum(1), "cumulative_cost": torch.zeros(len(ix), device=device),
+                   "disagreement": disagreement[bi], "step": active[bi].sum(1), "cumulative_cost": (costs[bi] * active[bi]).sum(1).float(),
                    "lambda": lam, "remaining": (~active[bi]).sum(1)}
             logits, _ = policy(obs)
             net_values = q[bi] - lam[:, None].double() * env.costs[ids[bi].cpu()].to(device)
@@ -101,7 +96,7 @@ def warmstart(policy, env, states, q, costs, device, lambda_values, output):
             # Evaluate the frozen actor on all state-lambda samples in batches.
             for start in range(0, len(states), 256):
                 jj = torch.arange(start, min(start+256,len(states)), device=device); ll = torch.full((len(jj),), float(lam), device=device)
-                oo = {"patient_index": ids[jj], "coarse": coarse[jj], "fine_slots": slots[jj] * active[jj,:,None,None].to(slots.dtype), "active_mask": active[jj], "acquire_order": order[jj], "risk": risk[jj], "entropy": entropy[jj], "disagreement": disagreement[jj], "step": active[jj].sum(1), "cumulative_cost": torch.zeros(len(jj),device=device), "lambda": ll, "remaining": (~active[jj]).sum(1)}
+                oo = {"patient_index": ids[jj], "coarse": coarse[jj], "fine_slots": slots[jj] * active[jj,:,None,None].to(slots.dtype), "active_mask": active[jj], "acquire_order": order[jj], "risk": risk[jj], "entropy": entropy[jj], "disagreement": disagreement[jj], "step": active[jj].sum(1), "cumulative_cost": (costs[jj] * active[jj]).sum(1).float(), "lambda": ll, "remaining": (~active[jj]).sum(1)}
                 pred = policy(oo)[0][:,:64].masked_fill(~legal[jj], -1e9); t = vals[jj].argmax(1); chosen_a = pred.argmax(1); top = pred.topk(5,1).indices
                 random_mean = net[jj].masked_fill(~legal[jj], 0).sum(1) / legal[jj].sum(1).clamp_min(1)
                 top1[float(lam)].extend((chosen_a == t).cpu().tolist()); top5[float(lam)].extend((top == t[:,None]).any(1).cpu().tolist()); chosen[float(lam)].extend(net[jj, chosen_a].cpu().tolist()); best[float(lam)].extend(vals[jj].max(1).values.cpu().tolist()); random_gain[float(lam)].extend(random_mean.cpu().tolist())
