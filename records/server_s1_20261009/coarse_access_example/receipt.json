@@ -1,0 +1,23 @@
+{
+  "url": "https://www.ebi.ac.uk/biostudies/files/S-BIAD1285/ome-zarr/SR386_40X_HE_T581_01.ome.zarr.zip",
+  "source_report": "/root/autodl-tmp/KT2028/audit/s1_20261009/remote_range_probe.json",
+  "bytes_received": 634578,
+  "scope": "one real image thumbnail on CPU; not coarse model extraction or training",
+  "status": "verified",
+  "pixel_arrays_decoded": true,
+  "shard_index_crc32c_verified": true,
+  "zip_crc_verified": true,
+  "level_metadata": "SR386_40X_HE_T581_01.ome.zarr/8/zarr.json",
+  "shape": [
+    198,
+    219,
+    3
+  ],
+  "source_case_name": "SR386_40X_HE_T581_01",
+  "thumbnail": "/root/autodl-tmp/KT2028/audit/s1_20261009/coarse_access_example/thumbnail.png",
+  "png_sha256": "8367e54b0574893982fe5303ca25c0316ba8692991d977f26093a01be20a2451",
+  "rgb_min": 15,
+  "rgb_max": 255,
+  "source_zip_bytes": 5027804552,
+  "all_sr386_coarse_views_available": "not yet verified"
+}

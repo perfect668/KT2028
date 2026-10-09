@@ -1,0 +1,23 @@
+{
+  "health_check.json": "63005e14e52c5a647a18fff5581a4360fe4faa9df9b2868fecd644db1e7cdc48",
+  "mirror_probe.json": "91c1242a53487e15909d30eeef17c4c43aac6750f147b2e699f36cb7079bfe98",
+  "resnet18_weights_receipt.json": "2227213f4797236ea78a90502bb87ff70a4e898396c00de8227e6cd6435eb261",
+  "requirements.in": "aee39cd39c2740a981a7a0d15f5a09cf8f8552cadaaa362ff4bac7220efe2b7f",
+  "requirements.lock": "5e014a7d9dcf956b2a50ef70e5dd588e073c52bfce4c4484b8d5abc7e18f88de",
+  "constraints.txt": "6af9fc6572d1803fa4447f8e7de1471997ef4271f4050ba2300f0a2a4fd23572",
+  "activate.sh": "6e123a2d7b5a0ebc82e8ad87e3d9dd259403124982a09eaad29c2f509ee3d449",
+  "README.md": "215beaa51d31fa63a40e1d45d2c6dcbe01eb0d8ae107fe8bd4253d6afd0d2ca0",
+  "fine_audit_summary.json": "3af888ee78a5904d838a355f98d0670911dc0d92b610e878490e34d36fade322",
+  "prepare_resnet18.py": "898706b64637a97903276b39894cf410580d17206e74630d094d77ee5bff10b6",
+  "pip.conf": "b8fd43f643a86c2c8be4b629017492d395453c70560b0f340e387e7b225d2848",
+  "verify_coarse_reader.py": "ccd755654d0496685a337fb5d88b8a4885d1ce3156bdc3059843563cb89fc9e3",
+  "completion_receipt.json": "e04df02ab7a94e19d86f44cff1c8aa458fd7646371503f52e6d24c4bb3689448",
+  "audit_fine_values.py": "a612f70cdd5cd01f36efc273dc211599516dd9b483ab36a8548df5e108373ba6",
+  "coarse/receipt.json": "8429b5138ef63d628061d244fb9b079a5e5aa0b51d5cdf2ade67b8d989dec52e",
+  "coarse/SR386_40X_HE_T103_01/thumbnail.png": "a27cb04021e495f7e31fa66807b368c0f8ef049b43a17f9c1c0056f665681017",
+  "coarse/SR386_40X_HE_T103_01/coordinate_overlay.png": "ab6eeded0a1d4a31500fd95675bdbb5f5b540131f3403da2df4d4f4baa9a55f2",
+  "coarse/SR386_40X_HE_T110_01/thumbnail.png": "481ab9afa610c3a0446ad13c66f99da28afc912b0e91df35f3ea6a3d3a18650c",
+  "coarse/SR386_40X_HE_T110_01/coordinate_overlay.png": "a10f3d26512a8f87bf7574a78ddd847f0a2bab6dd8ca7e1eabdc095263266a8e",
+  "coarse/SR386_40X_HE_T329_01/thumbnail.png": "4f21da3a515a0e228118ee442c9e3ea0ad0710461e52ea0678f26f158c4373c5",
+  "coarse/SR386_40X_HE_T329_01/coordinate_overlay.png": "e7a06d3c5f543085fad5e3e185611f898f9326e029d9c8df9520d0c85eb6c927"
+}

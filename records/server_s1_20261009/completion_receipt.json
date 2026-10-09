@@ -1,0 +1,125 @@
+{
+  "schema": "KT2028-S1-1",
+  "started_utc": "2026-10-09T02:36:35.492286+00:00",
+  "plan_version": "P1",
+  "local_repository_head": "7ed0dcdd023f0dd963dda95a60733729473d4766",
+  "input_root": "/root/autodl-tmp/SurGen-data",
+  "output_root": "/root/autodl-tmp/KT2028/audit/s1_20261009",
+  "extracted_root": "/root/autodl-tmp/KT2028/data/sr386_uni_zarr",
+  "scope": "asset and schema audit; no training or evaluation",
+  "script_sha256": "d05a263659eb4ab514b1fad2737ea5c505682533e8e1ec0adcf1704876042965",
+  "resources": {
+    "gpu": {
+      "exit_code": 0,
+      "stdout": "NVIDIA GeForce RTX 5090, 32607 MiB, 580.105.08, 0 MiB, 0 %",
+      "stderr": ""
+    },
+    "disk": {
+      "exit_code": 0,
+      "stdout": "Filesystem      Size  Used Avail Use% Mounted on\noverlay          30G   53M   30G   1% /\n/dev/md0        200G   16G  185G   8% /root/autodl-tmp",
+      "stderr": ""
+    },
+    "kernel": {
+      "exit_code": 0,
+      "stdout": "Linux 5.15.0-78-generic",
+      "stderr": ""
+    },
+    "memory_limit_bytes": 96636764160,
+    "cpu_quota": "2500000 100000",
+    "python": "3.12.3 | packaged by Anaconda, Inc. | (main, May  6 2024, 19:46:43) [GCC 11.2.0]",
+    "python_executable": "/root/miniconda3/bin/python"
+  },
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "torchvision": "0.23.0+cu128",
+    "numpy": "2.3.2",
+    "pandas": null,
+    "zarr": null,
+    "numcodecs": null,
+    "h5py": null,
+    "tifffile": null,
+    "gymnasium": null,
+    "stable-baselines3": null,
+    "sb3-contrib": null
+  },
+  "archive": {
+    "bytes": 16846959224,
+    "sha256": "80c6556f051ef9e545487ab002b5da8bf24ee38d650fe1bba1349f18178059b9",
+    "uploaded_sha256_match": true,
+    "md5_from_independent_preflight": "6668206cc5e0ae0cee00ee554cb2e410",
+    "cohort_store_counts": {
+      "SR1482": 593,
+      "SR386": 427
+    },
+    "total_uncompressed_bytes": 17890718862
+  },
+  "source_copy": {
+    "git_checkout": false,
+    "commit": "unverified; uploaded source copy has no .git",
+    "file_sha256": {
+      "README.md": "87c09289ee6f2aebd909966fc0b08bebd892c56a9b367a4d43e0a35b4cd4a5ae",
+      "reproducibility/README.md": "e77ec408b4c521ef9ce9c5bcdf19d2d7616a45e7232f558a2a177dab6bf3634d",
+      "reproducibility/datasets/dataset_constants.py": "92fa7cb60b7f2b241a5cb149c8bb0824265447169616797d546c735cc9deb65e",
+      "reproducibility/datasets/dataset_loader.py": "73c91c6c0ef9ccd3438b81277dee94c1d8f16c4b76650ea47a2e6bc31d4b0c16",
+      "reproducibility/wsi_core/WholeSlideImage.py": "3e8ec3ac7c21372f0e80c9068de494be624291de8f840633e0084459fc80d0b9"
+    }
+  },
+  "raw_wsi_files": 0,
+  "mapping": {
+    "rule": "CSV case_id integer T key -> zero-padded archive T key; source slide_id is a split-local placeholder",
+    "case_split_overlap": {
+      "train__validate": 0,
+      "train__test": 0,
+      "validate__test": 0
+    },
+    "split_summary": {
+      "train": {
+        "rows": 255,
+        "unique_case_ids": 255,
+        "label_counts": {
+          "1": 100,
+          "0": 155
+        },
+        "missing_features": 0,
+        "metadata_matches_source_copy": true,
+        "csv_sha256": "e93f0930020a2df3899cc6adbaebf91128c0df8e6439c5bfb9546c0531cefe93"
+      },
+      "validate": {
+        "rows": 84,
+        "unique_case_ids": 84,
+        "label_counts": {
+          "0": 54,
+          "1": 30
+        },
+        "missing_features": 0,
+        "metadata_matches_source_copy": true,
+        "csv_sha256": "c0d8768b3a546c044b1b5f8f7e8d3971d701fe1bb0011a7c4b443d29be708a32"
+      },
+      "test": {
+        "rows": 84,
+        "unique_case_ids": 84,
+        "label_counts": {
+          "1": 29,
+          "0": 55
+        },
+        "missing_features": 0,
+        "metadata_matches_source_copy": true,
+        "csv_sha256": "99cc038f72fcbf099ff616afa737dfe09583a6ef5d6381be0c065ca4c06763e6"
+      }
+    },
+    "unlabelled_feature_cases": 4,
+    "patient_identity_scope": "case_id separation verified; independent clinical patient linkage unavailable"
+  },
+  "features": {
+    "sr386_stores": 427,
+    "patches": 2203176,
+    "patch_min": 735,
+    "patch_max": 11118,
+    "sr386_uncompressed_bytes": 8508946570,
+    "metadata_shapes_and_chunk_keys_verified": true,
+    "array_values_decoded": false,
+    "fine_coordinate_mpp_provenance": "source protocol suggests level-0 coordinates, 224px at target 1 MPP; no array .zattrs",
+    "extraction_crc_verified": true
+  },
+  "finished_utc": "2026-10-09T02:37:16.152579+00:00"
+}

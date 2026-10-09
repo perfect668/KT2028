@@ -1,0 +1,37 @@
+{
+  "python": "/root/autodl-tmp/KT2028/.venv/bin/python",
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "torchvision": "0.23.0+cu128",
+    "numpy": "2.3.2",
+    "pillow": "11.3.0",
+    "zarr": "3.4.0",
+    "numcodecs": "0.16.5",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "timm": "1.0.30",
+    "gymnasium": "1.4.0",
+    "stable-baselines3": "2.9.0",
+    "sb3-contrib": "2.9.0",
+    "fsspec": "2025.7.0",
+    "requests": "2.34.2"
+  },
+  "torch_module_path": "/root/miniconda3/lib/python3.12/site-packages/torch/__init__.py",
+  "cuda_available": true,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "capability": [
+    12,
+    0
+  ],
+  "cuda_matmul_max_abs_error": 0.0,
+  "resnet18_cuda_shape": [
+    1,
+    1000
+  ],
+  "resnet18_smoke_weights": "untrained; software check only",
+  "pip_check": {
+    "exit_code": 0,
+    "output": "No broken requirements found.\n"
+  }
+}

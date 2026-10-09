@@ -1,0 +1,20 @@
+[
+  {
+    "name": "tuna",
+    "url": "https://pypi.tuna.tsinghua.edu.cn/simple/zarr/",
+    "status": 200,
+    "seconds": 0.938
+  },
+  {
+    "name": "aliyun",
+    "url": "https://mirrors.aliyun.com/pypi/simple/zarr/",
+    "status": 200,
+    "seconds": 0.394
+  },
+  {
+    "name": "ustc",
+    "url": "https://mirrors.ustc.edu.cn/pypi/simple/zarr/",
+    "status": 403,
+    "seconds": 1.23
+  }
+]

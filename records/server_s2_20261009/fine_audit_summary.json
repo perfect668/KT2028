@@ -1,0 +1,66 @@
+{
+  "schema": "KT2028-S2-fine-1",
+  "arrays_read": 427,
+  "stores_expected": 427,
+  "patches": 2203176,
+  "nonfinite_values": 0,
+  "zero_feature_rows": 0,
+  "duplicate_coordinates": 0,
+  "negative_coordinate_entries": 0,
+  "official_image_index_matches": 427,
+  "labelled_case_count": 423,
+  "labelled_missing_image_index": 0,
+  "axis_step_frequency_top10": [
+    [
+      2013,
+      60464
+    ],
+    [
+      2014,
+      14289
+    ],
+    [
+      35,
+      95
+    ],
+    [
+      1332,
+      91
+    ],
+    [
+      681,
+      90
+    ],
+    [
+      1978,
+      90
+    ],
+    [
+      806,
+      82
+    ],
+    [
+      1207,
+      81
+    ],
+    [
+      302,
+      53
+    ],
+    [
+      908,
+      47
+    ]
+  ],
+  "partition_counts": {
+    "train": 255,
+    "unlabelled": 4,
+    "validate": 84,
+    "test": 84
+  },
+  "errors": [],
+  "elapsed_seconds": 32.941,
+  "coord_units": "integer level-0 source pixels, inferred from uploaded source; per-image scale to verify",
+  "no_training": true,
+  "script_sha256": "a612f70cdd5cd01f36efc273dc211599516dd9b483ab36a8548df5e108373ba6"
+}

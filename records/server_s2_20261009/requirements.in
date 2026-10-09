@@ -1,0 +1,17 @@
+zarr>=3.1,<4
+numcodecs>=0.16,<0.17
+fsspec>=2025.3
+aiohttp>=3.10
+pandas>=2.2,<4
+scipy>=1.15
+scikit-learn>=1.6
+timm>=1.0,<2
+gymnasium>=1.1,<2
+stable-baselines3>=2.7,<3
+sb3-contrib>=2.7,<3
+matplotlib>=3.9
+tensorboard>=2.19
+PyYAML>=6
+tqdm>=4.67
+pytest>=8
+requests>=2.32

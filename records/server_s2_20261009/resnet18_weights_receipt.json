@@ -1,0 +1,16 @@
+{
+  "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+  "download_source": "official PyTorch HTTPS; no third-party weight mirror",
+  "scope": "pretrained extractor availability and one image shape check; no prognosis training",
+  "status": "verified",
+  "path": "/root/autodl-tmp/KT2028/cache/torch/hub/checkpoints/resnet18-f37072fd.pth",
+  "bytes": 46830571,
+  "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+  "output_shape": [
+    1,
+    512
+  ],
+  "finite": true,
+  "elapsed_seconds": 8.0,
+  "transform_scope": "default pretrained transform for environment smoke only"
+}

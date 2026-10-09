@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-09",
+  "source_commit": "7ed0dcdd023f0dd963dda95a60733729473d4766",
+  "plan": "P1",
+  "scope": "environment and fine integrity; mature RGB reader checked on three Train examples",
+  "environment_check": "passed",
+  "fine_stores_read": 427,
+  "fine_patches_read": 2203176,
+  "coarse_examples_verified": 3,
+  "coarse_example_network_bytes": 2086108,
+  "pending": [
+    "formal region RGB crops and registration",
+    "whole-cohort physical metadata",
+    "region/cost configuration",
+    "P1 model implementation"
+  ],
+  "no_model_training_or_evaluation": true,
+  "background_jobs_remaining": false,
+  "dataset_and_model_weights_remain_on_server": true
+}

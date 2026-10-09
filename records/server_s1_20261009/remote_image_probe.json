@@ -1,0 +1,284 @@
+{
+  "study": "S-BIAD1285",
+  "probe_type": "metadata only; no image array downloads",
+  "source_reference": "https://github.com/CraigMyles/raw2features/blob/main/notebooks/02_visual_walkthrough.ipynb",
+  "image_prefixes_first_page": 4,
+  "example_uri": "https://uk1s3.embassy.ebi.ac.uk/bia-integrator-data/S-BIAD1285/449c127b-fccd-4bfa-b72d-f6f7f66ef2ed/b2f711e1-8088-4d67-937e-2ff20e2f89d2.ome.zarr",
+  ".zattrs": {
+    "status": 200,
+    "bytes": 33,
+    "metadata": {
+      "bioformats2raw.layout": 3
+    }
+  },
+  "0/.zattrs": {
+    "status": 200,
+    "bytes": 3524,
+    "metadata": {
+      "multiscales": [
+        {
+          "metadata": {
+            "method": "loci.common.image.SimpleImageScaler",
+            "version": "Bio-Formats 6.13.0"
+          },
+          "axes": [
+            {
+              "name": "t",
+              "type": "time"
+            },
+            {
+              "name": "c",
+              "type": "channel"
+            },
+            {
+              "name": "z",
+              "type": "space"
+            },
+            {
+              "unit": "micrometer",
+              "name": "y",
+              "type": "space"
+            },
+            {
+              "unit": "micrometer",
+              "name": "x",
+              "type": "space"
+            }
+          ],
+          "name": "",
+          "datasets": [
+            {
+              "path": "0",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.11123987969912645,
+                    0.11123987969912645
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "1",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.2224797593982529,
+                    0.2224797593982529
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "2",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.4449595187965058,
+                    0.4449595187965058
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "3",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.8899190375930116,
+                    0.8899190375930116
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "4",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.7798380751860232,
+                    1.7798380751860232
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "5",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    3.5596761503720464,
+                    3.5596761503720464
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "6",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    7.119352300744093,
+                    7.119352300744093
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "7",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    14.238704601488186,
+                    14.238704601488186
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "8",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    28.47740920297637,
+                    28.47740920297637
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "9",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    56.95481840595274,
+                    56.95481840595274
+                  ],
+                  "type": "scale"
+                }
+              ]
+            },
+            {
+              "path": "10",
+              "coordinateTransformations": [
+                {
+                  "scale": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    113.90963681190549,
+                    113.90963681190549
+                  ],
+                  "type": "scale"
+                }
+              ]
+            }
+          ],
+          "version": "0.4"
+        }
+      ],
+      "omero": {
+        "channels": [
+          {
+            "color": "FF0000",
+            "coefficient": 1,
+            "active": true,
+            "label": "TL Brightfield",
+            "window": {
+              "min": 0.0,
+              "max": 255.0,
+              "start": 0.0,
+              "end": 255.0
+            },
+            "family": "linear",
+            "inverted": false
+          },
+          {
+            "color": "00FF00",
+            "coefficient": 1,
+            "active": true,
+            "label": "TL Brightfield",
+            "window": {
+              "min": 0.0,
+              "max": 255.0,
+              "start": 0.0,
+              "end": 255.0
+            },
+            "family": "linear",
+            "inverted": false
+          },
+          {
+            "color": "0000FF",
+            "coefficient": 1,
+            "active": true,
+            "label": "TL Brightfield",
+            "window": {
+              "min": 0.0,
+              "max": 255.0,
+              "start": 0.0,
+              "end": 255.0
+            },
+            "family": "linear",
+            "inverted": false
+          }
+        ],
+        "rdefs": {
+          "defaultT": 0,
+          "model": "color",
+          "defaultZ": 0
+        }
+      }
+    }
+  },
+  ".zgroup": {
+    "status": 200,
+    "bytes": 23,
+    "metadata": {
+      "zarr_format": 2
+    }
+  },
+  "zarr.json": {
+    "status": 404,
+    "bytes": 236
+  },
+  "status": "metadata fetched; example source case match and pixel decoding not verified"
+}

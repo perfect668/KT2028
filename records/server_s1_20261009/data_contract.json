@@ -1,0 +1,62 @@
+{
+  "schema": "KT2028-data-contract-S1-1",
+  "plan_version": "P1",
+  "status": "fine asset contract verified; dual-scale training input incomplete",
+  "endpoint": "five_year_death",
+  "label_mapping": {
+    "1": "Died within 5y",
+    "0": "Survived 5y"
+  },
+  "label_evidence": "uploaded official dataset_constants.py; raw follow-up/censoring not recomputed",
+  "sample_unit": "official case_id; independent clinical patient identity table not supplied",
+  "splits": {
+    "source": "uploaded official SR386_5y_sur CSVs",
+    "keep_existing_assignment": true,
+    "counts": {
+      "train": 255,
+      "validate": 84,
+      "test": 84
+    },
+    "case_overlap_count": 0,
+    "historical_RL_row_order_equivalence": "unverified"
+  },
+  "mapping": {
+    "join_field": "canonicalized case_id integer T number",
+    "source_slide_id": "split-local placeholder; do not join archive by this field",
+    "missing_labelled_features": 0,
+    "unlabelled_feature_cases": 4,
+    "unlabelled_policy": "exclude from supervised cohort; preserve files"
+  },
+  "fine": {
+    "root": "/root/autodl-tmp/KT2028/data/sr386_uni_zarr",
+    "format": "Zarr v2, Blosc lz4",
+    "features": "float32 [P,1024]",
+    "coords": "int64 [P,2]",
+    "coords_provenance": "source code level-0 coordinates; array-level MPP attributes absent",
+    "protocol_reference": "224x224, target 1 MPP, step 224 in uploaded source README; actual raw image matching pending",
+    "arrays_decoded": false
+  },
+  "coarse": {
+    "local_rgb_assets": 0,
+    "source_requirement": "real RGB view and physical image metadata; never use full UNI mean as cost-free coarse",
+    "region_geometry": "fixed physical field; variable region and patch counts; actual geometry pending image access",
+    "online_access_status": "see remote_image_probe.json and remote_range_probe.json"
+  },
+  "observation_permissions": {
+    "initial": "all cheap views and masks; zero acquired fine",
+    "unacquired_true_fine": "hidden from predictor and actor inference",
+    "estimated_fine": "flagged estimate; still acquirable",
+    "labels": "training supervision/reward and offline metrics only"
+  },
+  "cost": {
+    "fine_proxy": "newly acquired patch count / common N_ref, positive",
+    "N_ref": "not yet chosen",
+    "end_to_end": "must also account coarse, ROI/UNI/I-O/predictor/policy; cache access is not measured compute saving"
+  },
+  "next_check": [
+    "Zarr codec decode and finite value/coordinate sanity",
+    "resolve actual SR386 low-resolution RGB and source-case mapping",
+    "lock image geometry and cost reference with data provenance"
+  ],
+  "no_training_performed": true
+}

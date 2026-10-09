@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+runs/
+/.venv/
+/data/
+/cache/
+/audit/
+/artifacts/
+*.pth
+*.pt
+*.ckpt
+*.zarr/
+*.czi
+*.svs
+.env
+.env.*
+*.pem

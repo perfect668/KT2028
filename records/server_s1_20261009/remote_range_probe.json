@@ -1,0 +1,1658 @@
+{
+  "study": "S-BIAD1285",
+  "sr386_ome_zip_count": 427,
+  "sr386_zip_total_bytes": 22770078282183,
+  "example_path": "ome-zarr/SR386_40X_HE_T581_01.ome.zarr.zip",
+  "example_size": 5027804552,
+  "url": "https://www.ebi.ac.uk/biostudies/files/S-BIAD1285/ome-zarr/SR386_40X_HE_T581_01.ome.zarr.zip",
+  "bytes_received": 49370,
+  "pixel_arrays_decoded": false,
+  "zip_entry_count": 150,
+  "first_entries": [
+    "SR386_40X_HE_T581_01.ome.zarr/",
+    "SR386_40X_HE_T581_01.ome.zarr/7/",
+    "SR386_40X_HE_T581_01.ome.zarr/7/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/7/c/",
+    "SR386_40X_HE_T581_01.ome.zarr/7/c/0/",
+    "SR386_40X_HE_T581_01.ome.zarr/7/c/0/0/",
+    "SR386_40X_HE_T581_01.ome.zarr/7/c/0/0/0/",
+    "SR386_40X_HE_T581_01.ome.zarr/7/c/0/0/0/0/"
+  ],
+  "metadata_entries": [
+    "SR386_40X_HE_T581_01.ome.zarr/7/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/6/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/3/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/5/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/2/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/4/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/1/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/0/zarr.json",
+    "SR386_40X_HE_T581_01.ome.zarr/8/zarr.json"
+  ],
+  "metadata": {
+    "SR386_40X_HE_T581_01.ome.zarr/7/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        397,
+        439
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            3176,
+            3512
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              397,
+              439
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/6/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        794,
+        879
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            6352,
+            7032
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              794,
+              879
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/3/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        6355,
+        7036
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            8192,
+            8192
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              1024,
+              1024
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/5/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        1588,
+        1759
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            8192,
+            8192
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              1024,
+              1024
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/2/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        12711,
+        14073
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            8192,
+            8192
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              1024,
+              1024
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/4/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        3177,
+        3518
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            8192,
+            8192
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              1024,
+              1024
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/zarr.json": {
+      "attributes": {
+        "omero": {
+          "channels": [
+            {
+              "color": "FF0000",
+              "window": {
+                "min": 8.0,
+                "max": 255.0,
+                "start": 8.0,
+                "end": 255.0
+              },
+              "label": "TL Brightfield"
+            },
+            {
+              "color": "00FF00",
+              "window": {
+                "min": 6.0,
+                "max": 255.0,
+                "start": 6.0,
+                "end": 255.0
+              },
+              "label": "TL Brightfield"
+            },
+            {
+              "color": "0000FF",
+              "window": {
+                "min": 10.0,
+                "max": 255.0,
+                "start": 10.0,
+                "end": 255.0
+              },
+              "label": "TL Brightfield"
+            }
+          ]
+        },
+        "ome": {
+          "version": "0.5",
+          "multiscales": [
+            {
+              "axes": [
+                {
+                  "name": "t",
+                  "type": "time"
+                },
+                {
+                  "name": "c",
+                  "type": "channel"
+                },
+                {
+                  "name": "z",
+                  "type": "space"
+                },
+                {
+                  "name": "y",
+                  "type": "space",
+                  "unit": "micrometer"
+                },
+                {
+                  "name": "x",
+                  "type": "space",
+                  "unit": "micrometer"
+                }
+              ],
+              "datasets": [
+                {
+                  "path": "0",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        0.11118506602624069,
+                        0.11118506602624069
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "1",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        0.22237013205248138,
+                        0.22237013205248138
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "2",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        0.44474026410496276,
+                        0.44474026410496276
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "3",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        0.8894805282099255,
+                        0.8894805282099255
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "4",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.778961056419851,
+                        1.778961056419851
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "5",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        3.557922112839702,
+                        3.557922112839702
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "6",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        7.115844225679404,
+                        7.115844225679404
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "7",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        14.231688451358808,
+                        14.231688451358808
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                },
+                {
+                  "path": "8",
+                  "coordinateTransformations": [
+                    {
+                      "scale": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        28.463376902717616,
+                        28.463376902717616
+                      ],
+                      "type": "scale"
+                    }
+                  ]
+                }
+              ],
+              "name": "ScanRegion0",
+              "type": null,
+              "metadata": null,
+              "@type": "ngff:Image"
+            }
+          ]
+        }
+      },
+      "zarr_format": 3,
+      "consolidated_metadata": {
+        "kind": "inline",
+        "must_understand": false,
+        "metadata": {
+          "0": {
+            "shape": [
+              1,
+              3,
+              1,
+              50846,
+              56293
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  8192,
+                  8192
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "1": {
+            "shape": [
+              1,
+              3,
+              1,
+              25423,
+              28146
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  8192,
+                  8192
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "2": {
+            "shape": [
+              1,
+              3,
+              1,
+              12711,
+              14073
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  8192,
+                  8192
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "3": {
+            "shape": [
+              1,
+              3,
+              1,
+              6355,
+              7036
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  8192,
+                  8192
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "4": {
+            "shape": [
+              1,
+              3,
+              1,
+              3177,
+              3518
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  8192,
+                  8192
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "5": {
+            "shape": [
+              1,
+              3,
+              1,
+              1588,
+              1759
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  8192,
+                  8192
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "6": {
+            "shape": [
+              1,
+              3,
+              1,
+              794,
+              879
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  6352,
+                  7032
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    794,
+                    879
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "7": {
+            "shape": [
+              1,
+              3,
+              1,
+              397,
+              439
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  3176,
+                  3512
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    397,
+                    439
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          },
+          "8": {
+            "shape": [
+              1,
+              3,
+              1,
+              198,
+              219
+            ],
+            "data_type": "uint8",
+            "chunk_grid": {
+              "name": "regular",
+              "configuration": {
+                "chunk_shape": [
+                  8,
+                  8,
+                  8,
+                  1584,
+                  1752
+                ]
+              }
+            },
+            "chunk_key_encoding": {
+              "name": "default",
+              "configuration": {
+                "separator": "/"
+              }
+            },
+            "fill_value": 0,
+            "codecs": [
+              {
+                "name": "sharding_indexed",
+                "configuration": {
+                  "chunk_shape": [
+                    1,
+                    1,
+                    1,
+                    198,
+                    219
+                  ],
+                  "codecs": [
+                    {
+                      "name": "bytes"
+                    },
+                    {
+                      "name": "zstd",
+                      "configuration": {
+                        "level": 5,
+                        "checksum": false
+                      }
+                    }
+                  ],
+                  "index_codecs": [
+                    {
+                      "name": "bytes",
+                      "configuration": {
+                        "endian": "little"
+                      }
+                    },
+                    {
+                      "name": "crc32c"
+                    }
+                  ],
+                  "index_location": "end"
+                }
+              }
+            ],
+            "attributes": {},
+            "dimension_names": [
+              "t",
+              "c",
+              "z",
+              "y",
+              "x"
+            ],
+            "zarr_format": 3,
+            "node_type": "array",
+            "storage_transformers": []
+          }
+        }
+      },
+      "node_type": "group"
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/1/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        25423,
+        28146
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            8192,
+            8192
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              1024,
+              1024
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/0/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        50846,
+        56293
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            8192,
+            8192
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              1024,
+              1024
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    },
+    "SR386_40X_HE_T581_01.ome.zarr/8/zarr.json": {
+      "shape": [
+        1,
+        3,
+        1,
+        198,
+        219
+      ],
+      "data_type": "uint8",
+      "chunk_grid": {
+        "name": "regular",
+        "configuration": {
+          "chunk_shape": [
+            8,
+            8,
+            8,
+            1584,
+            1752
+          ]
+        }
+      },
+      "chunk_key_encoding": {
+        "name": "default",
+        "configuration": {
+          "separator": "/"
+        }
+      },
+      "fill_value": 0,
+      "codecs": [
+        {
+          "name": "sharding_indexed",
+          "configuration": {
+            "chunk_shape": [
+              1,
+              1,
+              1,
+              198,
+              219
+            ],
+            "codecs": [
+              {
+                "name": "bytes"
+              },
+              {
+                "name": "zstd",
+                "configuration": {
+                  "level": 5,
+                  "checksum": false
+                }
+              }
+            ],
+            "index_codecs": [
+              {
+                "name": "bytes",
+                "configuration": {
+                  "endian": "little"
+                }
+              },
+              {
+                "name": "crc32c"
+              }
+            ],
+            "index_location": "end"
+          }
+        }
+      ],
+      "attributes": {},
+      "dimension_names": [
+        "t",
+        "c",
+        "z",
+        "y",
+        "x"
+      ],
+      "zarr_format": 3,
+      "node_type": "array",
+      "storage_transformers": []
+    }
+  },
+  "status": "HTTP range and real ZIP metadata verified; low-resolution shard decoding remains pending"
+}
