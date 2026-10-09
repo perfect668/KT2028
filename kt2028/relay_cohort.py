@@ -24,11 +24,14 @@ def main():
         if shutil.disk_usage(args.cache).free<5*1024**3:raise OSError('Local disk headroom below 5 GiB')
         row=prefetch(sample,config,args.cache,args.chunk_workers)
         folder=Path(row['cache_directory']);destination=f'{args.host}:{args.remote_cache.rstrip("/")}/'
-        subprocess.run(['scp','-q','-i',str(args.ssh_key),'-o','BatchMode=yes','-P',str(args.port),
-                        '-r',str(folder),destination],check=True,timeout=1200)
         marker=args.remote_cache.rstrip('/')+'/'+folder.name+'/.relay_ready'
-        subprocess.run(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-p',str(args.port),args.host,
-                        'touch -- '+shlex.quote(marker)],check=True,timeout=60)
+        existing=subprocess.run(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-p',str(args.port),args.host,
+                                  'test -f '+shlex.quote(marker)],timeout=60,capture_output=True)
+        if existing.returncode!=0:
+            subprocess.run(['scp','-q','-i',str(args.ssh_key),'-o','BatchMode=yes','-P',str(args.port),
+                            '-r',str(folder),destination],check=True,timeout=1200)
+            subprocess.run(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-p',str(args.port),args.host,
+                            'touch -- '+shlex.quote(marker)],check=True,timeout=60)
         row['uploaded_to_server']=True
         print('RELAY_UPLOADED '+sample['slide_id'],flush=True)
         return row
@@ -42,6 +45,8 @@ def main():
                     'expected':len(samples),'uploaded':len(rows),'pending':len(samples)-len(rows)-len(errors),
                     'errors':errors,'images':rows,'network_bytes':sum(r['network_bytes'] for r in rows)}
             temp=args.receipt.with_suffix('.partial');temp.write_text(json.dumps(report,indent=2));temp.replace(args.receipt)
+    subprocess.run(['scp','-q','-i',str(args.ssh_key),'-o','BatchMode=yes','-P',str(args.port),str(args.receipt),
+                    f'{args.host}:{args.remote_cache.rstrip("/")}/_relay_finished.json'],check=True,timeout=60)
     if errors:raise SystemExit(1)
 
 if __name__=='__main__':main()

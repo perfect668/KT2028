@@ -132,6 +132,15 @@ def main():
             'interface_trial':True,'no_training_or_evaluation':True}
         temp=args.output/'summary.partial';temp.write_text(json.dumps(summary,indent=2));temp.replace(args.output/'summary.json')
         if pending and not progressed:
+            finished=args.range_cache/'_relay_finished.json'
+            if args.wait_for_relay and finished.exists():
+                relay=json.loads(finished.read_text())
+                uploaded={r['slide_id'] for r in relay['images']}
+                missing=[s for s in pending if s['slide_id'] not in uploaded]
+                if missing:
+                    for s in missing:errors.append({'slide_id':s['slide_id'],'error':'Relay finished without this image; inspect relay errors'})
+                    pending=[s for s in pending if s['slide_id'] in uploaded]
+                    continue
             if time.monotonic()-started>args.max_wait_hours*3600:raise TimeoutError('Relay wait exceeded configured limit')
             time.sleep(10)
     if errors:raise SystemExit(1)
