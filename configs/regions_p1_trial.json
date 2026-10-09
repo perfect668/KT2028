@@ -1,0 +1,20 @@
+{
+  "schema": "KT2028-region-1",
+  "status": "S2 interface trial; not final experiment hyperparameters",
+  "target_coarse_mpp_um": 4.0,
+  "region_field_um": 896.0,
+  "region_stride_um": 896.0,
+  "input_pixels": 224,
+  "fine_target_mpp_um": 1.0,
+  "fine_input_pixels": 224,
+  "minimum_tissue_fraction": 0.01,
+  "tissue_channel_spread_min": 10,
+  "tissue_mean_min": 20,
+  "tissue_mean_max": 245,
+  "max_network_bytes_per_image": 134217728,
+  "max_low_rgb_pixels": 100000000,
+  "coarse_extractor": "torchvision.ResNet18_Weights.IMAGENET1K_V1",
+  "cost_unit": "number of distinct cached fine patches; normalization pending",
+  "fine_region_ownership": "center of valid image intersection; one region per patch",
+  "candidate_definition": "RGB tissue fraction and physical nonoverlapping grid; independent of UNI values and coordinates"
+}
