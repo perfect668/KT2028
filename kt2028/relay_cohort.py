@@ -5,9 +5,21 @@ import json
 import shlex
 import shutil
 import subprocess
+import time
 from pathlib import Path
 
 from .prefetch_rgb_cache import prefetch
+
+
+def transport(command,timeout,allow_missing=False):
+    for attempt in range(4):
+        try:
+            result=subprocess.run(command,timeout=timeout,capture_output=True)
+            if result.returncode==0 or (allow_missing and result.returncode==1):return result
+            raise subprocess.CalledProcessError(result.returncode,command,stderr=result.stderr)
+        except (subprocess.SubprocessError,OSError):
+            if attempt==3:raise
+            time.sleep(2**attempt)
 
 
 def main():
@@ -25,13 +37,13 @@ def main():
         row=prefetch(sample,config,args.cache,args.chunk_workers)
         folder=Path(row['cache_directory']);destination=f'{args.host}:{args.remote_cache.rstrip("/")}/'
         marker=args.remote_cache.rstrip('/')+'/'+folder.name+'/.relay_ready'
-        existing=subprocess.run(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-p',str(args.port),args.host,
-                                  'test -f '+shlex.quote(marker)],timeout=60,capture_output=True)
+        existing=transport(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-o','ConnectTimeout=15',
+                            '-p',str(args.port),args.host,'test -f '+shlex.quote(marker)],60,allow_missing=True)
         if existing.returncode!=0:
-            subprocess.run(['scp','-q','-i',str(args.ssh_key),'-o','BatchMode=yes','-P',str(args.port),
-                            '-r',str(folder),destination],check=True,timeout=1200)
-            subprocess.run(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-p',str(args.port),args.host,
-                            'touch -- '+shlex.quote(marker)],check=True,timeout=60)
+            transport(['scp','-q','-i',str(args.ssh_key),'-o','BatchMode=yes','-o','ConnectTimeout=15',
+                       '-P',str(args.port),'-r',str(folder),destination],1200)
+            transport(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-o','ConnectTimeout=15',
+                       '-p',str(args.port),args.host,'touch -- '+shlex.quote(marker)],60)
         row['uploaded_to_server']=True
         print('RELAY_UPLOADED '+sample['slide_id'],flush=True)
         return row
@@ -45,8 +57,11 @@ def main():
                     'expected':len(samples),'uploaded':len(rows),'pending':len(samples)-len(rows)-len(errors),
                     'errors':errors,'images':rows,'network_bytes':sum(r['network_bytes'] for r in rows)}
             temp=args.receipt.with_suffix('.partial');temp.write_text(json.dumps(report,indent=2));temp.replace(args.receipt)
-    subprocess.run(['scp','-q','-i',str(args.ssh_key),'-o','BatchMode=yes','-P',str(args.port),str(args.receipt),
-                    f'{args.host}:{args.remote_cache.rstrip("/")}/_relay_finished.json'],check=True,timeout=60)
+    target=args.remote_cache.rstrip('/')+'/_relay_finished'
+    transport(['scp','-q','-i',str(args.ssh_key),'-o','BatchMode=yes','-P',str(args.port),str(args.receipt),
+               f'{args.host}:{target}.uploading.json'],60)
+    transport(['ssh','-i',str(args.ssh_key),'-o','BatchMode=yes','-p',str(args.port),args.host,
+               'mv -- '+shlex.quote(target+'.uploading.json')+' '+shlex.quote(target+'.json')],60)
     if errors:raise SystemExit(1)
 
 if __name__=='__main__':main()

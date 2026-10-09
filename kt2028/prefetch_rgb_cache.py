@@ -36,7 +36,13 @@ class RelayFile(io.RawIOBase):
         return self.pos
 
     def chunk(self,start,count):
-        for attempt in range(3):
+        fragments=self.folder.parent.parent/'range_fragments'/self.folder.name
+        fragments.mkdir(parents=True,exist_ok=True);cached=fragments/f'{start}_{count}.bin'
+        if cached.exists():
+            data=cached.read_bytes()
+            if len(data)!=count:raise ValueError('Incomplete fragment')
+            return data
+        for attempt in range(5):
             try:
                 request=urllib.request.Request(self.url,headers={'Range':f'bytes={start}-{start+count-1}','Accept-Encoding':'identity'})
                 with urllib.request.urlopen(request,timeout=40) as response:
@@ -47,10 +53,11 @@ class RelayFile(io.RawIOBase):
                     self.bytes+=len(data)
                     if self.bytes>self.cap:raise ValueError('Network byte cap exceeded')
                 if len(data)!=count:raise ValueError('Incomplete range')
+                temp=cached.with_suffix('.partial');temp.write_bytes(data);temp.replace(cached)
                 return data
             except (OSError,urllib.error.URLError):
-                if attempt==2:raise
-                time.sleep(attempt+1)
+                if attempt==4:raise
+                time.sleep(min(2**attempt,8))
 
     def fetch(self,start,count):
         path=self.folder/f'{start}_{count}.bin'
