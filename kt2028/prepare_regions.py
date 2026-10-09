@@ -143,6 +143,8 @@ def main():
                     continue
             if time.monotonic()-started>args.max_wait_hours*3600:raise TimeoutError('Relay wait exceeded configured limit')
             time.sleep(10)
+    summary['pending_images']=len(pending);summary['errors']=errors
+    temp=args.output/'summary.partial';temp.write_text(json.dumps(summary,indent=2));temp.replace(args.output/'summary.json')
     if errors:raise SystemExit(1)
 
 if __name__=='__main__':main()
