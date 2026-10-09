@@ -1,0 +1,20 @@
+{
+  "schema": "KT2028-region-summary-1",
+  "config_sha256": "257fe7699bcd29c622d44c76339eb11a780fbd6e10ba0cd558c7be14e68fdf61",
+  "source_commit": "2eed94fdcc5dc28e4e35fc444a0cde1f8df4078d",
+  "expected_images": 423,
+  "completed_images": 31,
+  "pending_images": 392,
+  "errors": [],
+  "regions": 10847,
+  "fine_patches_total": 150549,
+  "fine_patches_assigned": 150461,
+  "fine_patches_partially_padded": 382,
+  "fine_patches_fully_outside_image": 0,
+  "network_bytes": 7472825,
+  "interface_trial": true,
+  "no_training_or_evaluation": true,
+  "snapshot_utc": "2026-10-09T04:15:08.321182+00:00",
+  "job_status": "running",
+  "server_pid": 29156
+}
