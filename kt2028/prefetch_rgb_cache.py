@@ -58,7 +58,7 @@ class RelayFile(io.RawIOBase):
             data=path.read_bytes()
             if len(data)!=count:raise ValueError('Cached size mismatch')
             return data
-        if count>64*1024**2 or self.bytes+count>self.cap:raise ValueError('Bounded relay cap exceeded')
+        if count>self.cap or self.bytes+count>self.cap:raise ValueError('Bounded relay cap exceeded')
         step=1024**2
         pieces=[(i,min(step,start+count-i)) for i in range(start,start+count,step)]
         with cf.ThreadPoolExecutor(max_workers=self.workers) as pool:
@@ -93,7 +93,7 @@ def prefetch(sample,config,cache,workers):
         members=[i for i in archive.infolist() if i.filename.startswith(root+'/'+level+'/c/') and not i.is_dir()]
         if not members:raise ValueError('No selected level data')
         for member in members:
-            if member.file_size>64*1024**2:raise ValueError('Selected ZIP member exceeds cap')
+            if member.file_size>config['max_network_bytes_per_image']:raise ValueError('Selected ZIP member exceeds cap')
             archive.read(member)  # Mature ZIP CRC check, no custom Zarr decoding.
     receipt={'slide_id':sample['slide_id'],'selected_level':level,'zip_members_crc_verified':len(members),
              'network_bytes':raw.bytes,'elapsed_seconds':round(time.monotonic()-raw.started,3),
