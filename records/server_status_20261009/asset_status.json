@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-10-09T08:42:45.306728+00:00",
+  "source_checkout": "8e7bfe67ec2f2ef4ab5d142faea2662788160d13",
+  "scope": "Snapshot of completed regional assets while cohort preparation is still active",
+  "expected_images": 423,
+  "completed_assets_inspected": 325,
+  "completed_assets_passed": 325,
+  "asset_error_count": 0,
+  "prepared_by_official_split": {
+    "train": 255,
+    "validate": 70
+  },
+  "preprocessing_source_commits": {
+    "2eed94fdcc5dc28e4e35fc444a0cde1f8df4078d": 322,
+    "a0c4a61482f6c39f2d10e105acb16e08fea5e459": 1,
+    "5da59f8dcd7cd115ed37c162c7e586d5f65105f2": 2
+  },
+  "shared_config_sha256": "257fe7699bcd29c622d44c76339eb11a780fbd6e10ba0cd558c7be14e68fdf61",
+  "case_split_overlap": 0,
+  "regions_min_max": [
+    54,
+    672
+  ],
+  "totals_for_inspected_assets": {
+    "fine_patch_count": 1657675,
+    "fine_patches_assigned": 1655923,
+    "fine_patches_outside_rgb_candidates": 1752
+  },
+  "checks": [
+    "NPZ SHA256",
+    "Shared configuration",
+    "Official cohort and split membership",
+    "Original fine path exists and matches input",
+    "Finite coarse/geometry",
+    "CSR/count/index ownership and range",
+    "Nonempty required RGB products"
+  ],
+  "not_checked": [
+    "Whole-cohort completion",
+    "Visual alignment of every image",
+    "Raw clinical follow-up/independent patient identity",
+    "Model performance"
+  ],
+  "no_training_or_prognosis_evaluation": true,
+  "initial_live_summary_completed": 325,
+  "live_summary_at_end": 325
+}

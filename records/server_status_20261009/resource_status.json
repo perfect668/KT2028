@@ -1,0 +1,29 @@
+{
+  "checked_at_server": "2026-10-09T16:40:30+08:00",
+  "source_commit": "8e7bfe67ec2f2ef4ab5d142faea2662788160d13",
+  "data_disk_gib_available_display": 131,
+  "data_disk_used_percent": 35,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "gpu_memory_total_mib": 32607,
+  "gpu_memory_used_mib_snapshot": 1097,
+  "gpu_utilization_percent_snapshot": 0,
+  "container_memory_limit_bytes": 96636764160,
+  "container_memory_current_bytes_snapshot": 33798680576,
+  "container_cpu_quota": "2500000 100000 (25 CPUs)",
+  "dependency_import_check": {
+    "torch": "2.8.0+cu128", "cuda_available": true,
+    "zarr": "3.4.0", "numpy": "2.3.2",
+    "gymnasium": "1.4.0", "sb3_contrib": "2.9.0"
+  },
+  "regional_preparation_pid": 29156,
+  "regional_preparation_process_alive": true,
+  "regional_preparation_elapsed_at_snapshot": "04:40:48",
+  "local_relay_pid": 36452,
+  "local_relay_process_alive": true,
+  "relay_uploaded_at_snapshot": 325,
+  "relay_errors_at_snapshot": 0,
+  "whole_cohort_finished_marker_present": false,
+  "local_and_server_git_clean_at_start": true,
+  "no_environment_changes_training_or_formal_evaluation": true,
+  "readiness": "All 255 official Train regional assets are available; proceed with loader/batch/training-entry preparation alongside remaining transfer. Formal training orchestration and registered selection protocol are incomplete; no training was launched."
+}
