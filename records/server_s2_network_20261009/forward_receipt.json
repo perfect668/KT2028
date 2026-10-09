@@ -1,0 +1,34 @@
+{
+  "scope": "CPU software forward checks on three registered Train images",
+  "random_initialization": true,
+  "training": false,
+  "prognosis_evaluation": false,
+  "software_check_n_ref": 9603,
+  "protocol_not_selected": "Common three-Train reference, lambda=0 and full-candidate budget are check-only inputs",
+  "cases": [
+    {
+      "regions": 54,
+      "acquired_patch_count": 16,
+      "zero_fine_forward": true,
+      "one_acquisition_forward": true,
+      "repeat_masked": true,
+      "stop_legal": true
+    },
+    {
+      "regions": 362,
+      "acquired_patch_count": 6,
+      "zero_fine_forward": true,
+      "one_acquisition_forward": true,
+      "repeat_masked": true,
+      "stop_legal": true
+    },
+    {
+      "regions": 650,
+      "acquired_patch_count": 1,
+      "zero_fine_forward": true,
+      "one_acquisition_forward": true,
+      "repeat_masked": true,
+      "stop_legal": true
+    }
+  ]
+}

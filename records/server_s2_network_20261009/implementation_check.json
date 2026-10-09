@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-09",
+  "baseline_commit": "ae82fe9e1ddaaf765d2c2a132fe8a2d2dd29e534",
+  "scope": "P1 network and acquisition episode interfaces; CPU checks alongside active cohort preparation",
+  "upstream": {
+    "repository": "https://github.com/coglabiisc/SASHA",
+    "commit": "6385fe6bfcf4f1591b8f691ada2407c83002f62e",
+    "local_checkout": "KT2028-assets/source/SASHA (outside project repository)",
+    "selected_source_archive_sha256": "c83dc00a93d09f460d8d224924d24822a657d7133a54a61e7f5aaa7a7b00e742",
+    "inspected": ["architecture/transformer.py:HAFED", "architecture/Attention.py:Attention_Gated", "modules/fglobal_mlp.py:FGlobal", "envs/WSI_cosine_env.py:step", "step3_WSI_classification_HAFED.py:train"],
+    "adaptation": "Independent P1 interface implementation of gated hierarchical aggregation and three-vector TSU; no verbatim vendoring, no upstream checkpoints or training execution",
+    "differences": ["Variable fine bag lengths", "Separate true-observed and estimated flags", "Estimated regions remain acquirable", "Binary mortality head and zero-fine coarse state", "Explicit STOP, hard patch budget and terminal BCE plus positive costs"],
+    "not_reproduced": ["Full original HAFED training losses, branch-specific classifiers and attention masking", "Original SASHA environment/PPO training"],
+    "license_status": "No top-level LICENSE found at inspected commit; do not treat it as a licensed drop-in vendored dependency"
+  },
+  "source_sha256": {
+    "kt2028/network.py": "fc6450822fec53af0761ce5ce33dc5f621c9215d3f0d2d666c7f83f2c8e7a585",
+    "kt2028/episode.py": "2d5f04e584d600fa895e4a0cfcdb5c4300941e492dbbbc820536e826bb6114d7",
+    "kt2028/check_network.py": "018b21063dda71a969d0fe538b44ce2ee17a407c43fb1658f6209bd3243b5eaf",
+    "tests/test_p1_evidence_episode.py": "cae370d1a491c1f172d62bef5518b74539b769f4f8bcd3bc70edaa7925d00490"
+  },
+  "software_checks": {
+    "location": "new server, existing project environment, CPU",
+    "command": "python -m pytest tests/test_physical_regions.py tests/test_range_cache.py tests/test_relay_recovery.py tests/test_p1_evidence_episode.py -q",
+    "passed": 13,
+    "new_checks": 5,
+    "coverage": ["Zero-fine prediction and label-independent visible state", "Immediate STOP and exactly-once terminal BCE", "Full episode return equals negative terminal BCE minus total cost", "Budget and repeated/empty action masks", "TSU estimates remain distinct from true evidence", "Coarse gradients and regional permutation invariance"]
+  },
+  "real_forward_checks": "forward_receipt.json; three registered Train images, random initialization, no prognosis metrics",
+  "failure_and_fix": "Initial real forward check used N_ref=1; large unnormalized budget caused random actor STOP probability underflow. Replaced check-only reference with a common maximum assigned patch count across the three registered Train images (9603). Experimental N_ref and budgets remain unselected.",
+  "not_completed": ["Fitted prognosis/TSU weights", "Training loaders and staged training orchestration", "SB3 fixed-Discrete padding/rollout adapter and Gymnasium wrapper", "PPO training", "Validation/Test prognosis evaluation"],
+  "no_training_or_formal_evaluation": true
+}

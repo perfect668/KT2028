@@ -1,6 +1,12 @@
 # P1 当前数据接口
 
-唯一现行方法见 `docs/experiment_restart.md` 第 0 节。本包与 `msrlsurv/` 早期草稿分开，当前只有真实数据预处理和部分获取接口，未实现/训练 P1 预后网络或 PPO。
+唯一现行方法见 `docs/experiment_restart.md` 第 0 节。本包与 `msrlsurv/` 早期草稿分开，包含真实数据预处理、部分获取、首版预后/TSU/策略打分与 episode 接口；尚未训练预后网络或 PPO。
+
+`network.py` 接通可变长度 UNI 局部汇聚、512→256 coarse 投影、四分支患者汇聚、二分类 logit、三向量 TSU 及共享区域/STOP 打分。分支不是医学类别。仅接受已获取的 fine 字典；TSU 估计另存，永不冒充真观察。借鉴 SASHA 已锁定源码的分层门控注意力与 MLP 思路，是 P1 接口适配，尚非原 HAFED 全损失/训练协议的复现。[来源与软件检查记录](../records/server_s2_network_20261009/implementation_check.json)明确差异与未完成项。
+
+`episode.py` 使用冻结前向、显式正 N_ref、整数 patch 硬预算和 λ；立即 STOP 合法，空/重复/预算不足获取拒绝。Train 可单独传奖励标签，推理无需标签；标签不进入 visible_state 或网络。获取不可再继续时也自动终止，终末 BCE 只记一次，γ=1 的目标为终末 BCE＋累计成本。`SharedActorCritic` 目前是可变 R 的 PyTorch 打分器，**不是已接通的 SB3 MaskablePPO**；固定 Discrete 的 padding、批量 rollout 和 Gymnasium 包装尚需实现。
+
+`check_network` 只对已登记三例 Train 区域资产做 CPU 随机初始化前向检查，不输出预后指标、不保存模型权重。检查用共同 N_ref=9603 不代表已选择正式成本协议；真实数据流成功不等于算法有效。13 项几何/缓存/中转/网络环境软件检查通过，真实前向回执单列保存。
 
 `prepare_regions` 用真实低倍率 RGB 的组织阈值和不重叠物理网格构建候选，随后读取 fine 坐标建立一对一归属。粗向量由冻结 ImageNet ResNet18 提取，计算过程不读取 UNI 数值。区域内所有可用 fine 均保留，数量可变；无 fine 的 RGB 区域仍提供 coarse，但不能获取。边缘 patch 按有效图像交集中心归属，保留有效比例，不造新患者/patch。
 

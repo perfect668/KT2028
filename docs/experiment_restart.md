@@ -163,6 +163,8 @@ S2 已在三张 Train 实例以成熟 Zarr 3.4 ZipStore/codec 完成真实多尺
 
 ### 0.13 文献和源码的具体用途
 
+2026-10-09 S2 并行准备：已拉取 SASHA 作者仓库，锁定 `6385fe6bfcf4f1591b8f691ada2407c83002f62e`，核查 HAFED 两级门控注意力、FGlobal 和原环境。当前 `kt2028/network.py` 是按本节 P1 信息权限编写的首版接口，借鉴分层汇聚及三向量 TSU，不声称原论文完整 HAFED 损失/训练复现。保留真实观察与估计的区别，不搬用原环境的访问标记或每步分类奖励。网络、共享区域/STOP 打分和 episode 经 13 项软件检查及三例 Train CPU 前向检查；尚无拟合权重、训练编排或 SB3 padding/rollout 适配。检查用 N_ref 非正式成本协议，详见 W006 与[源码/检查证据](../records/server_s2_network_20261009/implementation_check.json)。P1 方法未改。
+
 | 来源 | 本方案使用范围 | 尚未验证的边界 |
 | --- | --- | --- |
 | [SASHA 论文](https://arxiv.org/html/2507.05077v5) / [作者源码](https://github.com/coglabiisc/SASHA) | HAFED 分层聚合、跨尺度表征、TSU 相似证据传播、序贯处理基础 | 未在本任务运行；复用前锁定 commit；原任务/奖励/停止机制不能直接当作本方案 |
