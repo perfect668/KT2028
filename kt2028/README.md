@@ -19,3 +19,7 @@ python -m kt2028.prepare_regions --samples /path/to/samples.json \
 `RegionCase.visible_state()` 初始无任何 fine；`acquire(i)` 才读取相应 UNI 行并记实际新增 patch 数，拒绝重复和空获取。标签不属于该对象。导入的完整 fine 坐标索引用于缓存模拟，前处理成本不能省略，cached_patch_counts 不代表真正在线提取已完成。N_ref/预算与 λ 待实验协议登记。
 
 GitHub 同步：服务器 origin 指向正式仓库，使用 `research/p1-restart`。国内 GitHub 直连失败时通过本机 Git 认证与 bundle 中转：本机推送已审查的提交，再将包含相同提交的 bundle 传到服务器；服务器使用 bundle 的 ref 进行 fast-forward。服务器的重要改动可提交后导出 bundle，由本机读取并推送。避免把认证令牌放到代码/服务器配置中；禁止 force push/覆盖未提交修改。阶段结束核对本机、服务器和 GitHub 的 commit，落盘记录差异。
+
+慢速外网接入：官方 `/info` API 提供直接 HTTPS 文件入口，`prefetch_rgb_cache` 只获取选定低倍率层的 ZIP 条目并检查 CRC。`relay_cohort` 在本机分段下载后传至服务器，成功传输才写 `.relay_ready`；`prepare_regions --wait-for-relay` 只处理 ready 的病例并禁止网络回退。服务器将所选数组的原始编码分片暂存到本地 Zarr，再交由原生 codec 解码，避免每个内层 chunk 重读整块 ZIP。完整原图不下载；低倍率缓存仍占空间并产生传输/前处理成本。中转任务依赖本机联网，进度和 PID 在工作日志/资产目录，不是定时任务。
+
+更换低倍率层或数据来源时重新核准缓存就绪标记和最终中转回执，不将旧标记视为新层已下载。缺片/超出字节或内存上限时保留失败，不默默降倍率、改变队列或改组织阈值。

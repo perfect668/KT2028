@@ -1,0 +1,7 @@
+{
+  "debug_package": {
+    "py-spy": "0.4.2"
+  },
+  "external_process_inspection": "denied by container permissions; no security changes",
+  "torch_cuda_unchanged": true
+}

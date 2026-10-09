@@ -1,0 +1,11 @@
+{
+  "official_direct_base": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/285/S-BIAD1285/Files/",
+  "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/285/S-BIAD1285/Files/ome-zarr/SR386_40X_HE_T103_01.ome.zarr.zip",
+  "status": 206,
+  "bytes": 65536,
+  "elapsed_seconds": 2.611,
+  "same_zip_tail_sha256": "356b602fc611e5591812a65c1054f537b5c6f93189411dcdedca49690499ce47",
+  "matches_prior_source": true,
+  "one_mib_seconds": 51.252,
+  "one_mib_received": 1048576
+}

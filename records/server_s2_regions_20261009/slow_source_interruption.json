@@ -1,0 +1,7 @@
+{
+  "pid": 28161,
+  "status": "terminated_by_operator",
+  "reason": "original server international link about 20 KB/s; first case complete and retained; migrate to bounded local relay",
+  "completed_images": 1,
+  "no_training_interrupted": true
+}

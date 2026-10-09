@@ -1,0 +1,5 @@
+*.py text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+# Audit receipts preserve the exact transferred bytes and recorded SHA256.
+records/** -text

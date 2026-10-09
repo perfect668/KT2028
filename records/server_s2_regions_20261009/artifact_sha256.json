@@ -1,0 +1,9 @@
+{
+  "region_contract_checks.json": "1dabdf616a0cdd035766b661b0b0bece7b516a6f0101b3e9f07277cc468a7a9d",
+  "direct_source_probe.json": "7cc140ee7f48e0502dc715e08229e3c1f1d4ee4280bf8b168bec479c782dc13c",
+  "slow_source_interruption.json": "29f5a251a0d80a08915d7e3d7417fb5f32b824fb541c4195bba83fe13d3db75c",
+  "pilot_summary.json": "fe9b7f80349d406550777d775e1a1510e1990556a9d29f055abc75e12810145b",
+  "region_examples.png": "54a4b53d49b3e21eb4a7651a09691e9b6d5f0435092051ec30049b943fab65c4",
+  "regions_overlay.png": "cf07a17c1d59238ebb313105f4df1518cf5c3fb10861df00373a2f60f4fac720",
+  "environment_addendum.json": "fdd3fffe680a68b4838b1eaa5bbc79ab37c91915162838cc46929bd69c751cdc"
+}

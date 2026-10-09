@@ -1,0 +1,31 @@
+{
+  "scope": "real asset/acquisition software check; no trained model or prognosis metric",
+  "cases_checked": 3,
+  "checks": [
+    {
+      "regions": 54,
+      "acquirable_regions": 54,
+      "patches_acquired": 735,
+      "initial_zero_fine": true,
+      "unique_acquisition": true,
+      "duplicate_and_empty_actions_rejected": true
+    },
+    {
+      "regions": 362,
+      "acquirable_regions": 361,
+      "patches_acquired": 5046,
+      "initial_zero_fine": true,
+      "unique_acquisition": true,
+      "duplicate_and_empty_actions_rejected": true
+    },
+    {
+      "regions": 650,
+      "acquirable_regions": 646,
+      "patches_acquired": 9603,
+      "initial_zero_fine": true,
+      "unique_acquisition": true,
+      "duplicate_and_empty_actions_rejected": true
+    }
+  ],
+  "no_training_or_evaluation": true
+}
