@@ -6,19 +6,19 @@
 
 ## 当前状态
 
-最后更新：2026-10-09；最近完成条目：W008（补传、全队列核查和训练入口）；W005 全队列准备已完成，单例 Test 几何异常单列 Q05。
+最后更新：2026-10-09；最近完成 W008；W009 第一阶段 full 训练运行中，已完成第一 epoch。W005 全队列准备已完成，单例 Test 几何异常单列 Q05。
 
 | 项目 | 当前事实 |
 | --- | --- |
 | 研究方案 | P1；双尺度部分观察预后建模＋TSU/预算自适应选区与 STOP；完整定义只见长期方案第 0 节 |
-| 工作阶段 | S2；19:08 已完成 423/423，Train/Validation/Test 为 255/84/84；全队列哈希/结构通过，但一例 Test 几何不匹配待解决 |
+| 工作阶段 | S3 首个 full 训练已启动；run=p1_full_s41_20261009，训练源码 534bc98、PID56993；既有 255/84/84 不变，Test 不用 |
 | 最近完成 | 项目环境/国内源/CUDA/预训练 ResNet18 检查；427 份 fine 全量解码；三张 Train 图像的成熟 Zarr 读取、物理尺度和坐标叠加检查 |
 | 工作区基准 | `D:\codex\开题2028\KT2028`，`research/p1-restart`；P1 初始存档 909b0fc，全队列作业源码 2eed94f；当前 HEAD 另按 Git 核对 |
 | 保存/备份状态 | 重要源码、P1 文档、S1/S2 汇总已提交并推送专用分支，服务器 Git checkout 通过 bundle 同步；大数据/标签清单与权重不进 GitHub。低倍率中转缓存另在本机资产目录 |
 | 实现状态 | 数据/预后/TSU/episode 和三个预测器阶段训练入口已实现；21 项软件测试、真实 Train CPU/CUDA 梯度检查通过。优化与 checkpoint/Validation 执行未验证，SB3 padding/rollout 未完成；所有新网络未训练 |
-| 实验状态 | 无预后/PPO 优化或正式评价，无新增预后指标；原后台任务已结束，单例补传和处理完成；检查 optimizer_steps=0 |
-| 当前执行范围 | 用户授权真实区域全队列接入及并行参考源码/架构接口准备、软件检查，并持续提交/推送重要文件；不启动模型训练或正式评价 |
-| 当前接续位置 | 候选配置与 full→align→partial 入口已准备；下一最小实验为 full 阶段正式训练及已登记 Validation 选择，另记 run ID/范围。Q05 仅 Test 几何需调查；PPO 批处理/成本协议仍待实现；无需继续本机中转 |
+| 实验状态 | 第一阶段单 seed/30 epoch 实际优化与 Validation 选择运行中，首 epoch BCE/AUROC/Brier 与 checkpoint 重载已核实；不是最终结果。PPO、后续预测器阶段和 Test 尚未运行 |
+| 当前执行范围 | 用户已明确授权先训练看效果：full Train 拟合与已登记 Validation 选择/查看；不扩数据、不运行 align/partial/PPO 或 Test；持续阶段存档 |
+| 当前接续位置 | 核查 W009 PID56993、training.log、epochs.jsonl 与 completion.json；完成后重载最佳权重核对 Validation 结果，不重复启动训练或以首 epoch 代替完整结果。扩数据建议仅讨论，当前不下载/合并 |
 
 “未开展”与“因缺资产无法开展”分开：目前开展数据审计，尚未启动模型实验。缺原始图像影响真实 coarse 输入，不影响现有 fine 特征核查。
 
@@ -151,9 +151,11 @@
 - 成本记录限制：旧 relay 每图失败时未返回累计 bytes，成功 receipt 的加和缺少该类失败传输；当前 summary network_bytes 也只描述服务器读取，不覆盖本机中转及旧尝试。不得以这些和数宣称完整实际网络或端到端计算成本。
 - 下一最小工作：以 255 Train/84 Validation、区域资产及候选配置运行 full 阶段训练，记录独立 run ID、源码/配置/数据来源与模型选择；输出可重载的 best checkpoint 和真实日志，再开展 align/partial。PPO 适配与 Q05 调查可另行安排，不将当前未训练 TSU 用于正式策略实验。本轮保存并同步后停止，不自动启动优化或 Test。
 
-### W009｜2026-10-09：第一阶段 full 预后训练（登记，待启动）
+### W009｜2026-10-09：第一阶段 full 预后训练（运行中）
 
 - 用户明确授权先训练一个看效果，并询问是否应先扩数据。执行范围：既有 255 Train/84 Validation、第一阶段 full、seed41、30 epoch、病例 batch2、AdamW1e-4；沿用已登记候选配置，Validation BCE 最小选 checkpoint（平局首次），同时记录 AUROC/Brier。Test、后续 align/partial/PPO、扩充数据均不在本轮范围。
 - run ID：`p1_full_s41_20261009`；私有输出目录 `/root/autodl-tmp/KT2028/runs/p1_full_s41_20261009`，启动日志/PID 留独立 audit 目录。启动前核查现有区域资产与 Train/Val 不重叠；源码基准 f517efe，本次补充指标记录和 CPU 线程限制，无模型/损失/选择规则改变。
 - 数据量判断：255 Train 对预后建模偏小，但冻结 UNI/ResNet18 后可以作为工程起点，不要求先扩充。patch、区域和部分状态不增加独立病例数。先观察既有模型的真实学习/Validation 行为，不自动引入不同临床来源、标签或研究终点。官网 SurGen 论文表4提供相同划分，整个 SurGen 的更多图像不能自动纳入当前五年任务；独立临床映射/原随访缺口仍保留。
-- 当前状态：先提交源码/授权登记、同步服务器并运行必要软件检查，再启动实际训练；尚无本轮模型指标或 checkpoint。启动后的实际进度、失败和产物在本条更新，不以“已启动”替代完成证据。
+- 实际启动：北京时间 19:35，源码 `534bc98e941768b8a60c5101574a6e4d06f52b62`，PID 56993；日志 `/root/autodl-tmp/KT2028/audit/p1_full_s41_20261009/training.log`，结果 `runs/p1_full_s41_20261009/epochs.jsonl`，完成必须看 `completion.json`。12 项相关软件检查通过；已有环境/数据，无新增依赖或下载。[启动记录](../records/p1_full_s41_20261009/process.json)。实际清单 label1（按官方编码为五年内死亡）Train100/255、Val30/84，参考[标签计数](../records/p1_full_s41_20261009/cohort_counts.json)。
+- 首轮实际证据：epoch0 Train 在线 batch 平均 BCE 0.67252、Validation BCE 0.65546、AUROC 0.67716、Brier 0.23148；84 Val，非独立 Test，不把训练过程在线 BCE 叫作最终 Train 评价。best checkpoint 已生成并通过 weights_only＋strict state_dict 重载；[首 epoch 快照](../records/p1_full_s41_20261009/first_epoch_snapshot.json)记录当时 SHA，后续 best 更新时该 SHA 不再表示当前文件。训练继续，当前尚无 30 epoch 完成回执，不判定算法有效/最终性能。
+- 用户中途询问扩数据：建议优先 [TCGA-COAD](https://portal.gdc.cancer.gov/projects/TCGA-COAD) / [TCGA-READ](https://portal.gdc.cancer.gov/projects/TCGA-READ)，先临床随访＋Diagnostic Slide 清单，筛五年结局可确定的病例再按需取 WSI；有 [GDC 官方获取说明](https://gdc.cancer.gov/access-data/gdc-data-portal)。[CPTAC-COAD](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=70227852) 是后备，病理与临床来源明确，但实际五年随访完整病例数未查，不能承诺新增规模。五年前无死亡且失访不当作五年存活；GDC 随访字段需含 follow_ups，参见[2026 官方变更](https://docs.gdc.cancer.gov/Data_Portal/Release_Notes/Data_Portal_Release_Notes/)。仅建议，未下载或改主方案/当前队列；独立外部验证或扩 Train 用途应后续明确。

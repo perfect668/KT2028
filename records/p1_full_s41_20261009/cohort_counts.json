@@ -1,0 +1,11 @@
+{
+  "train": {
+    "cases": 255,
+    "label_1_death": 100
+  },
+  "validate": {
+    "cases": 84,
+    "label_1_death": 30
+  },
+  "test_used": false
+}

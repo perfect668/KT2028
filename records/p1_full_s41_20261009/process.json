@@ -1,0 +1,31 @@
+{
+  "run_id": "p1_full_s41_20261009",
+  "pid": 56993,
+  "launched_at": "2026-10-09T11:35:15.638267+00:00",
+  "source_commit": "534bc98e941768b8a60c5101574a6e4d06f52b62",
+  "command": [
+    "/root/autodl-tmp/KT2028/.venv/bin/python",
+    "-u",
+    "-m",
+    "kt2028.train_predictor",
+    "--stage",
+    "full",
+    "--config",
+    "configs/predictor_p1_candidate.json",
+    "--train-manifest",
+    "/root/autodl-tmp/KT2028/audit/s1_20261009/train_asset_manifest.json",
+    "--validation-manifest",
+    "/root/autodl-tmp/KT2028/audit/s1_20261009/validate_asset_manifest.json",
+    "--regions",
+    "/root/autodl-tmp/KT2028/data/regions_p1_20261009",
+    "--output",
+    "/root/autodl-tmp/KT2028/runs/p1_full_s41_20261009",
+    "--device",
+    "cuda",
+    "--execute"
+  ],
+  "output": "/root/autodl-tmp/KT2028/runs/p1_full_s41_20261009",
+  "log": "/root/autodl-tmp/KT2028/audit/p1_full_s41_20261009/training.log",
+  "scope": "first full stage only; no Test/align/partial/PPO",
+  "status": "launched; optimization/completion not yet confirmed"
+}

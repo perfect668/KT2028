@@ -1,0 +1,30 @@
+{
+  "run_id": "p1_full_s41_20261009",
+  "checked_at": "2026-10-09T11:38:42.188242+00:00",
+  "training_source_commit": "534bc98e941768b8a60c5101574a6e4d06f52b62",
+  "status": "running; first epoch completed, not final results",
+  "completed_epochs_at_snapshot": 2,
+  "checkpoint_reload": "weights_only load and model/updater strict state_dict successful",
+  "checkpoint_epoch_zero_based": 1,
+  "checkpoint_selection": "minimum Validation BCE, not AUROC",
+  "checkpoint_sha256_at_snapshot": "4d3f307f30efcb3f3fc0620518fd75282615d934be3754c63cd4dfefcc1bd6be",
+  "trainable_model_parameters": 529030,
+  "latest_epoch_at_snapshot": {
+    "epoch": 1,
+    "train_objective": 0.6542679117006414,
+    "validation_objective": 0.607870471974214,
+    "validation_modes": [
+      "full"
+    ],
+    "validation_metrics": {
+      "full": {
+        "auroc": 0.6796296296296296,
+        "brier": 0.21198596434468536,
+        "bce": 0.607870471974214,
+        "cases": 84
+      }
+    }
+  },
+  "test_used": false,
+  "later_stages_launched": false
+}
