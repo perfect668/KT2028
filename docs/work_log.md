@@ -150,3 +150,10 @@
 - 实际验证：21 项软件测试通过；真实两例 Train 的 577/433 个区域、8,246/6,127 fine 分别在 CPU 和 RTX5090 完成 full/align/partial 的前向/反向及冻结检查，partial 另明确覆盖零和中间证据。损失/梯度有限、冻结参数无梯度；optimizer_steps=0，无 checkpoint、无预测性能指标。回执见[CPU](../records/server_s2_training_interface_20261009/preflight_cpu_complete.json)、[CUDA](../records/server_s2_training_interface_20261009/preflight_cuda_complete.json)、[实现来源/恢复说明](../records/server_s2_training_interface_20261009/implementation_receipt.json)。完整 epoch 优化、checkpoint 文件及 Validation 执行尚未实际验证，不能说正式训练已完成。
 - 成本记录限制：旧 relay 每图失败时未返回累计 bytes，成功 receipt 的加和缺少该类失败传输；当前 summary network_bytes 也只描述服务器读取，不覆盖本机中转及旧尝试。不得以这些和数宣称完整实际网络或端到端计算成本。
 - 下一最小工作：以 255 Train/84 Validation、区域资产及候选配置运行 full 阶段训练，记录独立 run ID、源码/配置/数据来源与模型选择；输出可重载的 best checkpoint 和真实日志，再开展 align/partial。PPO 适配与 Q05 调查可另行安排，不将当前未训练 TSU 用于正式策略实验。本轮保存并同步后停止，不自动启动优化或 Test。
+
+### W009｜2026-10-09：第一阶段 full 预后训练（登记，待启动）
+
+- 用户明确授权先训练一个看效果，并询问是否应先扩数据。执行范围：既有 255 Train/84 Validation、第一阶段 full、seed41、30 epoch、病例 batch2、AdamW1e-4；沿用已登记候选配置，Validation BCE 最小选 checkpoint（平局首次），同时记录 AUROC/Brier。Test、后续 align/partial/PPO、扩充数据均不在本轮范围。
+- run ID：`p1_full_s41_20261009`；私有输出目录 `/root/autodl-tmp/KT2028/runs/p1_full_s41_20261009`，启动日志/PID 留独立 audit 目录。启动前核查现有区域资产与 Train/Val 不重叠；源码基准 f517efe，本次补充指标记录和 CPU 线程限制，无模型/损失/选择规则改变。
+- 数据量判断：255 Train 对预后建模偏小，但冻结 UNI/ResNet18 后可以作为工程起点，不要求先扩充。patch、区域和部分状态不增加独立病例数。先观察既有模型的真实学习/Validation 行为，不自动引入不同临床来源、标签或研究终点。官网 SurGen 论文表4提供相同划分，整个 SurGen 的更多图像不能自动纳入当前五年任务；独立临床映射/原随访缺口仍保留。
+- 当前状态：先提交源码/授权登记、同步服务器并运行必要软件检查，再启动实际训练；尚无本轮模型指标或 checkpoint。启动后的实际进度、失败和产物在本条更新，不以“已启动”替代完成证据。

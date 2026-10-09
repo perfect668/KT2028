@@ -36,7 +36,7 @@ def stage_objective(model, updater, inputs, target, stage, *, max_pairs=128, gen
                     observed[i] = True
                     estimates = updater.propagate(z, i, model.encode_fine(bag), observed, estimates)
         result = model(**inputs, estimates=estimates)
-        return F.binary_cross_entropy_with_logits(result['logit'], target), {'tsu_pairs': 0}
+        return F.binary_cross_entropy_with_logits(result['logit'], target), {'tsu_pairs': 0, 'logit': result['logit'].detach()}
     if not isinstance(max_pairs, int) or max_pairs <= 0:
         raise ValueError('A positive pair cap is required')
     ids = list(inputs['observed_fine'])

@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
+from sklearn.metrics import roc_auc_score, brier_score_loss
 from torch.utils.data import DataLoader
 
 from .network import EvidencePredictor, TargetedStateUpdater
@@ -60,6 +61,7 @@ def main():
     if output.exists():
         raise FileExistsError('Use a new run directory; preserve prior runs')
     seed = config['seed']
+    torch.set_num_threads(2)
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -145,23 +147,34 @@ def main():
         model.eval()
         updater.eval()
         scores = []
+        validation_metrics = {}
         with torch.no_grad():
             for dataset in validation:
                 total = 0.0
+                labels, probabilities = [], []
                 # Fixed masks and pair sampling across epochs, not a moving selection set.
                 pair_rng = torch.Generator().manual_seed(seed)
                 for s in dataset:
-                    value, _ = stage_objective(model, updater, move_inputs(s['inputs'], args.device),
+                    value, details = stage_objective(model, updater, move_inputs(s['inputs'], args.device),
                                s['target'].to(args.device), args.stage, max_pairs=config['max_tsu_pairs'],
                                generator=pair_rng)
                     total += float(value)
+                    if 'logit' in details:
+                        labels.append(int(s['target']))
+                        probabilities.append(float(details['logit'].sigmoid()))
                 scores.append(total / len(dataset))
+                if labels:
+                    validation_metrics[dataset.evidence] = {
+                        'auroc': float(roc_auc_score(labels, probabilities)) if len(set(labels)) == 2 else None,
+                        'brier': float(brier_score_loss(labels, probabilities)),
+                        'bce': total / len(dataset), 'cases': len(dataset)}
         selection_score = sum(scores) / len(scores)
         if not np.isfinite(selection_score):
             raise FloatingPointError('Nonfinite selection objective')
         with (output / 'epochs.jsonl').open('a') as file:
             event = {'epoch': epoch, 'train_objective': train_total / len(train),
-                     'validation_objective': selection_score, 'validation_modes': list(validation_modes)}
+                     'validation_objective': selection_score, 'validation_modes': list(validation_modes),
+                     'validation_metrics': validation_metrics}
             file.write(json.dumps(event) + '\n')
             print(json.dumps(event), flush=True)
         if selection_score < best:
