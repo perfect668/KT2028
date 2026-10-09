@@ -15,7 +15,7 @@ import zarr
 
 
 class CachedRangeFile(io.RawIOBase):
-    def __init__(self, url, size, cache_root, cap_bytes, cache_identity=None):
+    def __init__(self, url, size, cache_root, cap_bytes, cache_identity=None, cache_only=False):
         self.url, self.size, self.cap = url, int(size), int(cap_bytes)
         self.pos = self.bytes_received = self.requests_made = self.cache_hits = 0
         identity = hashlib.sha256(f'{cache_identity or url}\n{size}'.encode()).hexdigest()
@@ -25,6 +25,7 @@ class CachedRangeFile(io.RawIOBase):
         self.session.headers['Accept-Encoding'] = 'identity'
         self.lock = threading.RLock()
         self.started = time.monotonic()
+        self.cache_only = cache_only
 
     def readable(self): return True
     def seekable(self): return True
@@ -44,6 +45,7 @@ class CachedRangeFile(io.RawIOBase):
             if len(value) != count: raise ValueError('Incomplete cached range')
             self.cache_hits += 1
             return value
+        if self.cache_only:raise FileNotFoundError(f'Relay cache missing range {start}:{count}')
         if count > self.cap or self.bytes_received+count > self.cap:
             raise ValueError('Network byte cap exceeded; no full ZIP download allowed')
         for attempt in range(3):
@@ -99,7 +101,7 @@ def read_low_rgb(source, config, cache_root):
     parsed=urlparse(url)
     if parsed.scheme!='https' or parsed.hostname not in ('www.ebi.ac.uk','ftp.ebi.ac.uk'):
         raise ValueError('Only verified official HTTPS sources accepted')
-    raw = CachedRangeFile(url,source['size'],cache_root,config['max_network_bytes_per_image'],canonical)
+    raw = CachedRangeFile(url,source['size'],cache_root,config['max_network_bytes_per_image'],canonical,source.get('cache_only',False))
     try:
         with zipfile.ZipFile(raw) as archive:
             roots = [n[:-len('/zarr.json')] for n in archive.namelist()

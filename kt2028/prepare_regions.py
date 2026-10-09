@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import subprocess
+import shutil
 import time
 from pathlib import Path
 
@@ -31,6 +32,7 @@ def prepare(sample,config,config_sha,output,cache,model,device,batch,commit):
                 print('REGIONS_RESUME '+sample['slide_id'],flush=True);return receipt
         raise FileExistsError('Incomplete/mismatched output preserved; inspect before retry')
     folder.mkdir(parents=True)
+    if shutil.disk_usage(output).free<3*1024**3:raise OSError('Server data disk headroom below 3 GiB')
     print('REGIONS_READ_RGB '+sample['slide_id'],flush=True)
     rgb,access=read_low_rgb(sample['source'],config,cache)
     mpp=access['selected_level']['mpp_xy'];l0=access['l0']
@@ -92,7 +94,10 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--samples',type=Path,required=True)
     ap.add_argument('--config',type=Path,required=True);ap.add_argument('--output',type=Path,required=True)
     ap.add_argument('--range-cache',type=Path,required=True);ap.add_argument('--batch',type=int,default=32)
-    ap.add_argument('--device',default='cuda');args=ap.parse_args()
+    ap.add_argument('--device',default='cuda')
+    ap.add_argument('--wait-for-relay',action='store_true')
+    ap.add_argument('--max-wait-hours',type=float,default=12)
+    args=ap.parse_args()
     config=json.loads(args.config.read_text());config_sha=sha256(args.config)
     if args.batch<=0:raise ValueError('batch must be positive')
     args.output.mkdir(parents=True,exist_ok=True)
@@ -101,21 +106,34 @@ def main():
     commit=result.stdout.strip()
     model=resnet18(weights=ResNet18_Weights.IMAGENET1K_V1);model.fc=torch.nn.Identity()
     model.eval().requires_grad_(False).to(args.device)
-    rows=[];errors=[]
-    for sample in json.loads(args.samples.read_text()):
-        try: rows.append(prepare(sample,config,config_sha,args.output,args.range_cache,model,args.device,args.batch,commit))
-        except Exception as e:
-            error={'slide_id':sample['slide_id'],'error':type(e).__name__+': '+str(e)}
-            errors.append(error);print('REGIONS_FAILED '+json.dumps(error),flush=True)
+    rows=[];errors=[];pending=json.loads(args.samples.read_text());expected=len(pending);started=time.monotonic()
+    while pending:
+        progressed=False
+        for sample in pending[:]:
+            if args.wait_for_relay:
+                canonical='https://www.ebi.ac.uk/biostudies/files/S-BIAD1285/'+sample['source']['path']
+                identity=hashlib.sha256(f'{canonical}\n{sample["source"]["size"]}'.encode()).hexdigest()
+                marker=args.range_cache/identity/'.relay_ready'
+                if not marker.exists():continue
+                sample={**sample,'source':{**sample['source'],'cache_only':True}}
+            try: rows.append(prepare(sample,config,config_sha,args.output,args.range_cache,model,args.device,args.batch,commit))
+            except Exception as e:
+                error={'slide_id':sample['slide_id'],'error':type(e).__name__+': '+str(e)}
+                errors.append(error);print('REGIONS_FAILED '+json.dumps(error),flush=True)
+            pending=[s for s in pending if s['slide_id']!=sample['slide_id']];progressed=True
         summary={'schema':'KT2028-region-summary-1','config_sha256':config_sha,'source_commit':commit,
-            'completed_images':len(rows),'errors':errors,'regions':sum(r['rgb_candidate_count'] for r in rows),
+            'expected_images':expected,'completed_images':len(rows),'pending_images':len(pending),
+            'errors':errors,'regions':sum(r['rgb_candidate_count'] for r in rows),
             'fine_patches_total':sum(r['fine_patch_count'] for r in rows),
             'fine_patches_assigned':sum(r['fine_patches_assigned'] for r in rows),
             'fine_patches_partially_padded':sum(r['fine_patches_partially_padded'] for r in rows),
             'fine_patches_fully_outside_image':sum(r['fine_patches_fully_outside_image'] for r in rows),
             'network_bytes':sum(r['image_access']['network_bytes'] for r in rows),
             'interface_trial':True,'no_training_or_evaluation':True}
-        (args.output/'summary.json').write_text(json.dumps(summary,indent=2))
+        temp=args.output/'summary.partial';temp.write_text(json.dumps(summary,indent=2));temp.replace(args.output/'summary.json')
+        if pending and not progressed:
+            if time.monotonic()-started>args.max_wait_hours*3600:raise TimeoutError('Relay wait exceeded configured limit')
+            time.sleep(10)
     if errors:raise SystemExit(1)
 
 if __name__=='__main__':main()
