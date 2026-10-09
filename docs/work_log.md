@@ -6,19 +6,19 @@
 
 ## 当前状态
 
-最后更新：2026-10-09；最近完成条目：W007（服务器状态与已完成资产核查）；W005 全队列中转与区域准备仍进行中。
+最后更新：2026-10-09；最近完成条目：W008（补传、全队列核查和训练入口）；W005 全队列准备已完成，单例 Test 几何异常单列 Q05。
 
 | 项目 | 当前事实 |
 | --- | --- |
 | 研究方案 | P1；双尺度部分观察预后建模＋TSU/预算自适应选区与 STOP；完整定义只见长期方案第 0 节 |
-| 工作阶段 | S2；16:42 检查 325/423 份区域资产通过，Train 255/255、Validation 70/84、Test 0/84；中转与处理继续 |
+| 工作阶段 | S2；19:08 已完成 423/423，Train/Validation/Test 为 255/84/84；全队列哈希/结构通过，但一例 Test 几何不匹配待解决 |
 | 最近完成 | 项目环境/国内源/CUDA/预训练 ResNet18 检查；427 份 fine 全量解码；三张 Train 图像的成熟 Zarr 读取、物理尺度和坐标叠加检查 |
 | 工作区基准 | `D:\codex\开题2028\KT2028`，`research/p1-restart`；P1 初始存档 909b0fc，全队列作业源码 2eed94f；当前 HEAD 另按 Git 核对 |
 | 保存/备份状态 | 重要源码、P1 文档、S1/S2 汇总已提交并推送专用分支，服务器 Git checkout 通过 bundle 同步；大数据/标签清单与权重不进 GitHub。低倍率中转缓存另在本机资产目录 |
-| 实现状态 | `kt2028/` 已有真实数据/获取接口、首版预后/TSU/Actor-Critic 打分与 episode；13 项软件检查和三例 Train CPU 前向通过。训练编排及 SB3 padding/rollout 适配未完成，所有新网络未训练。旧草稿保留 |
-| 实验状态 | 无预后/PPO 训练或正式评价，无新增预后指标；本机后台中转、服务器后台区域准备正在运行，不能声称后台作业已结束 |
+| 实现状态 | 数据/预后/TSU/episode 和三个预测器阶段训练入口已实现；21 项软件测试、真实 Train CPU/CUDA 梯度检查通过。优化与 checkpoint/Validation 执行未验证，SB3 padding/rollout 未完成；所有新网络未训练 |
+| 实验状态 | 无预后/PPO 优化或正式评价，无新增预后指标；原后台任务已结束，单例补传和处理完成；检查 optimizer_steps=0 |
 | 当前执行范围 | 用户授权真实区域全队列接入及并行参考源码/架构接口准备、软件检查，并持续提交/推送重要文件；不启动模型训练或正式评价 |
-| 当前接续位置 | Train 数据已齐，可并行继续训练数据加载/批处理及训练入口准备；先登记范围，不直接启动训练。W005 作业继续，后续核查全队列完成/覆盖率及 PPO padding；不重复启动后台作业 |
+| 当前接续位置 | 候选配置与 full→align→partial 入口已准备；下一最小实验为 full 阶段正式训练及已登记 Validation 选择，另记 run ID/范围。Q05 仅 Test 几何需调查；PPO 批处理/成本协议仍待实现；无需继续本机中转 |
 
 “未开展”与“因缺资产无法开展”分开：目前开展数据审计，尚未启动模型实验。缺原始图像影响真实 coarse 输入，不影响现有 fine 特征核查。
 
@@ -27,9 +27,10 @@
 | 编号 | 缺口/需核准事项 | 依赖范围与处理方式 |
 | --- | --- | --- |
 | Q01 | 官方 CSV 与源码已有五年编码及 255/84/84 case 划分；原始随访/删失与独立临床患者映射仍缺 | 按官方 case 隔离核准，不重划分；CSV 的 slide_id 是各 split 内的占位字段，必须用 case_id 映射真实特征 |
-| Q02 | 325/423 已完成资产哈希与结构检查通过，Train 255 已齐，Validation 70、Test 0；全队列仍运行 | 继续准备，其余资产和全队列几何/覆盖率待汇总；Train 加载准备无需等待 Test；原图不整包下载 |
+| Q02 | 全队列 423/423 结构、哈希和官方划分检查通过，当前传输/处理错误 0；单例 Test 坐标异常转 Q05 | 队列完整性已解决；细尺度映射覆盖率保留，不能将哈希通过解释为全部图像视觉对齐通过 |
 | Q03 | 区域物理范围、尺度/步长、成本参考单位、预算与运行规模 | 是 P1 中待事实支持的配置，不是重新选主方案；在训练前登记最终配置 |
 | Q04 | 16:40 核查：5090 32607 MiB、使用 1097 MiB；25 核/90 GiB 限额，cgroup 内存约 31.5 GiB；数据盘约 131 GiB 可用 | 环境正常，无新增安装；数值为快照，后续运行规模仍按真实数据定；不视为训练已启动 |
+| Q05 | 一例 Test：1,918 fine 中 1,407 完全超出官方 OME 范围，fine 最大坐标与图像尺寸明显不匹配 | 原始 fine/当前区域产物保留，原因待核；不自动缩放、移位或剔除该病例，不影响 Train/Validation 入口准备，但正式 Test 前必须解决映射/处理协议 |
 
 资产明细及历史错误已在长期方案档案/历史发现中保存，本表不另造重复资产清单。任务开展时新增问题沿用 Q 编号；已解决项记录证据与关闭条目。
 
@@ -137,3 +138,15 @@
 - 可追溯性：322 份来自全队列作业 commit 2eed94f，三份先导来自 a0c4a61/5da59f8，共同配置哈希一致、产物哈希及结构通过。保留实际来源差异，不把当前 Git HEAD 反写为全部产物来源。一轮临时只读核查程序留在服务器 audit 和仓库外本机资产目录，不另建算法版本脚本。
 - 结论：可以立即继续 Train 数据加载、可变 R/k 批处理和训练入口准备，不必等待 Test 传完；这些是下一项最小准备工作，输出应为可复用加载/批处理接口和真实 Train 软件检查记录。正式训练尚未启动：训练编排、模型选择规则与具体运行配置未完成登记，PPO padding/rollout 适配也仍缺。Q01 临床随访/独立患者映射缺口继续保留，但不阻止接口准备。
 - 本轮边界：完成状态核查并保存/同步文档与汇总后停止；本机继续联网以保持中转，暂无用户手动操作。后续先查实时进度再开展已登记的准备任务，不能把此快照当作全队列完成回执。
+
+### W008｜2026-10-09 19:05 起：单例补传、全队列核查与预测器训练入口（完成）
+
+- 用户授权：检查传输是否完成并开展下一步。基准 commit `aab9bd273e1b93556a0bae6367fac9f226b84a27`。本轮范围为补齐资产、全队列检查、Train 加载/病例批处理、full/align/partial 训练入口及软件检查；未启动正式优化、Validation/Test 预测或 PPO。
+- 完成恢复：原队列实际为 422/423，1 例 Test 低倍率读取报 `Incomplete range`；原中转和区域任务均已退出，不是仍在传输。短 HTTP body 被 ValueError 抛出，未进入已有重试；修为 OSError，保留五次重试、Range/CRC/字节限额与分段复用。只补缺失图像，新增传输 6,777,045 字节，成功后服务器续跑，422 份完成资产校验复用。原错误 receipt/log 与恢复前 summary 保留；当前完成 423/423、pending=0、errors=[]，无后台准备任务继续。本机无需再为该队列保持下载。
+- 数据结果：156,395 个 RGB 候选区域，2,179,406 fine patch 中 2,175,619 分配到候选，候选外 3,787；部分边缘补齐 3,357、完全图像外 1,407。全部 423 份 NPZ 哈希、共同配置、有限值、CSR/数量/唯一归属/索引和官方 255/84/84 划分检查通过。[全队列结构回执](../records/server_s2_training_interface_20261009/asset_status.json)保留不同作业 commit 来源；最终 summary 的当前 commit 不是全部产物的生成来源。
+- Q05：全部 1,407 个完全越界 patch 来自一例 Test（原 fine 共 1,918），最大 fine 坐标显著大于官方 OME level0 尺寸；[异常事实](../records/server_s2_training_interface_20261009/geometry_anomaly.json)。仅确认坐标/尺寸不匹配，未认定源头原因，不自动缩放/移位/剔除。Train/Validation 无该完全越界异常；原 fine 和当前产物保留。结构通过不等于全部视觉对齐正确，正式 Test 前需解决。
+- 实现：`training_data.py` 实际官方 Train manifest 加载，target/inputs 分离，仅按选区读取 UNI；按 case/seed/epoch 采样并保留 ragged 病例 batch，不固定 R/k、不跨病例汇聚，拒绝未适配的多切片 case。显式 Validation 仅可用于模型选择，Test 加载拒绝。`training_stages.py` 三个阶段的冻结/损失与部分 TSU 更新；`train_predictor.py` 分阶段优化、固定 Validation 选择、正确前驱权重/配置/资产指纹、私有 run/epoch/checkpoint/完成记录。默认执行真实 Train 检查，实际优化需显式 execute；本轮不调用 execute。
+- 配置：登记 `configs/predictor_p1_candidate.json` 的起始参数及来源；partial Train 零/完整各 25%、中间 50%；30 epoch、病例 batch2、AdamW1e-4 等均为首个工程候选，不称最优。full 用 Validation BCE、align 用对齐＋TSU MSE、partial 用固定零/随机/完整 BCE 等权均值，平局首次；Test 不参与。P1 方法与奖励未改、PPO 预算/N_ref 未定。
+- 实际验证：21 项软件测试通过；真实两例 Train 的 577/433 个区域、8,246/6,127 fine 分别在 CPU 和 RTX5090 完成 full/align/partial 的前向/反向及冻结检查，partial 另明确覆盖零和中间证据。损失/梯度有限、冻结参数无梯度；optimizer_steps=0，无 checkpoint、无预测性能指标。回执见[CPU](../records/server_s2_training_interface_20261009/preflight_cpu_complete.json)、[CUDA](../records/server_s2_training_interface_20261009/preflight_cuda_complete.json)、[实现来源/恢复说明](../records/server_s2_training_interface_20261009/implementation_receipt.json)。完整 epoch 优化、checkpoint 文件及 Validation 执行尚未实际验证，不能说正式训练已完成。
+- 成本记录限制：旧 relay 每图失败时未返回累计 bytes，成功 receipt 的加和缺少该类失败传输；当前 summary network_bytes 也只描述服务器读取，不覆盖本机中转及旧尝试。不得以这些和数宣称完整实际网络或端到端计算成本。
+- 下一最小工作：以 255 Train/84 Validation、区域资产及候选配置运行 full 阶段训练，记录独立 run ID、源码/配置/数据来源与模型选择；输出可重载的 best checkpoint 和真实日志，再开展 align/partial。PPO 适配与 Q05 调查可另行安排，不将当前未训练 TSU 用于正式策略实验。本轮保存并同步后停止，不自动启动优化或 Test。

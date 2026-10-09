@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-10-09T11:08:00.264203+00:00",
+  "source_checkout": "aab9bd273e1b93556a0bae6367fac9f226b84a27",
+  "scope": "All 423 completed regional assets after single-case recovery; no active cohort job",
+  "expected_images": 423,
+  "completed_assets_inspected": 423,
+  "completed_assets_passed": 423,
+  "asset_error_count": 0,
+  "prepared_by_official_split": {
+    "train": 255,
+    "validate": 84,
+    "test": 84
+  },
+  "preprocessing_source_commits": {
+    "2eed94fdcc5dc28e4e35fc444a0cde1f8df4078d": 419,
+    "a0c4a61482f6c39f2d10e105acb16e08fea5e459": 1,
+    "5da59f8dcd7cd115ed37c162c7e586d5f65105f2": 2,
+    "aab9bd273e1b93556a0bae6367fac9f226b84a27": 1
+  },
+  "shared_config_sha256": "257fe7699bcd29c622d44c76339eb11a780fbd6e10ba0cd558c7be14e68fdf61",
+  "case_split_overlap": 0,
+  "regions_min_max": [
+    41,
+    733
+  ],
+  "totals_for_inspected_assets": {
+    "fine_patch_count": 2179406,
+    "fine_patches_assigned": 2175619,
+    "fine_patches_outside_rgb_candidates": 3787
+  },
+  "checks": [
+    "NPZ SHA256",
+    "Shared configuration",
+    "Official cohort and split membership",
+    "Original fine path exists and matches input",
+    "Finite coarse/geometry",
+    "CSR/count/index ownership and range",
+    "Nonempty required RGB products"
+  ],
+  "not_checked": [
+    "Visual alignment of every image",
+    "Raw clinical follow-up/independent patient identity",
+    "Model performance"
+  ],
+  "no_training_or_prognosis_evaluation": true,
+  "initial_live_summary_completed": 423,
+  "live_summary_at_end": 423,
+  "whole_cohort_structural_completion": true
+}

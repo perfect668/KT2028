@@ -52,7 +52,7 @@ class RelayFile(io.RawIOBase):
                 with self.lock:
                     self.bytes+=len(data)
                     if self.bytes>self.cap:raise ValueError('Network byte cap exceeded')
-                if len(data)!=count:raise ValueError('Incomplete range')
+                if len(data)!=count:raise OSError('Incomplete range')
                 temp=cached.with_suffix('.partial');temp.write_bytes(data);temp.replace(cached)
                 return data
             except (OSError,urllib.error.URLError):

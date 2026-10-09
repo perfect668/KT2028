@@ -35,3 +35,21 @@ def test_completed_fragment_survives_a_network_retry_and_is_reused(tmp_path,monk
     assert r.chunk(0,11)==b'hello-world'
     assert r.chunk(0,11)==b'hello-world'
     assert len(calls)==2 and r.bytes==11
+
+
+def test_short_successful_http_body_is_retried_and_charged(tmp_path,monkeypatch):
+    from kt2028 import prefetch_rgb_cache as module
+    calls=[]
+    class Response:
+        status=206
+        headers={'Content-Range':'bytes 0-10/11'}
+        def __enter__(self):return self
+        def __exit__(self,*args):pass
+        def read(self,n):return b'hello' if len(calls)==1 else b'hello-world'
+    def urlopen(*args,**kwargs):
+        calls.append(args);return Response()
+    monkeypatch.setattr(module.urllib.request,'urlopen',urlopen)
+    monkeypatch.setattr(module.time,'sleep',lambda _:None)
+    r=RelayFile({'path':'test.zip','size':11},tmp_path/'ranges',100,1)
+    assert r.chunk(0,11)==b'hello-world'
+    assert len(calls)==2 and r.bytes==16

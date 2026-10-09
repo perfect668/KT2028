@@ -1,0 +1,37 @@
+{
+  "baseline_commit": "aab9bd273e1b93556a0bae6367fac9f226b84a27",
+  "scope": "Complete cohort recovery and predictor training interfaces; no fitted experiment",
+  "software_tests_passed": 21,
+  "cpu_and_cuda_preflight": "preflight_cpu_complete.json / preflight_cuda_complete.json",
+  "source_sha256_lf_normalized": {
+    "kt2028/prefetch_rgb_cache.py": "18f644bddbd18075fc2c363383e08276f720accc1a2dd73e997b2669cea0ebef",
+    "kt2028/training_data.py": "d43d55cf603fd5ca40f99291398aeddf7cd45e9582c6fee55327df69049a01af",
+    "kt2028/training_stages.py": "197d9ff13fa3365b85fb3a3a99b7d673b67718e28de315a219fbba4de7032607",
+    "kt2028/prepare_training.py": "6b7550e1104a07898436673f506e2c5fc227146670f04ba3d02a9ecd1d3f28f4",
+    "kt2028/train_predictor.py": "18d8c2e79e0613066eeb2372458161ea3a974b4874c749915bfff0e1b6ea437f",
+    "configs/predictor_p1_candidate.json": "60b024cd83c47e41403fe8cfd568b5debbfb54585da3fdf845b6ecc78d17c5c4",
+    "tests/test_relay_recovery.py": "8df5571c56df04f8f267e31dde55e964964cb57f009aef4aa95ac68559f1ea7a",
+    "tests/test_p1_training_stages.py": "dc89aec056123699b6ef31cad7745341c3a753a0c3f2647371571588efb49402"
+  },
+  "relay": {
+    "initial_uploaded": 422,
+    "initial_failure_count": 1,
+    "failure": "Incomplete range was raised as ValueError outside transport retries",
+    "fix": "Short HTTP body raises OSError, retried within existing five-attempt and byte limits; invalid range/CRC/cap remain errors",
+    "retry_uploaded": 1,
+    "retry_errors": 0,
+    "retry_network_bytes": 6777045,
+    "final_expected_and_uploaded": 423,
+    "original_error_receipt_preserved": true,
+    "transmission_cost_limitation": "Successful receipts omit bytes consumed by failed attempts whose per-image receipt was not returned. Sum is not exact total end-to-end or cohort download cost."
+  },
+  "asset_check": "All 423 registered NPZ assets passed structural/hash checks; geometry_anomaly.json remains unresolved for one Test case",
+  "no_optimizer_steps_or_checkpoints": true,
+  "no_validation_test_prognosis_evaluation": true,
+  "remaining_work": [
+    "Execute and verify staged optimization/checkpoint selection under a registered run",
+    "Resolve one Test coordinate-to-OME mismatch",
+    "SB3 padding/rollout adapter and PPO cost/budget protocol",
+    "Raw clinical follow-up and independent patient mapping still unavailable"
+  ]
+}

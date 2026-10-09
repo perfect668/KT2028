@@ -1,0 +1,23 @@
+{
+  "scope": "One Test-case geometry anomaly; no endpoint evaluation",
+  "fine_patch_count": 1918,
+  "fine_coords_min_xy": [
+    256,
+    0
+  ],
+  "fine_coords_max_xy": [
+    200512,
+    62325
+  ],
+  "official_ome_l0_shape_yx": [
+    50846,
+    56293
+  ],
+  "fully_outside_count": 1407,
+  "affected_case_count": 1,
+  "affected_split": "test",
+  "cause": "Unresolved coordinate/image extent mismatch; not automatically corrected or excluded",
+  "training_cases_affected": 0,
+  "raw_fine_preserved": true,
+  "no_test_prognosis_evaluation": true
+}

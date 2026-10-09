@@ -1,0 +1,93 @@
+{
+  "scope": "Real Train ragged loading and staged backward software preflight",
+  "device": "cuda",
+  "official_train_cases": 255,
+  "manifest_sha256": "af67f405c4cb3a418a37b00dd6108d887d34a63d4d1164b6701bdb37089e1d39",
+  "checks": [
+    {
+      "stage": "full",
+      "evidence": "full",
+      "cases": 2,
+      "region_counts": [
+        577,
+        433
+      ],
+      "acquired_patch_counts": [
+        8246,
+        6127
+      ],
+      "finite_loss_and_gradients": true,
+      "frozen_parameters_without_gradients": true,
+      "tsu_supervision_pairs": 0
+    },
+    {
+      "stage": "align",
+      "evidence": "full",
+      "cases": 2,
+      "region_counts": [
+        577,
+        433
+      ],
+      "acquired_patch_counts": [
+        8246,
+        6127
+      ],
+      "finite_loss_and_gradients": true,
+      "frozen_parameters_without_gradients": true,
+      "tsu_supervision_pairs": 256
+    },
+    {
+      "stage": "partial",
+      "evidence": "random",
+      "cases": 2,
+      "region_counts": [
+        577,
+        433
+      ],
+      "acquired_patch_counts": [
+        8246,
+        0
+      ],
+      "finite_loss_and_gradients": true,
+      "frozen_parameters_without_gradients": true,
+      "tsu_supervision_pairs": 0
+    },
+    {
+      "stage": "partial",
+      "evidence": "zero",
+      "cases": 2,
+      "region_counts": [
+        577,
+        433
+      ],
+      "acquired_patch_counts": [
+        0,
+        0
+      ],
+      "finite_loss_and_gradients": true,
+      "frozen_parameters_without_gradients": true,
+      "tsu_supervision_pairs": 0
+    },
+    {
+      "stage": "partial",
+      "evidence": "intermediate",
+      "cases": 2,
+      "region_counts": [
+        577,
+        433
+      ],
+      "acquired_patch_counts": [
+        4123,
+        3058
+      ],
+      "finite_loss_and_gradients": true,
+      "frozen_parameters_without_gradients": true,
+      "tsu_supervision_pairs": 0
+    }
+  ],
+  "random_initialization": true,
+  "optimizer_steps": 0,
+  "checkpoint_saved": false,
+  "validation_or_test_prediction": false,
+  "limitations": "Gradient checks do not demonstrate prognosis quality; optimizer/checkpoint/Validation execution of the staged runner has not been exercised"
+}

@@ -1,0 +1,18 @@
+{
+  "status": "Registered first engineering candidate; not trained or performance-validated",
+  "latent_dim": 256,
+  "attention_branches": 4,
+  "tsu_threshold": 0.9,
+  "seed": 41,
+  "epochs": 30,
+  "batch_cases": 2,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "gradient_clip": 5.0,
+  "max_tsu_pairs": 128,
+  "endpoint_probability": 0.25,
+  "selection_rule": "minimum_fixed_validation_objective_first_tie",
+  "selection_details": "full: Validation BCE; align: Validation alignment MSE plus bounded TSU-pair MSE; partial: equal mean of zero/random/full Validation BCE with fixed random states. Test unused.",
+  "sampling_details": "Train partial: 25% zero, 25% full, 50% uniform intermediate acquisition count; deterministic per case, seed and epoch. No independent-patient augmentation claim.",
+  "parameter_origin": "P1 latent/head/TSU candidates; optimizer, epochs, batch and sampling are engineering starting values, not literature-proven optima. No PPO N_ref/budget protocol selected."
+}

@@ -29,3 +29,21 @@ GitHub 同步：服务器 origin 指向正式仓库，使用 `research/p1-restar
 慢速外网接入：官方 `/info` API 提供直接 HTTPS 文件入口，`prefetch_rgb_cache` 只获取选定低倍率层的 ZIP 条目并检查 CRC。`relay_cohort` 在本机分段下载后传至服务器，成功传输才写 `.relay_ready`；`prepare_regions --wait-for-relay` 只处理 ready 的病例并禁止网络回退。服务器将所选数组的原始编码分片暂存到本地 Zarr，再交由原生 codec 解码，避免每个内层 chunk 重读整块 ZIP。完整原图不下载；低倍率缓存仍占空间并产生传输/前处理成本。中转任务依赖本机联网，进度和 PID 在工作日志/资产目录，不是定时任务。
 
 更换低倍率层或数据来源时重新核准缓存就绪标记和最终中转回执，不将旧标记视为新层已下载。缺片/超出字节或内存上限时保留失败，不默默降倍率、改变队列或改组织阈值。
+
+## 训练准备与阶段入口
+
+`training_data.py` 使用实际官方 manifest 的 `partition/canonical_case_key/label/slides`，按完整、零或随机部分证据读取真 UNI；target 与模型 inputs 分开。随机部分按每个 case/seed/epoch 固定 RNG，候选分布为 25% 零、25% 完整、50% 中间；读取仅限选中的区域。病例 batch 保留为 ragged 列表，每病例独立汇聚，不拼成同一个患者。不把多张切片误当多个患者；当前官方清单每 case 一张，出现多张时显式拒绝，等待明确聚合扩展。
+
+`training_stages.py` 实现 full BCE、冻结 fine 的 coarse/TSU MSE 对齐、冻结底层的部分证据 BCE；局部/患者门控注意力仍是 P1 适配，不是原 HAFED 全损失复现。对齐每病例最多采样 128 对候选相似区域，排除自配对；该数是计算上界候选，不是医学最优参数。
+
+`train_predictor` 是三个阶段的可执行入口，默认仅调用真实 Train CPU 检查。只有传 `--execute` 才运行优化和 Validation 模型选择；后两阶段需前一阶段 checkpoint，检查架构、清单与区域资产指纹。正式执行前核对 `configs/predictor_p1_candidate.json` 中登记的工程起始配置。输出目录必须不存在；运行配置/来源、逐 epoch 记录、最佳 checkpoint 和完成回执留服务器，不提交 GitHub。Test 不提供加载入口。当前实际只检查随机初始化前向/反向，完整优化、checkpoint 写入和 Validation 流程尚未执行验证。
+
+```sh
+python -m kt2028.train_predictor --stage full \
+  --config configs/predictor_p1_candidate.json \
+  --train-manifest /path/to/train_asset_manifest.json \
+  --validation-manifest /path/to/validate_asset_manifest.json \
+  --regions /path/to/region_assets --output /path/to/new_check_receipt.json
+```
+
+这条默认命令不加载 Validation、不更新参数。已完成的 CPU/CUDA 检查见[本轮记录](../records/server_s2_training_interface_20261009/preflight_cuda_complete.json)。全队列产物结构/哈希通过，仍有一例 Test 的官方 UNI 坐标与 OME 尺寸不一致，不能据“423 份哈希通过”声称全队列几何已正确；该异常保持开放。
