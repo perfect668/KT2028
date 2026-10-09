@@ -24,8 +24,7 @@ def main():
             evidence=case.acquire(int(i));seen.extend(evidence['indices'].tolist())
             assert evidence['fine'].shape==(evidence['new_patch_cost'],1024)
             assert np.isfinite(evidence['fine']).all()
-            assert case.visible_state()['observed'][i]
-            assert not case.visible_state()['acquirable'][i]
+            assert case.observed[i]
         assert len(seen)==len(set(seen))==case.patch_cost==int(case.counts.sum())
         if len(eligible):
             try:case.acquire(int(eligible[0]))

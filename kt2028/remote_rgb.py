@@ -6,6 +6,7 @@ import threading
 import time
 import zipfile
 from pathlib import Path
+from urllib.parse import urlparse
 
 import numpy as np
 import requests
@@ -13,10 +14,10 @@ import zarr
 
 
 class CachedRangeFile(io.RawIOBase):
-    def __init__(self, url, size, cache_root, cap_bytes):
+    def __init__(self, url, size, cache_root, cap_bytes, cache_identity=None):
         self.url, self.size, self.cap = url, int(size), int(cap_bytes)
         self.pos = self.bytes_received = self.requests_made = self.cache_hits = 0
-        identity = hashlib.sha256(f'{url}\n{size}'.encode()).hexdigest()
+        identity = hashlib.sha256(f'{cache_identity or url}\n{size}'.encode()).hexdigest()
         self.cache = Path(cache_root) / identity
         self.cache.mkdir(parents=True, exist_ok=True)
         self.session = requests.Session()
@@ -49,6 +50,7 @@ class CachedRangeFile(io.RawIOBase):
                 raise TimeoutError('Per-image 20 minute deadline exceeded')
             try:
                 self.requests_made += 1
+                if count >= 1024**2: print(f'RANGE_FETCH bytes={count} attempt={attempt+1}',flush=True)
                 with self.session.get(self.url, headers={'Range':f'bytes={start}-{start+count-1}'},
                                       timeout=(15,40), stream=True) as response:
                     if response.status_code in (429,500,502,503,504):
@@ -91,8 +93,12 @@ class CachedRangeFile(io.RawIOBase):
 
 def read_low_rgb(source, config, cache_root):
     """Read a whole low-resolution RGB plane, never a whole WSI archive."""
-    url = 'https://www.ebi.ac.uk/biostudies/files/S-BIAD1285/'+source['path']
-    raw = CachedRangeFile(url,source['size'],cache_root,config['max_network_bytes_per_image'])
+    canonical = 'https://www.ebi.ac.uk/biostudies/files/S-BIAD1285/'+source['path']
+    url = source.get('url',canonical)
+    parsed=urlparse(url)
+    if parsed.scheme!='https' or parsed.hostname not in ('www.ebi.ac.uk','ftp.ebi.ac.uk'):
+        raise ValueError('Only verified official HTTPS sources accepted')
+    raw = CachedRangeFile(url,source['size'],cache_root,config['max_network_bytes_per_image'],canonical)
     store = None
     try:
         with zipfile.ZipFile(raw) as archive:

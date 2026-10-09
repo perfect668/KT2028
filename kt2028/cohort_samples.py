@@ -6,7 +6,14 @@ from pathlib import Path
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--s1',type=Path,required=True)
-    ap.add_argument('--output',type=Path,required=True);args=ap.parse_args()
+    ap.add_argument('--output',type=Path,required=True)
+    ap.add_argument('--study-info',type=Path,help='Actual official /info API response, for direct HTTPS source')
+    args=ap.parse_args()
+    direct=None
+    if args.study_info:
+        direct=json.loads(args.study_info.read_text())['httpLink'].rstrip('/')+'/Files/'
+        if not direct.startswith('https://ftp.ebi.ac.uk/biostudies/'):
+            raise ValueError('Unexpected official direct host/path')
     images=json.loads((args.s1/'ome_file_list.json').read_text())
     image_map={Path(i['path']).name.removesuffix('.ome.zarr.zip'):i for i in images if '/SR386_' in i['path']}
     rows=[];cases=set();slides=set()
@@ -21,7 +28,9 @@ def main():
                 if slide in slides:raise ValueError('Cross-case slide duplication')
                 if slide not in image_map:raise ValueError('Missing official image')
                 slides.add(slide)
-                rows.append({'slide_id':slide,'source':image_map[slide],'fine_path':s['features_path']})
+                source=dict(image_map[slide])
+                if direct:source['url']=direct+source['path']
+                rows.append({'slide_id':slide,'source':source,'fine_path':s['features_path']})
     with args.output.open('x') as f:json.dump(rows,f,indent=2)
     print('COHORT_INPUTS '+json.dumps({'cases':len(cases),'slides':len(slides),'labels_in_inputs':False}),flush=True)
 
