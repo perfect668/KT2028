@@ -1,0 +1,5 @@
+{
+  "completed_epochs": 30,
+  "best_checkpoint_sha256": "4d3f307f30efcb3f3fc0620518fd75282615d934be3754c63cd4dfefcc1bd6be",
+  "test_used": false
+}

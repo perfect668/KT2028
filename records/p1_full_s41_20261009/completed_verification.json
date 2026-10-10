@@ -1,0 +1,80 @@
+{
+  "checked_at": "2026-10-10T01:18:09.675395+00:00",
+  "run_id": "p1_full_s41_20261009",
+  "training_source_commit": "534bc98e941768b8a60c5101574a6e4d06f52b62",
+  "checked_checkout_commit": "de4fb33b2838913e624a7be561c6fdf1f2478c09",
+  "completed_epochs": 30,
+  "checkpoint_sha256": "4d3f307f30efcb3f3fc0620518fd75282615d934be3754c63cd4dfefcc1bd6be",
+  "selected_epoch_one_based": 2,
+  "selection_rule": "Minimum Validation BCE, first tie; not maximum AUROC",
+  "selected_metrics_reloaded": {
+    "train": {
+      "cases": 255,
+      "auroc": 0.7783225806451614,
+      "brier": 0.2041389465721425,
+      "bce": 0.5917927145957946,
+      "probability_min_max": [
+        0.13439886271953583,
+        0.707844078540802
+      ]
+    },
+    "validate": {
+      "cases": 84,
+      "auroc": 0.6796296296296296,
+      "brier": 0.21198596434468536,
+      "bce": 0.607870471974214,
+      "probability_min_max": [
+        0.1403602957725525,
+        0.6921838521957397
+      ]
+    }
+  },
+  "train_prevalence_baseline": {
+    "train_prevalence": 0.39215686274509803,
+    "validation_auroc": 0.5,
+    "validation_brier": 0.23081781732300768,
+    "validation_bce": 0.6543580464288776,
+    "fit_scope": "Train prevalence only; no additional trained baseline"
+  },
+  "last_epoch": {
+    "epoch": 29,
+    "train_objective": 0.000206627649304009,
+    "validation_objective": 2.870032891434638,
+    "validation_modes": [
+      "full"
+    ],
+    "validation_metrics": {
+      "full": {
+        "auroc": 0.721604938271605,
+        "brier": 0.3390284501041809,
+        "bce": 2.870032891434638,
+        "cases": 84
+      }
+    }
+  },
+  "peak_validation_auroc_epoch": {
+    "epoch": 16,
+    "train_objective": 0.017575958551887927,
+    "validation_objective": 2.0344838124410236,
+    "validation_modes": [
+      "full"
+    ],
+    "validation_metrics": {
+      "full": {
+        "auroc": 0.7320987654320987,
+        "brier": 0.34120064511719556,
+        "bce": 2.0344838124410236,
+        "cases": 84
+      }
+    }
+  },
+  "test_used": false,
+  "later_stages_launched": false,
+  "inference": "Later epochs fit Train increasingly while Validation BCE deteriorates markedly; observed overfitting/probability overconfidence, not evidence that dataset expansion is required or sufficient",
+  "limits": [
+    "Validation was used to select this checkpoint, not independent Test",
+    "Single seed; no statistical superiority claim",
+    "Selected epoch is unchanged by this post-run verification",
+    "Train epoch objectives were online batch averages, distinct from reloaded Train metrics"
+  ]
+}

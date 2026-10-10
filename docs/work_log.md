@@ -6,21 +6,21 @@
 
 ## 当前状态
 
-最后更新：2026-10-09；最近完成 W008；W009 第一阶段 full 训练运行中，已完成第一 epoch。W005 全队列准备已完成，单例 Test 几何异常单列 Q05。
+最后更新：2026-10-10；W009 第一阶段 full 30 epoch 完成并重载核实，W010 完成结果核查与备份。W005 全队列准备已完成，单例 Test 几何异常单列 Q05。
 
 | 项目 | 当前事实 |
 | --- | --- |
 | 研究方案 | P1；双尺度部分观察预后建模＋TSU/预算自适应选区与 STOP；完整定义只见长期方案第 0 节 |
-| 工作阶段 | S3 首个 full 训练已启动；run=p1_full_s41_20261009，训练源码 534bc98、PID56993；既有 255/84/84 不变，Test 不用 |
+| 工作阶段 | S3 首个 full 已完成；run=p1_full_s41_20261009，训练源码 534bc98，进程已退出；既有 255/84/84 不变，Test 不用 |
 | 最近完成 | 项目环境/国内源/CUDA/预训练 ResNet18 检查；427 份 fine 全量解码；三张 Train 图像的成熟 Zarr 读取、物理尺度和坐标叠加检查 |
 | 工作区基准 | `D:\codex\开题2028\KT2028`，`research/p1-restart`；P1 初始存档 909b0fc，全队列作业源码 2eed94f；当前 HEAD 另按 Git 核对 |
 | 保存/备份状态 | 重要源码、P1 文档、S1/S2 汇总已提交并推送专用分支，服务器 Git checkout 通过 bundle 同步；大数据/标签清单与权重不进 GitHub。低倍率中转缓存另在本机资产目录 |
-| 实现状态 | 数据/预后/TSU/episode 和三个预测器阶段训练入口已实现；21 项软件测试、真实 Train CPU/CUDA 梯度检查通过。优化与 checkpoint/Validation 执行未验证，SB3 padding/rollout 未完成；所有新网络未训练 |
-| 实验状态 | 第一阶段单 seed/30 epoch 实际优化与 Validation 选择运行中，首 epoch BCE/AUROC/Brier 与 checkpoint 重载已核实；不是最终结果。PPO、后续预测器阶段和 Test 尚未运行 |
+| 实现状态 | full 优化、Validation 选择、checkpoint 重载已实际验证；已有预后 full 权重。align/partial 仅接口检查，TSU/策略未训练，SB3 padding/rollout 未完成 |
+| 实验状态 | full seed41/30 epoch 完成；按 Val BCE 选第2轮，重载 Val AUROC0.67963/BCE0.60787/Brier0.21199。后期明显过拟合；单 seed/model-selection Val，非 Test 结论 |
 | 当前执行范围 | 用户已明确授权先训练看效果：full Train 拟合与已登记 Validation 选择/查看；不扩数据、不运行 align/partial/PPO 或 Test；持续阶段存档 |
-| 当前接续位置 | 核查 W009 PID56993、training.log、epochs.jsonl 与 completion.json；完成后重载最佳权重核对 Validation 结果，不重复启动训练或以首 epoch 代替完整结果。扩数据建议仅讨论，当前不下载/合并 |
+| 当前接续位置 | W009 训练结束，最佳权重已在服务器/本机双份保存；先讨论过拟合控制及必要 fine ABMIL 对照，再登记下一实验，不事后改选最大 AUROC checkpoint。扩数据建议仅讨论，不自动下载/合并或训练后续阶段 |
 
-“未开展”与“因缺资产无法开展”分开：目前开展数据审计，尚未启动模型实验。缺原始图像影响真实 coarse 输入，不影响现有 fine 特征核查。
+“未开展”与“因缺资产无法开展”分开：真实低倍率 coarse 已取得，full 模型实验已完成；原始高倍率 WSI 未整包保存，真实按需 UNI 提取计时尚未开展。
 
 ## 当前待解决事项
 
@@ -151,7 +151,7 @@
 - 成本记录限制：旧 relay 每图失败时未返回累计 bytes，成功 receipt 的加和缺少该类失败传输；当前 summary network_bytes 也只描述服务器读取，不覆盖本机中转及旧尝试。不得以这些和数宣称完整实际网络或端到端计算成本。
 - 下一最小工作：以 255 Train/84 Validation、区域资产及候选配置运行 full 阶段训练，记录独立 run ID、源码/配置/数据来源与模型选择；输出可重载的 best checkpoint 和真实日志，再开展 align/partial。PPO 适配与 Q05 调查可另行安排，不将当前未训练 TSU 用于正式策略实验。本轮保存并同步后停止，不自动启动优化或 Test。
 
-### W009｜2026-10-09：第一阶段 full 预后训练（运行中）
+### W009｜2026-10-09：第一阶段 full 预后训练（30 epoch 完成；2026-10-10 重载核实）
 
 - 用户明确授权先训练一个看效果，并询问是否应先扩数据。执行范围：既有 255 Train/84 Validation、第一阶段 full、seed41、30 epoch、病例 batch2、AdamW1e-4；沿用已登记候选配置，Validation BCE 最小选 checkpoint（平局首次），同时记录 AUROC/Brier。Test、后续 align/partial/PPO、扩充数据均不在本轮范围。
 - run ID：`p1_full_s41_20261009`；私有输出目录 `/root/autodl-tmp/KT2028/runs/p1_full_s41_20261009`，启动日志/PID 留独立 audit 目录。启动前核查现有区域资产与 Train/Val 不重叠；源码基准 f517efe，本次补充指标记录和 CPU 线程限制，无模型/损失/选择规则改变。
@@ -159,3 +159,13 @@
 - 实际启动：北京时间 19:35，源码 `534bc98e941768b8a60c5101574a6e4d06f52b62`，PID 56993；日志 `/root/autodl-tmp/KT2028/audit/p1_full_s41_20261009/training.log`，结果 `runs/p1_full_s41_20261009/epochs.jsonl`，完成必须看 `completion.json`。12 项相关软件检查通过；已有环境/数据，无新增依赖或下载。[启动记录](../records/p1_full_s41_20261009/process.json)。实际清单 label1（按官方编码为五年内死亡）Train100/255、Val30/84，参考[标签计数](../records/p1_full_s41_20261009/cohort_counts.json)。
 - 首轮实际证据：epoch0 Train 在线 batch 平均 BCE 0.67252、Validation BCE 0.65546、AUROC 0.67716、Brier 0.23148；84 Val，非独立 Test，不把训练过程在线 BCE 叫作最终 Train 评价。best checkpoint 已生成并通过 weights_only＋strict state_dict 重载；[首 epoch 快照](../records/p1_full_s41_20261009/first_epoch_snapshot.json)记录当时 SHA，后续 best 更新时该 SHA 不再表示当前文件。训练继续，当前尚无 30 epoch 完成回执，不判定算法有效/最终性能。
 - 用户中途询问扩数据：建议优先 [TCGA-COAD](https://portal.gdc.cancer.gov/projects/TCGA-COAD) / [TCGA-READ](https://portal.gdc.cancer.gov/projects/TCGA-READ)，先临床随访＋Diagnostic Slide 清单，筛五年结局可确定的病例再按需取 WSI；有 [GDC 官方获取说明](https://gdc.cancer.gov/access-data/gdc-data-portal)。[CPTAC-COAD](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=70227852) 是后备，病理与临床来源明确，但实际五年随访完整病例数未查，不能承诺新增规模。五年前无死亡且失访不当作五年存活；GDC 随访字段需含 follow_ups，参见[2026 官方变更](https://docs.gdc.cancer.gov/Data_Portal/Release_Notes/Data_Portal_Release_Notes/)。仅建议，未下载或改主方案/当前队列；独立外部验证或扩 Train 用途应后续明确。
+- 结束确认：30 行 epoch0–29 连续、完成回执 completed_epochs=30，PID56993 已退出。最佳 checkpoint 仍为 epoch1（第2轮），SHA256 `4d3f307f30efcb3f3fc0620518fd75282615d934be3754c63cd4dfefcc1bd6be` 与 completion 匹配；最终结果与局限见 W010，早期快照保留历史身份。
+
+### W010｜2026-10-10：完整训练结果核查、重载与双份权重备份（完成）
+
+- 任务：用户报告训练完成，核查此前授权的 full 实验产物、模型选择和实际效果。核查 checkout `de4fb33b2838913e624a7be561c6fdf1f2478c09`；训练源码仍为 534bc98，不修改算法、不启动新训练/后续阶段或 Test。
+- 实际验证：完成回执、30 行连续日志、最小 Validation BCE epoch、权重 SHA 全部一致；weights_only/strict state_dict 重载，用原 255 Train/84 Validation 重新前向。Validation BCE/AUROC/Brier 与选中 epoch 日志差异 <1e-6。患者级预测仅留服务器私有 audit，不提交 GitHub。[重载核查](../records/p1_full_s41_20261009/completed_verification.json)、[完整 epoch 记录](../records/p1_full_s41_20261009/epochs.jsonl)、[完成回执](../records/p1_full_s41_20261009/completion.json)。
+- 第2轮选中模型重载：Train AUROC0.77832、BCE0.59179、Brier0.20414；Validation AUROC0.67963、BCE0.60787、Brier0.21199。只按 Train 正例比例100/255给恒定风险的参考在 Val AUROC0.5、BCE0.65436、Brier0.23082；只是常数参考，不代替 fine ABMIL/其他成熟模型对照。不根据该差值声称统计显著或泛化已证实。
+- 过拟合证据：第30轮 Train 在线 batch BCE0.0002066，Val BCE2.87003/Brier0.33903；最高 Val AUROC0.73210 出现在第17轮，但 BCE2.03448/Brier0.34120。不事后将该轮替代事先登记 BCE 选出的模型，也不把最高 AUROC 当作最终模型指标。后期排序指标与概率质量明显分离；初版有一定区分能力、容易过拟合，现有证据不能证明扩数据必需/充分，也不能证明可靠的部分观察或 RL 效果。
+- 权重备份：服务器 `runs/p1_full_s41_20261009/best.pt` 与本机仓库外 `D:\codex\开题2028\KT2028-assets\checkpoints\p1_full_s41_20261009\best.pt` 均实际存在，SHA相同。仅约4.1MiB自训权重备份，不是新增预训练权重/数据下载；不入 GitHub。日志与小型汇总按专用分支持续存档。
+- 限制/下一最小建议：单 seed，84 Val 已用于选模型，不能当独立 Test；Q01 原随访/临床身份、Q05 Test 几何保持开放。建议先登记一个受控过拟合处理/必要 fine ABMIL 对照，固定划分、成本范围与选择规则后比较，不直接认为需扩大数据；现行 P1 不自动修改，不把指标设为开展 RL 的通关门槛。本轮核查/备份/存档后停止。
