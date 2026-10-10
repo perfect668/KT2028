@@ -110,7 +110,7 @@ STOP：      r = -BCE(y, p_T)
 
 ### 0.10 参数的来源与状态
 
-2026-10-09 S2 训练接口登记首个[工程候选配置](../configs/predictor_p1_candidate.json)：latent 256、四分支、TSU 0.9；AdamW 1e-4、weight decay 1e-4、30 epoch/阶段、病例 batch 2、梯度裁剪 5、seed 41；对齐每病例最多 128 对，部分状态采样零/完整各 25%、其余为均匀中间获取数量。它们是明确可运行的起点，尚未训练、不是性能最优值或全部实验最终配置。候选模型选择固定为最小 Validation 阶段目标，平局保留首次：full 为 BCE，align 为对齐＋TSU MSE，partial 为固定零/随机/完整状态 BCE 的等权平均；外层 Test 不参与。入口代码已实现，实际本轮仅 Train CPU/CUDA 前向与反向检查、无参数更新。以后改变这些运行选择须在配置和日志中记录，PPO 成本/预算仍未锁定。
+2026-10-09 S2 训练接口登记首个[工程候选配置](../configs/predictor_p1_candidate.json)：latent 256、四分支、TSU 0.9；AdamW 1e-4、weight decay 1e-4、30 epoch/阶段、病例 batch 2、梯度裁剪 5、seed 41；对齐每病例最多 128 对，部分状态采样零/完整各 25%、其余为均匀中间获取数量。它们是工程起点，不是性能最优值或全部实验最终配置。模型选择固定为最小 Validation 阶段目标，平局保留首次：full 为 BCE，align 为对齐＋TSU MSE，partial 为固定零/随机/完整状态 BCE 的等权平均；外层 Test 不参与。初次接口检查未优化；截至2026-10-10，full/align已各完成30轮，partial接续训练，证据见工作日志。配置内初始status是登记时状态，当前训练事实以run/完成回执为准。以后改变这些运行选择须在配置和日志中记录，PPO成本/预算仍未锁定。
 
 | 项目 | 当前状态 | 确定依据与后续记录 |
 | --- | --- | --- |

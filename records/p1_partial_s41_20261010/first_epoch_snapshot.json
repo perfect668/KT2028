@@ -1,0 +1,49 @@
+{
+  "run_id": "p1_partial_s41_20261010",
+  "checked_at": "2026-10-10T02:23:43.175264+00:00",
+  "training_source_commit": "95b7face17f1b72246847472c5cfd8d29a7d6b27",
+  "status": "running; actual predictor updates and strict checkpoint reload confirmed, not final results",
+  "completed_epochs_at_snapshot": 1,
+  "selected_epoch_zero_based_at_snapshot": 0,
+  "checkpoint_sha256_at_snapshot": "c1ba16f42f5519ef14ffe704ee4fd40be9b24d6346c5ecc3c9c4620a169ec5fe",
+  "all_frozen_model_tensors_equal_align_predecessor": true,
+  "frozen_model_tensors_checked": 10,
+  "all_tsu_tensors_equal_align_predecessor": true,
+  "frozen_tsu_tensors_checked": 6,
+  "trained_tensors_changed": 10,
+  "trainable_parameters": 69381,
+  "selected_epoch_at_snapshot": {
+    "epoch": 0,
+    "train_objective": 0.603022061843498,
+    "validation_objective": 0.6148702111982164,
+    "validation_modes": [
+      "zero",
+      "random",
+      "full"
+    ],
+    "validation_metrics": {
+      "zero": {
+        "auroc": 0.6753086419753086,
+        "brier": 0.22070596215522115,
+        "bce": 0.6330503253709703,
+        "cases": 84
+      },
+      "random": {
+        "auroc": 0.6827160493827161,
+        "brier": 0.2098195538971566,
+        "bce": 0.6047919076823053,
+        "cases": 84
+      },
+      "full": {
+        "auroc": 0.6796296296296296,
+        "brier": 0.211321870847394,
+        "bce": 0.6067684005413737,
+        "cases": 84
+      }
+    }
+  },
+  "selection_objective_verified": 0.6148702111982164,
+  "test_used": false,
+  "ppo_launched": false,
+  "limitations": "Validation used for checkpoint selection; first epoch is preliminary. Random mode includes endpoint masks. No independent Test or selected-region policy efficacy claim."
+}
