@@ -1,0 +1,52 @@
+{
+  "run_id": "p1_align_s41_20261010",
+  "checked_at": "2026-10-10T02:16:23.071514+00:00",
+  "checked_checkout_commit": "37a0356a07281779900c3c8b1cb235cddeb4689b",
+  "training_source_commit": "309a5250e84c2f6fa350281cef32ff7579eafafd",
+  "completed_epochs": 30,
+  "checkpoint_sha256": "1d0a9b33367ebd4350774b44908853497e55ae49f9236d733bb7a6db81ae56af",
+  "selected_epoch_one_based": 30,
+  "selection_rule": "minimum Validation alignment MSE plus TSU MSE, first tie",
+  "selected_epoch_log": {
+    "epoch": 29,
+    "train_objective": 0.1369423038819257,
+    "validation_objective": 0.1381688883439416,
+    "validation_modes": [
+      "full"
+    ],
+    "validation_metrics": {
+      "full": {
+        "cases": 84,
+        "alignment_mse": 0.05880661490595057,
+        "tsu_mse": 0.07936227401452405,
+        "tsu_pairs": 10752,
+        "cases_with_tsu_pairs": 84
+      }
+    },
+    "train_alignment": {
+      "cases": 255,
+      "alignment_mse": 0.056475839559354035,
+      "tsu_mse": 0.08046646414726388,
+      "tsu_pairs": 32640,
+      "cases_with_tsu_pairs": 255
+    }
+  },
+  "validation_reloaded": {
+    "alignment_mse": 0.05880661490595057,
+    "tsu_mse": 0.07936227401452405,
+    "matched_coarse_mse": 0.056861850610446366,
+    "matched_source_fine_mse": 0.06260421370998734,
+    "cases": 84,
+    "sampled_pairs": 10752,
+    "cases_with_pairs": 84,
+    "eligible_pair_fraction": 0.17884469027576047
+  },
+  "reloaded_selection_objective": 0.13816888892047463,
+  "all_frozen_tensors_equal_full_predecessor": true,
+  "frozen_model_tensors_checked": 18,
+  "coarse_tensors_changed": 2,
+  "tsu_tensors_changed": 6,
+  "matched_pair_diagnostic": "Post-training exploratory representation check on model-selection Validation; same sampled ordered pairs. Does not select a replacement model or establish prognosis/clinical benefit.",
+  "test_used": false,
+  "status": "30 epochs complete; strict reload and original Validation objective verified"
+}

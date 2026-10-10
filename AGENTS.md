@@ -40,6 +40,8 @@
 
 ## 执行原则
 
+- 2026-10-10 接续：用户报告 align 完成，结合此前要求开始主方法及既定接续顺序，本轮核查/备份 align 后继续登记、启动 partial。沿用相同配置、官方 Train/Validation 和已核实 align 最佳权重；冻结 fine/coarse/TSU，只训练 context、患者汇聚及预测头。记录零/随机/完整 Validation 指标与等权 BCE 选择；不以 TSU 训练损失下降宣称优于粗表示，不自动改结构、增 seed、启动 PPO/Test。本轮确认 partial 实际优化并存档后停止。
+
 - 2026-10-10 最新授权：用户要求进入自己的方法。继续既定 P1，启动 align（粗细对齐＋TSU）阶段，输入 W010 核实的 full 最佳 checkpoint，固定现有 Train/Validation、seed41 和候选配置；阶段诊断分别记录对齐 MSE、TSU MSE、实际配对数和冻结参数不变。随后接续 partial，再完成 PPO 接口/协议；本轮启动并确认 align 实际优化后停止，不自动串行启动 partial/PPO 或 Test，不增加基线作为主方法的前置门槛。以前每轮范围仅适用于对应历史任务。
 
 - 2026-10-09 后续授权：用户明确要求“先训练一个看看效果”，可启动第一阶段 full 预后训练及已登记的 Validation checkpoint 选择/指标查看。本轮单 seed、30 epoch，使用既有划分和候选配置；不扩数据、改终点、运行后续 align/partial/PPO 或 Test。长训练记录 run ID、源码和进程并核实已实际优化后汇报。

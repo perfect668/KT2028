@@ -6,19 +6,19 @@
 
 ## 当前状态
 
-最后更新：2026-10-10；W011 已启动 align 粗细对齐/TSU，前两轮及参数更新/冻结检查通过，后台继续30轮。W009/W010 full 已完成并重载备份；W005 全队列准备已完成，单例 Test 几何异常单列 Q05。
+最后更新：2026-10-10；W011 align 30轮完成并重载/备份，W012 登记 partial 并准备启动。TSU 同配对表示误差暂高于直接 coarse，负结果保留；W009/W010 full 已完成，单例 Test 几何异常仍为 Q05。
 
 | 项目 | 当前事实 |
 | --- | --- |
 | 研究方案 | P1；双尺度部分观察预后建模＋TSU/预算自适应选区与 STOP；完整定义只见长期方案第 0 节 |
-| 工作阶段 | S3 full 已完成；align run=p1_align_s41_20261010 正在运行，训练源码 309a525，PID77832；既有 255/84/84 不变，Test 不用 |
+| 工作阶段 | S3 full/align 已完成；接 partial run=p1_partial_s41_20261010；既有 255/84/84 不变，Test 不用 |
 | 最近完成 | 项目环境/国内源/CUDA/预训练 ResNet18 检查；427 份 fine 全量解码；三张 Train 图像的成熟 Zarr 读取、物理尺度和坐标叠加检查 |
 | 工作区基准 | `D:\codex\开题2028\KT2028`，`research/p1-restart`；P1 初始存档 909b0fc，全队列作业源码 2eed94f；当前 HEAD 另按 Git 核对 |
 | 保存/备份状态 | 重要源码、P1 文档、S1/S2 汇总已提交并推送专用分支，服务器 Git checkout 通过 bundle 同步；大数据/标签清单与权重不进 GitHub。低倍率中转缓存另在本机资产目录 |
-| 实现状态 | full 完成且可重载；align 粗投影/TSU 已实际更新、冻结参数不变且 checkpoint 可重载。partial 仅接口检查，策略未训练，SB3 padding/rollout 未完成 |
-| 实验状态 | full seed41/30 epoch 完成；重载 Val AUROC0.67963/BCE0.60787/Brier0.21199，后期过拟合。align 前两轮正常，但没有部分证据预测/TSU效能或独立 Test 结论 |
-| 当前执行范围 | 用户要求进入自己的方法：本轮登记、启动及检查 align 粗细对齐/TSU 训练；不改 P1、不扩数据、不自动启动 partial/PPO 或 Test；持续阶段存档 |
-| 当前接续位置 | 使用 W010 已核实的 full 最佳权重启动 p1_align_s41_20261010；完整训练是主方法初始化及完整证据参考，不新增性能通关门槛。align 完成后接 partial，再推进 PPO；强基线/消融保留在论文比较计划中 |
+| 实现状态 | full/align 已完成且可重载；接 partial，策略未训练，SB3 padding/rollout 未完成 |
+| 实验状态 | full Val AUROC0.67963/BCE0.60787，后期过拟合。align 选第30轮，Val总MSE0.13817；TSU同配对MSE0.07936高于coarse0.05686，不称传播有效 |
+| 当前执行范围 | 用户报告完成后按此前主方法要求接续：核查/备份 align，登记、启动及检查 partial；不改 P1、不扩数据、不启动 PPO/Test；持续阶段存档 |
+| 当前接续位置 | 使用 W011 已核实 align 最佳权重训练零/随机/完整证据患者预测模块；冻结底层与TSU，按固定三模式平均Val BCE选权重。之后核查结果并准备PPO协议/接口 |
 
 “未开展”与“因缺资产无法开展”分开：真实低倍率 coarse 已取得，full 模型实验已完成；原始高倍率 WSI 未整包保存，真实按需 UNI 提取计时尚未开展。
 
@@ -170,7 +170,7 @@
 - 权重备份：服务器 `runs/p1_full_s41_20261009/best.pt` 与本机仓库外 `D:\codex\开题2028\KT2028-assets\checkpoints\p1_full_s41_20261009\best.pt` 均实际存在，SHA相同。仅约4.1MiB自训权重备份，不是新增预训练权重/数据下载；不入 GitHub。日志与小型汇总按专用分支持续存档。
 - 限制/下一最小建议：单 seed，84 Val 已用于选模型，不能当独立 Test；Q01 原随访/临床身份、Q05 Test 几何保持开放。建议先登记一个受控过拟合处理/必要 fine ABMIL 对照，固定划分、成本范围与选择规则后比较，不直接认为需扩大数据；现行 P1 不自动修改，不把指标设为开展 RL 的通关门槛。本轮核查/备份/存档后停止。
 
-### W011｜2026-10-10：进入主方法，粗细对齐与 TSU 训练（启动核查完成，训练进行中）
+### W011｜2026-10-10：进入主方法，粗细对齐与 TSU 训练（30轮完成、重载核查及双份备份完成）
 
 - 用户要求：询问下一步并要求开始自己的方法。按最新指令推进 P1 阶段 2，不沿用 W010 的追加基线优先建议；不修改方法版本。开工 checkout `1c87db0bc4bacff703ad8372145d973b0e54e685`，本机与服务器干净且一致；GPU 空闲。
 - 登记 run ID `p1_align_s41_20261010`，输入 `runs/p1_full_s41_20261009/best.pt`，前驱 SHA256 `4d3f307f30efcb3f3fc0620518fd75282615d934be3754c63cd4dfefcc1bd6be`。沿用 `configs/predictor_p1_candidate.json`、255 Train/84 Validation、seed41/30 epoch、batch2、AdamW1e-4；不使用 Test，不扩数据、不挑新 seed。
@@ -180,3 +180,14 @@
 - 实际启动：北京时间09:33，训练源码 `309a5250e84c2f6fa350281cef32ff7579eafafd`，PID77832；日志 `/root/autodl-tmp/KT2028/audit/p1_align_s41_20261010/training.log`。18项相关软件检查通过；09:35快照已完成epoch0/1，固定 Validation 总MSE从0.67623降至0.62618，第2轮对齐0.08021/TSU0.54597。Train255例均有TSU配对，第2轮共32640对；Val84例10752对。只是训练诊断，不等于预后获益。[启动记录](../records/p1_align_s41_20261010/process.json)、[来源配置](../records/p1_align_s41_20261010/run.json)、[优化/冻结快照](../records/p1_align_s41_20261010/first_epoch_snapshot.json)。
 - 权重验证：前两轮最佳 checkpoint weights_only＋strict重载成功；18个冻结model tensor与full前驱逐元素相同，2个coarse和6个TSU tensor确已改变，参数有限。当前快照SHA仅表示当时第2轮文件，后续best可能更新。30轮完成、最终best与完成回执尚未核实，不能写成align完成；无需用户手动操作，也无需本机持续在线。
 - 接续：align 结束并核实最佳权重后，输入其 checkpoint 训练 partial（零/随机/完整证据）；其后固定成本/预算并适配 PPO。强基线与消融按已有论文计划开展，不成为开始主方法的先决条件；不保证 TSU 提高预测或 PPO 超过随机。
+- 完成核查：用户报告结束；本轮 checkout `37a0356a07281779900c3c8b1cb235cddeb4689b`，训练源码仍为309a525。30行epoch0–29、completion、最小Val阶段损失与最佳权重一致，选第30轮。SHA256 `1d0a9b33367ebd4350774b44908853497e55ae49f9236d733bb7a6db81ae56af`。strict重载、84 Val原配对规则重新前向通过，总MSE0.138168889与日志差<1e-6（coarse0.0588066/TSU0.0793623）；18个冻结tensor与full相同、2个coarse及6个TSU tensor改变。见[完成核查](../records/p1_align_s41_20261010/completed_verification.json)、[完整日志](../records/p1_align_s41_20261010/epochs.jsonl)、[完成回执](../records/p1_align_s41_20261010/completion.json)。
+- 负结果诊断：在同一84 Val、10,752个有序采样配对上，TSU MSE0.07936，直接使用目标coarse为0.05686，直接复制来源fine为0.06260；当前TSU表示重建误差未优于两个简单参照。阈值合格配对占全部非自配对约17.88%，不是任意区域全连。此为训练后探索性诊断、Val已用于选择，不替换模型，不证明预后好坏或临床作用；后续保留TSU消融，不能仅因MSE下降称传播有效。
+- 双份备份：服务器best.pt与本机仓库外 `KT2028-assets/checkpoints/p1_align_s41_20261010/best.pt` 均实际存在且SHA一致，约4.1MiB；权重不入Git。GPU核查空闲。Q01/Q05未解决，但不阻塞当前Train/Val partial训练。
+
+### W012｜2026-10-10：部分证据预后训练（已登记，待启动核查）
+
+- 范围：用户报告align完成，按此前要求开始主方法及已记录的接续顺序，核实前驱后继续partial；不修改P1、数据/标签、采样、结构、损失、seed或选择规则，不启动PPO/Test。
+- run ID `p1_partial_s41_20261010`，前驱为W011最佳align权重，SHA `1d0a9b33367ebd4350774b44908853497e55ae49f9236d733bb7a6db81ae56af`；输入既有255 Train/84 Val、区域资产与 `configs/predictor_p1_candidate.json`，seed41、30 epoch、batch2、AdamW1e-4。
+- 冻结fine局部编码、coarse投影及TSU，训练context、患者注意力汇聚和二分类头；Train采样零/完整各25%，其余随机中间证据量。Val固定zero/random/full三模式，以三者BCE等权平均最小选checkpoint（平局首次），分模式报告AUROC/BCE/Brier。random组本身包含零和完整抽样，不称纯中间证据队列。
+- 输出：独立私有 `runs/p1_partial_s41_20261010` 和 audit日志；前驱/源码/清单/资产哈希与epoch指标按既有入口保存。核实首次实际优化、冻结参数不变及三模式Val执行后结束本轮，后台只继续partial；完成后才能报告最终部分证据效果。
+- 风险/后续：TSU暂未优于coarse表示误差，仍按登记主方法完成预测训练，后续同协议去TSU比较，不假定必有收益、不把预测性能设为RL通关门槛。PPO前仍须明确成本参考/预算/λ并完成可变区域接口，不自动采用旧协议。
