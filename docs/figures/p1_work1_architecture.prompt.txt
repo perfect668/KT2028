@@ -1,0 +1,22 @@
+Generated with the built-in imagegen tool. Selected output is an illustrative schematic, not measured data. Style reference: prior generated draft based on the user-provided paper-figure example. Network source: kt2028/network.py at 6ffb6085 (documentation commit; algorithm unchanged).
+
+Draw a fresh, accurate Chinese academic neural-network architecture figure. Use the supplied image ONLY as style reference: white background, pastel neural-layer bars, tiny colored feature-vector tiles, thin black arrows, H&E input thumbnails, compact paper illustration. REDRAW the connections and fusion area, do not copy the flawed wiring. Landscape 3:2, sharp readable Chinese typography. No dashboard, no large text flowchart cards.
+
+Title: “工作一：面向部分观察的跨尺度病理证据融合与预后建模”.
+
+The main drawing flows from bottom inputs upward to top risk output. Two aligned branches:
+LEFT BLUE: “全部区域的低倍率 RGB” tissue grid thumbnail → “ResNet18（冻结）” → 512维 vector tiles → “Linear 512→256 + GELU” → “粗表示 z_i（256维）”.
+MIDDLE GREEN: “已观察区域的精细 patch” tissue patch thumbnails → “UNI（冻结）” with small note “复用官方特征缓存” → k_i×1024 tiles → “Linear 1024→256 + GELU” → k_i×256 tiles → “区域内门控注意力（隐藏层128，单分支）” → “真实精细表示 v_i（256维）”.
+Both vector outputs have unmistakable solid arrows INTO the bottom of one compact horizontal “按观察状态选择区域证据” layer. Coarse→selector and fine→selector are BOTH connected.
+To its right, ONE SMALL orange external vector labelled “TSU估计表示（工作二辅助输入）” with a dashed arrow into selector. NO TSU network inset. No full TSU MLP here. Small state legend “已观察用真实精细；未观察有估计用估计；其余用粗表示”.
+
+Immediately ABOVE the selector, put a SINGLE compact pale-yellow fusion MODULE labelled “区域证据＋状态编码（逐元素相加）”. Inside this single module show a circle plus connecting two input vector glyphs. The selector has exactly ONE solid upward output arrow INTO this fusion module. A separate right-side branch “位置与证据状态（7维）” → “Linear 7→256” has exactly ONE arrow INTO THE FUSION MODULE, never into the selector. Clearly show the addition internally so no external tricky routing is needed.
+Fusion has exactly ONE upward output labelled “H：R×256” entering a broad lavender module “患者级门控打分：共享隐藏层128，输出4组权重”.
+That module feeds exactly FOUR compact parallel weighted-aggregation units labelled “分支1：加权汇聚”, “分支2：加权汇聚”, “分支3：加权汇聚”, “分支4：加权汇聚”. Each also aggregates H and outputs a256维 token strip. Four strips converge to “拼接1024维” → “Linear1024→1” → “Sigmoid” → “五年内死亡风险 p” at top.
+All attention branches are learned gated weighting, no max or mean branches, no Transformer/QKV, no medical tissue category labels, no experts.
+
+A tiny dashed relation between v_i and z_i labelled “训练期MSE对齐” may be drawn away from main arrows, do not connect it to inference risk.
+The 7 context values are normalized box coordinates×4, actual-observed flag, estimated flag, actual-observed-region-count/R. In a short right-side annotation write “坐标×4＋真实观察标记＋估计标记＋观察比例”.
+Bottom notes: “R、k_i可变；组织图片仅作示意” and “部分证据阶段：底层表示冻结，状态编码、患者汇聚与预测头训练”.
+Frozen pretrained encoders always frozen; fine/coarse projections and local attention frozen specifically in partial stage.
+Keep compact visual layer/tensor motifs rather than explanatory paragraphs, generous readable spacing, accurately spelled labels. Mandatory connected chain: coarse/fine→selector→fusion→patient gated weights→4 weighted pools→concatenation→linear→sigmoid. Never leave the fusion→patient arrow missing. No backward arrow from fusion to selector.
