@@ -270,6 +270,12 @@ W021医生阅片启发：用户提出先看全片概览再放大重要区域。[
 
 2026-10-10公开发布核查（W021）：[官方Zenodo v1.0.0](https://zenodo.org/records/14047723)明确发布单个16.8GB `SurGen_UNI_patch_embeddings.zip`，224×224、1.0 µm/px、1024维UNI及坐标；文件MD5 `6668206cc5e0ae0cee00ee554cb2e410`与S1上传包核查一致。[作者研究门户](https://research-portal.st-andrews.ac.uk/en/datasets/patch-level-uni-feature-embeddings-from-colorectal-cancer-whole-s/)说明相同协议。[官方仓库当前README](https://github.com/CraigMyles/SurGen-Dataset)提供原CZI及2026-08新增的OME-Zarr ZIP，两者是同批切片的格式选择；官方公开入口未找到分倍率1×/5×/20×/40×UNI包。OME金字塔多尺度图像不是多尺度特征。标签/划分和已核验包无需重下载，真实5×/20×/40×需获取相应原像素并编码；概览可复用低层RGB、10×可复用官方特征。可沿既有HTTPS Range路径按需读取/逐例处理并仅留特征，避免同时存全队列原图；高层传输吞吐尚未验证，训练与全量对照仍有像素传输成本，不能承诺几乎无需下载。
 
+W022提取与格式契约澄清：新尺度由程序自动读取原像素、按物理MPP切块、预处理、批量UNI前向、保存，不要求人逐块截取或训练图像编码器。[已锁定SurGen提取入口](https://github.com/CraigMyles/SurGen-Dataset/blob/55c9bcb74ed7c8d35ca944af24398b11e5b960bf/reproducibility/extract_features.py)加载原始`MahmoodLab/UNI`/ViT-L16、严格载入现成权重、eval/no_grad输出并写`features`与`coords`；[图块读取](https://github.com/CraigMyles/SurGen-Dataset/blob/55c9bcb74ed7c8d35ca944af24398b11e5b960bf/reproducibility/datasets/dataset_h5.py)处理CZI包围框offset、源坐标、INTER_AREA缩放及ImageNet均值/标准差。OME-Zarr选择性读取需适配读取层与坐标/像素处理，不是原CZI命令直接即用；不自行替换成当前UNI仓库示例默认的UNI2-h（1536维）。预后网络的训练与冻结UNI提取是不同工作。
+
+拟采用与已上传包兼容的Zarr v2：每切片/每尺度独立保存`features[P,1024] float32`及`coords[P,2] int64`，第i行特征对应第i行原图坐标，统一当前约定的level-0相对图像包围框坐标并登记原点/轴序。P随尺度和组织筛选变化，不能按行号对齐不同尺度。增加MPP、物理patch范围、父区域映射、源图、UNI权重摘要/版本及预处理记录；不截维/PCA或未经登记额外归一化，不覆盖官方文件。文件结构兼容不保证原像素/权重/预处理数值复现，也不等于当前固定512维coarse的P1区域加载器自动支持新UNI分支。
+
+采用新尺度前建议先在少量Train图块按官方1 MPP坐标重新提取，与已有官方向量比较误差/余弦及图像位置，核实RGB通道、边界填充、重采样、权重和坐标原点；不凭“都是1024维”判定同一表示，不要求不同GPU/读图实现必然逐位相同。公开包未附每次提取的完整权重摘要，当前尚未运行此核对；若出现无法解释的明显差异，先解决来源/预处理或统一重提相关表示，不盲目混用。再检查新尺度有限数值、feature/coords行数对应、空间嵌套和保存后重载。该核对是提取管线验证，不是预后训练/算法有效性证明。[UNI官方获取说明](https://github.com/mahmoodlab/UNI#1-getting-access)要求账户申请并登录下载权重；已有特征包不含UNI提取权重，本服务器该权重仍待核查，不要求用户现在重复下载数据或发送凭据。本轮未实施管线或下载权重。
+
 下一最小工作建议改为：输入已有源图元信息/访问入口、官方fine协议与资产清单，明确5×/20×的物理采样、位置映射、同版本编码器及局部坐标契约，核对高分辨率选择性读取和UNI权重的可用性，输出可执行数据规格与资源缺口；本步不训练、不自动下载像素/权重、不改算法。核心比较仍为同域编码器下单粗、单细和配准融合三项；采用新尺度后再锁定新运行协议。已有10×缓存可作后续参考，暂不展开2.5/5/10/20/40的全组合网格。本轮仅核查、讨论及文档存档，没有修改算法、运行配置、权重或启动作业。
 
 ---
