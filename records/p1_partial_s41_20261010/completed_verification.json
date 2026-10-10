@@ -1,0 +1,177 @@
+{
+  "run_id": "p1_partial_s41_20261010",
+  "checked_at": "2026-10-10T05:47:24.595271+00:00",
+  "checked_checkout_commit": "ee151d783efbc709fd228121e89d8b2b4d9d32df",
+  "training_source_commit": "95b7face17f1b72246847472c5cfd8d29a7d6b27",
+  "completed_epochs": 30,
+  "checkpoint_sha256": "9f5b84c40c0151e4aaca3ad591727fad5da7aca90a1d807ed70b6e5fc2b09180",
+  "selected_epoch_one_based": 6,
+  "selection_rule": "minimum equal mean of fixed zero/random/full Validation BCE, first tie",
+  "reloaded_selection_objective": 0.6106664677342725,
+  "selected_epoch_log": {
+    "epoch": 5,
+    "train_objective": 0.5762926662669462,
+    "validation_objective": 0.6106664677342725,
+    "validation_modes": [
+      "zero",
+      "random",
+      "full"
+    ],
+    "validation_metrics": {
+      "zero": {
+        "auroc": 0.6753086419753087,
+        "brier": 0.21697618061816545,
+        "bce": 0.6246628509390921,
+        "cases": 84
+      },
+      "random": {
+        "auroc": 0.6777777777777778,
+        "brier": 0.21046526284832118,
+        "bce": 0.6012317820319107,
+        "cases": 84
+      },
+      "full": {
+        "auroc": 0.6802469135802469,
+        "brier": 0.21373135536374469,
+        "bce": 0.6061047702318146,
+        "cases": 84
+      }
+    }
+  },
+  "validation_reloaded": {
+    "zero": {
+      "cases": 84,
+      "auroc": 0.6753086419753087,
+      "bce": 0.6246628509390921,
+      "brier": 0.21697618061816545,
+      "evidence_category_counts": {
+        "zero": 84,
+        "intermediate": 0,
+        "full": 0
+      },
+      "mean_selected_patch_fraction": 0.0,
+      "total_selected_patches": 0,
+      "total_candidate_patches": 417182
+    },
+    "random": {
+      "cases": 84,
+      "auroc": 0.6777777777777778,
+      "bce": 0.6012317820319107,
+      "brier": 0.21046526284832118,
+      "evidence_category_counts": {
+        "zero": 19,
+        "intermediate": 42,
+        "full": 23
+      },
+      "mean_selected_patch_fraction": 0.5283818990372322,
+      "total_selected_patches": 233157,
+      "total_candidate_patches": 417182
+    },
+    "full": {
+      "cases": 84,
+      "auroc": 0.6802469135802469,
+      "bce": 0.6061047702318146,
+      "brier": 0.21373135536374469,
+      "evidence_category_counts": {
+        "zero": 0,
+        "intermediate": 0,
+        "full": 84
+      },
+      "mean_selected_patch_fraction": 1.0,
+      "total_selected_patches": 417182,
+      "total_candidate_patches": 417182
+    }
+  },
+  "all_frozen_model_tensors_equal_align_predecessor": true,
+  "frozen_model_tensors_checked": 10,
+  "all_tsu_tensors_equal_align_predecessor": true,
+  "frozen_tsu_tensors_checked": 6,
+  "trained_tensors_changed": 10,
+  "first_epoch": {
+    "epoch": 0,
+    "train_objective": 0.603022061843498,
+    "validation_objective": 0.6148702111982164,
+    "validation_modes": [
+      "zero",
+      "random",
+      "full"
+    ],
+    "validation_metrics": {
+      "zero": {
+        "auroc": 0.6753086419753086,
+        "brier": 0.22070596215522115,
+        "bce": 0.6330503253709703,
+        "cases": 84
+      },
+      "random": {
+        "auroc": 0.6827160493827161,
+        "brier": 0.2098195538971566,
+        "bce": 0.6047919076823053,
+        "cases": 84
+      },
+      "full": {
+        "auroc": 0.6796296296296296,
+        "brier": 0.211321870847394,
+        "bce": 0.6067684005413737,
+        "cases": 84
+      }
+    }
+  },
+  "last_epoch": {
+    "epoch": 29,
+    "train_objective": 0.5144224022058588,
+    "validation_objective": 0.6427629379045573,
+    "validation_modes": [
+      "zero",
+      "random",
+      "full"
+    ],
+    "validation_metrics": {
+      "zero": {
+        "auroc": 0.6685185185185185,
+        "brier": 0.2122036844424917,
+        "bce": 0.6118973348112333,
+        "cases": 84
+      },
+      "random": {
+        "auroc": 0.6888888888888889,
+        "brier": 0.22569512731186286,
+        "bce": 0.644364582441215,
+        "cases": 84
+      },
+      "full": {
+        "auroc": 0.7043209876543209,
+        "brier": 0.231601328726562,
+        "bce": 0.6720268964612236,
+        "cases": 84
+      }
+    }
+  },
+  "post_training_tsu_diagnostic": {
+    "cases": 84,
+    "with_tsu": {
+      "cases": 84,
+      "auroc": 0.6777777777777778,
+      "bce": 0.6012317820319107,
+      "brier": 0.21046526284832118
+    },
+    "without_tsu_same_checkpoint": {
+      "auroc": 0.695679012345679,
+      "bce": 0.5891927952567736,
+      "brier": 0.20325693440097128
+    },
+    "scope": "Post-training exploratory inference diagnostic on the fixed random Validation states. Same selected checkpoint, no refitting or reselection; random includes endpoint states. Not a separately trained no-TSU ablation or independent Test."
+  },
+  "private_predictions_path": "/root/autodl-tmp/KT2028/audit/p1_partial_s41_20261010/completed_validation_predictions_private.json",
+  "test_used": false,
+  "status": "30 epochs complete; strict reload and original three-mode Validation metrics verified",
+  "limitations": "Single seed; Validation used for model selection. Random states mix zero/intermediate/full and do not represent a fixed patch budget. No independent Test, PPO or end-to-end computation savings result.",
+  "provenance_recheck": {
+    "train_validation_manifest_hashes_match": true,
+    "config_hash_matches": true,
+    "regional_assets_checked": 339,
+    "regional_hash_and_fingerprint_match": true,
+    "training_network_and_config_unchanged_since_run": true,
+    "fine_numeric_arrays_not_rehashed": "No new full fine-array rehash; validation inference re-read actual selected/full UNI values."
+  }
+}
