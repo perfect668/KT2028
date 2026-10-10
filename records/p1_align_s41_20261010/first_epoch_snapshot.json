@@ -1,0 +1,42 @@
+{
+  "run_id": "p1_align_s41_20261010",
+  "checked_at": "2026-10-10T01:35:19.174816+00:00",
+  "training_source_commit": "309a5250e84c2f6fa350281cef32ff7579eafafd",
+  "status": "running; real optimization and checkpoint reload confirmed, not final results",
+  "completed_epochs_at_snapshot": 2,
+  "selected_epoch_zero_based_at_snapshot": 1,
+  "checkpoint_sha256_at_snapshot": "005272572200ff6f2f8cfb473cc447ff47c130a6605f85d049e21d01a5cfc9a9",
+  "checkpoint_reload": "weights_only load and strict model/updater reload successful",
+  "frozen_model_tensors_checked": 18,
+  "all_frozen_tensors_equal_predecessor": true,
+  "coarse_tensors_changed": 2,
+  "tsu_tensors_changed": 6,
+  "trainable_parameters": 656896,
+  "selected_epoch_at_snapshot": {
+    "epoch": 1,
+    "train_objective": 0.6452216045529234,
+    "validation_objective": 0.6261832079007512,
+    "validation_modes": [
+      "full"
+    ],
+    "validation_metrics": {
+      "full": {
+        "cases": 84,
+        "alignment_mse": 0.08020883563551165,
+        "tsu_mse": 0.5459743720434961,
+        "tsu_pairs": 10752,
+        "cases_with_tsu_pairs": 84
+      }
+    },
+    "train_alignment": {
+      "cases": 255,
+      "alignment_mse": 0.08432841137343762,
+      "tsu_mse": 0.5608931965687696,
+      "tsu_pairs": 32640,
+      "cases_with_tsu_pairs": 255
+    }
+  },
+  "test_used": false,
+  "later_stages_launched": false,
+  "limitations": "MSE/pairs and weight updates verify training, not predictive benefit or TSU superiority; best hash may change as training proceeds"
+}

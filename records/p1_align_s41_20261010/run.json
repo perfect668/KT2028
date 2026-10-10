@@ -1,0 +1,32 @@
+{
+  "stage": "align",
+  "config": {
+    "status": "Registered first engineering candidate; not trained or performance-validated",
+    "latent_dim": 256,
+    "attention_branches": 4,
+    "tsu_threshold": 0.9,
+    "seed": 41,
+    "epochs": 30,
+    "batch_cases": 2,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "gradient_clip": 5.0,
+    "max_tsu_pairs": 128,
+    "endpoint_probability": 0.25,
+    "selection_rule": "minimum_fixed_validation_objective_first_tie",
+    "selection_details": "full: Validation BCE; align: Validation alignment MSE plus bounded TSU-pair MSE; partial: equal mean of zero/random/full Validation BCE with fixed random states. Test unused.",
+    "sampling_details": "Train partial: 25% zero, 25% full, 50% uniform intermediate acquisition count; deterministic per case, seed and epoch. No independent-patient augmentation claim.",
+    "parameter_origin": "P1 latent/head/TSU candidates; optimizer, epochs, batch and sampling are engineering starting values, not literature-proven optima. No PPO N_ref/budget protocol selected."
+  },
+  "config_sha256": "60b024cd83c47e41403fe8cfd568b5debbfb54585da3fdf845b6ecc78d17c5c4",
+  "source_commit": "309a5250e84c2f6fa350281cef32ff7579eafafd",
+  "train_manifest_sha256": "af67f405c4cb3a418a37b00dd6108d887d34a63d4d1164b6701bdb37089e1d39",
+  "validation_manifest_sha256": "a8aca4636d52fd2f2db8d1ba724aa8bae18ac6619ea352461e6f6a5cfbdca568",
+  "regional_config_sha256": "257fe7699bcd29c622d44c76339eb11a780fbd6e10ba0cd558c7be14e68fdf61",
+  "regional_assets_sha256": "1cffb82beaab78920f3f30a7c89d945249ccc540e0e16a3537c5c080237c952a",
+  "device": "cuda",
+  "torch_version": "2.8.0+cu128",
+  "predecessor_sha256": "4d3f307f30efcb3f3fc0620518fd75282615d934be3754c63cd4dfefcc1bd6be",
+  "selection": "minimum_fixed_validation_objective_first_tie",
+  "test_used": false
+}

@@ -1,0 +1,38 @@
+{
+  "run_id": "p1_align_s41_20261010",
+  "pid": 77832,
+  "launched_at": "2026-10-10T01:33:35.227967+00:00",
+  "source_commit": "309a5250e84c2f6fa350281cef32ff7579eafafd",
+  "command": [
+    "/root/autodl-tmp/KT2028/.venv/bin/python",
+    "-u",
+    "-m",
+    "kt2028.train_predictor",
+    "--stage",
+    "align",
+    "--config",
+    "configs/predictor_p1_candidate.json",
+    "--train-manifest",
+    "/root/autodl-tmp/KT2028/audit/s1_20261009/train_asset_manifest.json",
+    "--validation-manifest",
+    "/root/autodl-tmp/KT2028/audit/s1_20261009/validate_asset_manifest.json",
+    "--regions",
+    "/root/autodl-tmp/KT2028/data/regions_p1_20261009",
+    "--output",
+    "/root/autodl-tmp/KT2028/runs/p1_align_s41_20261010",
+    "--predecessor",
+    "/root/autodl-tmp/KT2028/runs/p1_full_s41_20261009/best.pt",
+    "--device",
+    "cuda",
+    "--execute"
+  ],
+  "output": "/root/autodl-tmp/KT2028/runs/p1_align_s41_20261010",
+  "log": "/root/autodl-tmp/KT2028/audit/p1_align_s41_20261010/training.log",
+  "predecessor_sha256": "4d3f307f30efcb3f3fc0620518fd75282615d934be3754c63cd4dfefcc1bd6be",
+  "scope": "P1 align only; fixed Train/Validation; no Test/partial/PPO",
+  "software_checks": {
+    "tests": 18,
+    "passed": 18
+  },
+  "status": "launched; optimization/completion not yet confirmed"
+}
