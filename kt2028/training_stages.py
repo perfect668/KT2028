@@ -62,4 +62,6 @@ def stage_objective(model, updater, inputs, target, stage, *, max_pairs=128, gen
         tsu_loss = F.mse_loss(estimates, fine[i])
     else:
         tsu_loss = alignment.new_zeros(())
-    return alignment + tsu_loss, {'tsu_pairs': len(pairs)}
+    return alignment + tsu_loss, {'tsu_pairs': len(pairs),
+                                  'alignment_mse': float(alignment.detach()),
+                                  'tsu_mse': float(tsu_loss.detach())}

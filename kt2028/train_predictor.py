@@ -20,6 +20,15 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def alignment_summary(details):
+    """Report alignment and actual TSU supervision separately from prognosis metrics."""
+    return {'cases': len(details),
+            'alignment_mse': sum(d['alignment_mse'] for d in details) / len(details),
+            'tsu_mse': sum(d['tsu_mse'] for d in details) / len(details),
+            'tsu_pairs': sum(d['tsu_pairs'] for d in details),
+            'cases_with_tsu_pairs': sum(d['tsu_pairs'] > 0 for d in details)}
+
+
 def validate_config(config):
     for name in ('epochs', 'batch_cases', 'max_tsu_pairs', 'seed', 'latent_dim', 'attention_branches'):
         value = config[name]
@@ -131,12 +140,16 @@ def main():
         loader = DataLoader(train, batch_size=config['batch_cases'], shuffle=True,
                             generator=torch.Generator().manual_seed(seed + epoch), collate_fn=ragged_collate)
         train_total = 0.0
+        train_details = []
         pair_rng = torch.Generator().manual_seed(seed + epoch)
         for batch in loader:
             optimizer.zero_grad(set_to_none=True)
-            losses = [stage_objective(model, updater, move_inputs(s['inputs'], args.device),
+            objectives = [stage_objective(model, updater, move_inputs(s['inputs'], args.device),
                        s['target'].to(args.device), args.stage, max_pairs=config['max_tsu_pairs'],
-                       generator=pair_rng)[0] for s in batch]
+                       generator=pair_rng) for s in batch]
+            losses = [value for value, _ in objectives]
+            if args.stage == 'align':
+                train_details.extend(details for _, details in objectives)
             loss = torch.stack(losses).mean()
             if not torch.isfinite(loss):
                 raise FloatingPointError('Nonfinite training objective')
@@ -152,6 +165,7 @@ def main():
             for dataset in validation:
                 total = 0.0
                 labels, probabilities = [], []
+                alignment_details = []
                 # Fixed masks and pair sampling across epochs, not a moving selection set.
                 pair_rng = torch.Generator().manual_seed(seed)
                 for s in dataset:
@@ -159,10 +173,14 @@ def main():
                                s['target'].to(args.device), args.stage, max_pairs=config['max_tsu_pairs'],
                                generator=pair_rng)
                     total += float(value)
+                    if args.stage == 'align':
+                        alignment_details.append(details)
                     if 'logit' in details:
                         labels.append(int(s['target']))
                         probabilities.append(float(details['logit'].sigmoid()))
                 scores.append(total / len(dataset))
+                if alignment_details:
+                    validation_metrics[dataset.evidence] = alignment_summary(alignment_details)
                 if labels:
                     validation_metrics[dataset.evidence] = {
                         'auroc': float(roc_auc_score(labels, probabilities)) if len(set(labels)) == 2 else None,
@@ -175,6 +193,8 @@ def main():
             event = {'epoch': epoch, 'train_objective': train_total / len(train),
                      'validation_objective': selection_score, 'validation_modes': list(validation_modes),
                      'validation_metrics': validation_metrics}
+            if train_details:
+                event['train_alignment'] = alignment_summary(train_details)
             file.write(json.dumps(event) + '\n')
             print(json.dumps(event), flush=True)
         if selection_score < best:
