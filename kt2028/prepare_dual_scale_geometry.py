@@ -34,7 +34,7 @@ def prepare_one(sample, config, config_sha, legacy_root, output):
     selected = access['selected_level']
     image_sha = sha256_file(old / 'low_rgb.png')
     identity = dict(config_sha256=config_sha, mask_rgb_sha256=image_sha,
-                    root_metadata_sha256=access['root_metadata_sha256'],
+                    root_metadata_sha256=access.get('root_metadata_sha256'),
                     source_zip_bytes=source['size'])
     folder = output / sid
     receipt_path = folder / 'receipt.json'
@@ -72,6 +72,7 @@ def prepare_one(sample, config, config_sha, legacy_root, output):
                    mask_scope='Existing low RGB only; tissue/background; not prognosis or tumor selection',
                    original_fine_coordinates_used=False, new_features_generated=False,
                    source_mapping_scope='filename, source size, existing source receipt; not clinical patient identity validation')
+    receipt['historical_root_metadata_hash_available'] = identity['root_metadata_sha256'] is not None
     with receipt_path.open('x') as f:
         json.dump(receipt, f, indent=2)
     return receipt
