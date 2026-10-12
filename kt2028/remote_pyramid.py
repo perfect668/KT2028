@@ -143,7 +143,8 @@ class RangeZipStore(Store):
 
 class RemotePyramid:
     """Explicit micrometer coordinates; no objective-power / MPP conversion."""
-    def __init__(self, source, cache_root, cap_bytes, max_roi_pixels=4_000_000):
+    def __init__(self, source, cache_root, cap_bytes, max_roi_pixels=4_000_000,
+                 deadline_seconds=1200, fallback_cache_root=None):
         canonical = 'https://www.ebi.ac.uk/biostudies/files/S-BIAD1285/' + source['path']
         url = source.get('url', canonical)
         from urllib.parse import urlparse
@@ -151,7 +152,8 @@ class RemotePyramid:
         if parsed.scheme != 'https' or parsed.hostname not in ('www.ebi.ac.uk', 'ftp.ebi.ac.uk'):
             raise ValueError('Only official HTTPS image sources accepted')
         self.raw = CachedRangeFile(url, source['size'], cache_root, cap_bytes,
-                                   canonical, source.get('cache_only', False))
+                                   canonical, source.get('cache_only', False),
+                                   deadline_seconds, fallback_cache_root)
         self.store = None
         try:
             self.store = RangeZipStore(self.raw)
@@ -177,12 +179,15 @@ class RemotePyramid:
                 raise ValueError('Global OME transforms require explicit handling')
             self.levels = []
             self.arrays = {}
+            consolidated = meta.get('consolidated_metadata', {}).get('metadata', {})
             for dataset in mult['datasets']:
                 transforms = dataset['coordinateTransformations']
                 if len(transforms) != 1 or transforms[0]['type'] != 'scale':
                     raise ValueError('Only explicitly verified scale-only pyramids supported')
                 scale = transforms[0]['scale']
-                am = json.loads(self.store._get_bytes(self.root + '/' + dataset['path'] + '/zarr.json', None))
+                am = consolidated.get(dataset['path'])
+                if am is None:
+                    am = json.loads(self.store._get_bytes(self.root + '/' + dataset['path'] + '/zarr.json', None))
                 if am['shape'][:3] != [1, 3, 1] or am['data_type'] != 'uint8':
                     raise ValueError('Unsupported RGB image layout')
                 mpp = [float(scale[-1]), float(scale[-2])]
@@ -214,8 +219,8 @@ class RemotePyramid:
         mx, my = level['mpp_xy']
         field = pixels * target_mpp
         x0, y0 = math.floor(x_um / mx), math.floor(y_um / my)
-        x1 = min(math.ceil((x_um + field) / mx), level['shape'][-1])
-        y1 = min(math.ceil((y_um + field) / my), level['shape'][-2])
+        x1 = min(math.ceil(min(x_um + field, self.image_wh_um[0]) / mx), level['shape'][-1])
+        y1 = min(math.ceil(min(y_um + field, self.image_wh_um[1]) / my), level['shape'][-2])
         if (x1 - x0) * (y1 - y0) > self.max_roi_pixels:
             raise ValueError('Decoded ROI memory cap exceeded')
         if level['path'] not in self.arrays:
@@ -227,9 +232,16 @@ class RemotePyramid:
             raise ValueError('Decoded RGB contract mismatch')
         extent = (x_um / mx - x0, y_um / my - y0,
                   (x_um + field) / mx - x0, (y_um + field) / my - y0)
-        return Image.fromarray(rgb).transform(
+        sampled = Image.fromarray(rgb).transform(
             (pixels, pixels), Image.Transform.EXTENT, extent,
             resample=Image.Resampling.BILINEAR, fillcolor=(255, 255, 255))
+        # A ceil-sized lower pyramid level may extend beyond the level-0 field.
+        # Enforce white padding against the original physical image, not that level's extent.
+        valid_x = x_um + (np.arange(pixels) + 0.5)*target_mpp < self.image_wh_um[0]
+        valid_y = y_um + (np.arange(pixels) + 0.5)*target_mpp < self.image_wh_um[1]
+        result = np.asarray(sampled).copy()
+        result[~(valid_y[:, None] & valid_x[None, :])] = 255
+        return Image.fromarray(result)
 
     def receipt(self):
         return {'source_url': self.raw.url, 'source_zip_bytes': self.raw.size,

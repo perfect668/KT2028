@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import subprocess
 import time
 from pathlib import Path
 
@@ -30,6 +31,9 @@ def main():
     receipt = {'scope': 'real physical nested ROI engineering; no features/training/labels',
                'status': 'started', 'xy_um': args.xy_um, 'input_pixels': 224,
                'coarse_mpp_um': 2.0, 'fine_mpp_um': 0.5}
+    receipt['source_commit'] = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+    receipt['source_code_sha256'] = {name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
+                                     for name in ['check_dual_scale_pixels.py', 'remote_pyramid.py', 'remote_rgb.py']}
     try:
         with RemotePyramid(matches[0]['source'], args.cache, args.network_cap_mib * 1024**2) as reader:
             x, y = args.xy_um

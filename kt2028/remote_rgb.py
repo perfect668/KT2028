@@ -15,7 +15,8 @@ import zarr
 
 
 class CachedRangeFile(io.RawIOBase):
-    def __init__(self, url, size, cache_root, cap_bytes, cache_identity=None, cache_only=False):
+    def __init__(self, url, size, cache_root, cap_bytes, cache_identity=None, cache_only=False,
+                 deadline_seconds=1200, fallback_cache_root=None):
         self.url, self.size, self.cap = url, int(size), int(cap_bytes)
         self.pos = self.bytes_received = self.requests_made = self.cache_hits = 0
         identity = hashlib.sha256(f'{cache_identity or url}\n{size}'.encode()).hexdigest()
@@ -26,6 +27,8 @@ class CachedRangeFile(io.RawIOBase):
         self.lock = threading.RLock()
         self.started = time.monotonic()
         self.cache_only = cache_only
+        self.deadline_seconds = float(deadline_seconds)
+        self.fallback_cache = Path(fallback_cache_root) / identity if fallback_cache_root else None
 
     def readable(self): return True
     def seekable(self): return True
@@ -45,12 +48,17 @@ class CachedRangeFile(io.RawIOBase):
             if len(value) != count: raise ValueError('Incomplete cached range')
             self.cache_hits += 1
             return value
+        if self.fallback_cache and (self.fallback_cache / path.name).is_file():
+            value = (self.fallback_cache / path.name).read_bytes()
+            if len(value) != count: raise ValueError('Incomplete fallback cached range')
+            self.cache_hits += 1
+            return value
         if self.cache_only:raise FileNotFoundError(f'Relay cache missing range {start}:{count}')
         if count > self.cap or self.bytes_received+count > self.cap:
             raise ValueError('Network byte cap exceeded; no full ZIP download allowed')
         for attempt in range(3):
-            if time.monotonic()-self.started > 1200:
-                raise TimeoutError('Per-image 20 minute deadline exceeded')
+            if time.monotonic()-self.started > self.deadline_seconds:
+                raise TimeoutError('Per-image configured deadline exceeded')
             try:
                 self.requests_made += 1
                 if count >= 1024**2: print(f'RANGE_FETCH bytes={count} attempt={attempt+1}',flush=True)
@@ -66,7 +74,7 @@ class CachedRangeFile(io.RawIOBase):
                         received += len(block); self.bytes_received += len(block)
                         if received > count or self.bytes_received > self.cap:
                             raise ValueError('Range response exceeds cap')
-                        if time.monotonic()-self.started > 1200: raise TimeoutError('Image deadline exceeded')
+                        if time.monotonic()-self.started > self.deadline_seconds: raise TimeoutError('Image deadline exceeded')
                         chunks.append(block)
                     value = b''.join(chunks)
                     if len(value) != count: raise requests.exceptions.ChunkedEncodingError('Incomplete range')

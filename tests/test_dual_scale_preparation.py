@@ -9,9 +9,10 @@ import zarr
 from zarr.abc.store import RangeByteRequest, SuffixByteRequest
 from zarr.core.buffer import default_buffer_prototype
 
-from kt2028.remote_pyramid import RangeZipStore
+from kt2028.remote_pyramid import RangeZipStore, RemotePyramid
 from kt2028.dual_scale_geometry import build_nested_grid
 from kt2028.uni_encoder import verify_checkpoint
+from kt2028.extract_dual_scale import write_or_resume, owned_cache, clear_completed_cache
 
 
 def zip_bytes(entries, compression=zipfile.ZIP_STORED):
@@ -87,3 +88,48 @@ def test_missing_or_mismatched_uni_never_allows_random_features(tmp_path):
     bad.write_bytes(b'not-a-model')
     with pytest.raises(ValueError):
         verify_checkpoint(bad, spec)
+
+
+def test_white_padding_uses_original_extent_not_ceil_sized_pyramid():
+    # A lower level has 3 pixels but the true original field ends at 1.25um.
+    reader = RemotePyramid.__new__(RemotePyramid)
+    level = dict(path='small', shape=[1, 3, 1, 3, 3], mpp_xy=[0.5, 0.5])
+    reader.levels = [level]
+    reader.arrays = {'small': np.zeros((1, 3, 1, 3, 3), dtype=np.uint8)}
+    reader.image_wh_um = [1.25, 1.25]
+    reader.max_roi_pixels = 100
+    result = np.asarray(reader.read_patch(0, 0, 0.5, pixels=4))
+    assert np.all(result[:2, :2] == 0)
+    assert np.all(result[2:, :] == 255) and np.all(result[:, 2:] == 255)
+
+
+def test_completed_feature_fixture_is_verified_before_skip_and_corruption_fails(tmp_path):
+    import hashlib
+    # Numeric storage fixture, never an experiment feature file or model result.
+    values = np.arange(3*1024, dtype=np.float32).reshape(3, 1024)
+    coords = np.asarray([[0, 0], [112, 0], [224, 0]], dtype=np.int64)
+    path = tmp_path/'fixture.zarr'
+    group = zarr.open_group(str(path), mode='w-', zarr_format=2)
+    group.create_array('features', data=values)
+    group.create_array('coords', data=coords)
+    group.attrs.update(protocol='fixture', status='completed', completed_rows=3,
+                       features_sha256=hashlib.sha256(values.tobytes()).hexdigest())
+    result = write_or_resume(path, {'bbox': np.zeros((3,4)), 'coords': coords},
+                             {'protocol': 'fixture'}, 224, 0.5, None, None, 2, 0)
+    assert result['resumed_complete'] and result['rows'] == 3
+    group['features'][1, 0] = 0
+    with pytest.raises(ValueError, match='checksum'):
+        write_or_resume(path, {'bbox': np.zeros((3,4)), 'coords': coords},
+                         {'protocol': 'fixture'}, 224, 0.5, None, None, 2, 0)
+
+
+def test_only_owned_completed_case_ranges_can_be_cleaned(tmp_path):
+    root = tmp_path/'new-task-cache'
+    source = dict(path='fixture.zip', size=11)
+    folder, owner = owned_cache(root, source, 'fixture-config')
+    (tmp_path/'other-root').mkdir()
+    with pytest.raises(ValueError, match='escaped'):
+        clear_completed_cache(tmp_path/'other-root', folder, owner)
+    assert folder.exists()
+    clear_completed_cache(root, folder, owner)
+    assert root.exists() and not folder.exists()
