@@ -1,0 +1,99 @@
+{
+  "checked_utc": "2026-10-12T14:00:49.107454+00:00",
+  "source_code_commit": "863529e",
+  "scope": "data preparation only; no predictor/PPO training or Validation/Test inference",
+  "geometry": {
+    "scope": "geometry only; no high-layer whole-cohort download / UNI features / training / labels",
+    "config_sha256": "91c296a70deaef456a4996323f1f6a4172ec2ec6f5091abf9619b45b68d46afa",
+    "expected": 255,
+    "completed": 255,
+    "errors": [],
+    "coarse_regions": 354879,
+    "fine_patches": 5328815,
+    "elapsed_seconds": 2134.815
+  },
+  "uni_weight": {
+    "status": "weight_and_real_forward_verified",
+    "repo_id": "MahmoodLab/UNI",
+    "revision": "b55a5ec6cade1a39edfe6534189a9b8ca7a022f0",
+    "weight_sha256": "56ef09b44a25dc5c7eedc55551b3d47bcd17659a7a33837cf9abc9ec4e2ffb40",
+    "weight_bytes": 1213527781,
+    "trained": false,
+    "shape": [
+      1,
+      1024
+    ],
+    "image_sha256": "5a8357a59516aead28b4266e2d6e3e12352ed747cc848b34f0da487d45cb6301",
+    "device": "cuda"
+  },
+  "real_encoder_probe": {
+    "status": "real_dual_scale_original_uni_verified",
+    "coarse_shape": [
+      1,
+      1024
+    ],
+    "fine_shape": [
+      16,
+      1024
+    ],
+    "fine_batch_size": 16,
+    "fine_batch_seconds": 0.2228,
+    "peak_gpu_allocated_bytes": 1389105152,
+    "feature_dtype": "float32",
+    "weight_sha256": "56ef09b44a25dc5c7eedc55551b3d47bcd17659a7a33837cf9abc9ec4e2ffb40",
+    "source_vector_sha256": "b6748f096cd82cfacadaf581c773fcf486b91c8c4a5ed7c7bc678da3add83b71",
+    "scope": "real ROI encoding/storage engineering; no prognosis/PPO training; time excludes source reads/model load",
+    "config_sha256": "91c296a70deaef456a4996323f1f6a4172ec2ec6f5091abf9619b45b68d46afa"
+  },
+  "real_pixel_probe": {
+    "network_bytes": 7050299,
+    "http_requests": 19,
+    "elapsed_seconds": 430.099,
+    "parent_field_um": 448.0,
+    "child_field_um": 112.0,
+    "partial_shard_zip_crc_verified": false
+  },
+  "visual_scope": "one real nested Train ROI matched; not full cohort/clinical identity",
+  "software_checks": {
+    "passed": 17,
+    "seconds": 0.24,
+    "command": "pytest -q tests/test_dual_scale_preparation.py tests/test_range_cache.py tests/test_relay_recovery.py tests/test_physical_regions.py"
+  },
+  "transport": {
+    "status": "verified",
+    "bytes": 1048576,
+    "relay_seconds": 6.042,
+    "sha256": "bac0f34d4023a094ccf5e1bffb5209c55819ad777e44202c08321a57b3582ac2",
+    "tls_verified": true,
+    "relay_scope": "EBI-only opaque TLS; both endpoints loopback",
+    "local_direct_seconds": 10.047,
+    "not_proven": "whole-cohort throughput or extraction completion"
+  },
+  "active_process": {
+    "pid": 167610,
+    "transport": "EBI-only opaque TLS relay",
+    "source_config_model_changed": false
+  },
+  "first_train_case_feature_progress": {
+    "mpp_2p0": {
+      "status": "completed",
+      "completed_rows": 197,
+      "shape": [
+        197,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "mpp_0p5": {
+      "status": "in_progress",
+      "completed_rows": 560,
+      "shape": [
+        2821,
+        1024
+      ],
+      "dtype": "float32"
+    }
+  },
+  "raw_train_feature_bytes_estimate": 23280410624,
+  "feature_queue_completed": false
+}
