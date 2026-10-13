@@ -593,6 +593,12 @@ NLST粗细单路接近、融合改善很小；BRCA直接双路反而下降，粗
 
 **工作一网络规格（初始工程配置，非文献最优结论）。**
 
+W043按当前实际源码绘制[已实现R2架构图](figures/r2_predictor_actual_20261013.png)，[生图及连线修正提示词](figures/r2_predictor_actual_20261013.prompt.txt)一并保存。图对应`kt2028/fusion_network.py`的`CoarseContext`与`CrossScalePredictor`，表示全粗＋已观察真fine、两层分别处理粗/融合区域的Transformer、区域内交叉注意力、粗锚点风险残差和训练辅助支路；W042独立fine主干/生存曲线仅为讨论建议，未画成已经实施。R/Pi随病例变化，zf是融合后的表示，辅助头不进入推理概率。
+
+![当前已实现R2预测网络](figures/r2_predictor_actual_20261013.png)
+
+当前GitHub入口：[网络主体](https://github.com/perfect668/KT2028/blob/research/p1-restart/kt2028/fusion_network.py)、[病例输入](https://github.com/perfect668/KT2028/blob/research/p1-restart/kt2028/fusion_data.py)、[训练与评价](https://github.com/perfect668/KT2028/blob/research/p1-restart/kt2028/train_fusion.py)、[配置](https://github.com/perfect668/KT2028/blob/research/p1-restart/configs/predictor_r2.json)。本网络只复用旧`network.py`中的`GatedPool`，该文件的旧`EvidencePredictor`/TSU/Actor类不能当作现行R2主体。
+
 - 输入C[R,1024]、区域物理位置P[R,4]、真fine字典i→F_i[k_i,1024]及相对位置、真实观察mask。y不进forward，未观察fine不能出现在任何分支。
 - 两路分别Linear1024→256＋GELU。粗区域位置MLP4→64→256，fine相对位置MLP2→64→256，来源来自真实坐标/父区域映射。
 - 粗分支一层Transformer encoder，潜维256、4 heads、FFN512、dropout0.2，随后单分支门控池化得到z_c[256]与基础logit l_c。全部粗区域始终可见，padding无效区域mask。

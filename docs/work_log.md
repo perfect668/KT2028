@@ -6,6 +6,8 @@
 
 ## 当前状态
 
+**W043当前架构图与代码入口完成（2026-10-13）：按已训练R2源码生成并核对图，PNG和完整提示词集保存在docs/figures，唯一方案0.23已链接。代码早已在research/p1-restart；本轮git ls-remote确认远端237aec2与开工本机一致，网络文件最近改动仍285fdd7。图解释两个Transformer、粗Q/细K,V、区域粗细concat、lc+delta与独立训练辅助，未把W042候选改进或生存头画成实际结构。只生图/核查/存档，不改算法或训练。**
+
 **W042融合/概率评价与生存建模调研完成（2026-10-13）：源码确认当前为粗Q/细K,V交叉注意力＋两处粗直通的风险残差；现有fine辅助头不直接监督融合主干。标签二值但网络/指标用连续概率，原BCE/Brier均未改善，不能把负结果仅归因AUROC。官方52KB标签CSV实际首1024字节含days_till_death，论文说明五年行政删失；全行/423映射/缺失尚未核准。独立fine主干/减少粗重拟合、配对概率指标和离散生存曲线属于讨论建议，未改源码/指标选择/终点、重训或Test/RL。详见唯一方案0.23补充与W042。**
 
 **W041三模式同AUROC诊断完成（2026-10-13，北京时间17:05）：严格重载已选融合best，重新推理Val84与独立正负配对AUROC复算一致。zero/20%/full均1132/1620对正确；20%与full相对zero均一得一失抵消，84例概率实际全变。20%→full平均变0.0175个百分点；保持粗/区域位置/观察数量、仅把真实fine置零平均变0.0521个百分点，打乱fine行平均变0.00236个百分点。当前best细内容响应弱，未发现指标复制、三模式相同输入或细参数完全未更新。未重训/改算法、选择、尺度、Test/RL；下一项为精细可预测性与粗路径再次拟合的隔离诊断。**
@@ -100,6 +102,14 @@
 ```
 
 ## 工作条目
+
+### W043｜2026-10-13：当前R2网络架构图、逐路径解释和GitHub代码入口（完成）
+
+- 范围/基准：用户要求讲清当前网络、配架构图并核对/推送代码；开工237aec23d19c477c6a5b786754b8ecc777988956，工作区干净。当前网络文件最后改动285fdd7；正式训练生成源43825ee，W042讨论候选尚未写入算法。
+- 远端核查：git ls-remote origin refs/heads/research/p1-restart返回237aec23d19c477c6a5b786754b8ecc777988956，与本机一致；git ls-tree确认fusion_network/fusion_data/train_fusion/prepare_coarse_uni、UNI入口/共享GatedPool、两份配置和fusion测试都在已推送树。用户查看专用分支，main历史文件不当作现行实现。网络主体为fusion_network.py:21的CoarseContext和:41的CrossScalePredictor，已在唯一方案补具体GitHub链接。
+- 当前结构：全粗1024→256＋bbox位置→单层4头Transformer→门控pool→zc/lc；已观察真fine1024→256＋相对位置为K,V，对应Hc[i]为Q局部4头cross-attention；cat(Hc[i],local fine)→256＋位置→另一单层4头Transformer→pool→zf；cat(zc,zf,q[2])514→256→1输出delta，最终sigmoid(lc+delta)，零fine直接粗预测。zf是融合表示；紫色fine_aux来自加位置前的纯fine投影并走独立pool/head，只作训练辅助。UNI冻结/预计算，不是本任务新训练图像编码器；训练先粗，再冻结粗训练fine/融合/辅助。
+- 图与检查：[当前R2图](figures/r2_predictor_actual_20261013.png)、[完整提示词集](figures/r2_predictor_actual_20261013.prompt.txt)，使用imagegen技能/built-in image_gen生成。初稿关键连线及第一次修正多余局部输入经两次定点编辑修正，最终人工按源码核对Q/K,V、粗区域直通、zc/zf/q三个修正头输入、delta→最终加法、纯fine辅助分叉；PNG1774×887、PIL容器verify通过。最终SHA e2d73a68d066aac1e81c1d930e732f40f16e1e69d295d2f88d082bc2f72c2650。生成源保留默认目录，选中图复制进仓库；旧P1图不覆盖。图是网络机制示意，不是实验/患者图或效果证据。
+- 变化与停止：只新增图/提示词及更新方案和日志，无模型代码、配置、参数、动作、研究终点变化；无训练/Validation新推理/Test/RL。按既有授权将图与长期记录一并提交推送专用分支；当前弱fine响应/过拟合结论和W042候选状态保持。下一项仍可先核原临床小表及fine通路，不因绘图自动实施候选。
 
 ### W042｜2026-10-13：粗细融合路径、连续概率评价与离散生存候选调研（完成讨论，不改实验）
 
