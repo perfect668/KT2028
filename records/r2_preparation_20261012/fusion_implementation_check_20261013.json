@@ -1,0 +1,21 @@
+{
+  "scope": "one real Train case forward/backward/optimizer/storage implementation check; not a fitted research run or performance estimate",
+  "source_commit": "285fdd7f596670c6c88103eca41a8926d716ee05",
+  "train_cases_in_manifest": 255,
+  "coarse_shape": [
+    577,
+    1024
+  ],
+  "observed_fine_regions": 571,
+  "observed_fine_patches": 8246,
+  "zero_strictly_equals_coarse": true,
+  "coarse_tokens_unchanged_with_fine": true,
+  "optimizer_steps_checked": 3,
+  "fine_attention_parameters_changed": true,
+  "frozen_coarse_parameters_unchanged": true,
+  "all_gradients_finite": true,
+  "strict_weights_only_reload": true,
+  "software_checkpoint_sha256": "d955dcc1bb996d4e37643d3d84441f0c89dd6c1b372432d96d1475fa5f864ec5",
+  "software_tests_passed": 6,
+  "validation_or_test_used": false
+}

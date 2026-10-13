@@ -1,3 +1,11 @@
+# R2预测器入口（2026-10-13，现行4/1MPP）
+
+`prepare_coarse_uni`只用已有低RGB按原物理区域重新编码UNI，输出独立1024维粗数据与原fine CSR/相对位置；Train/Validation可做无结局使用的数据准备，Test不由此入口处理。`fusion_data`只读已观察区域fine值，zero不读fine值；`fusion_network`始终保留全部粗上下文，真实fine通过cross-attention/残差融合，纯fine辅助头不输入coarse。旧P1入口继续留作历史，不接新数据。
+
+`train_fusion`默认只做真实Train零观察前向检查。`--execute --stage coarse`按注册配置拟合粗锚点，`--execute --stage fusion --predecessor /path/to/coarse/best.pt`冻结已选粗模型、拟合真fine增量/辅助。配置`configs/predictor_r2.json`固定seed/早停/损失/Val选择；Test无入口，旧run不可覆盖，前驱必须同配置/Train/Val/数据和实现指纹。Val选择结果不是独立Test。实际执行授权和进度以W038及服务器pipeline_state为准，导入模块/阅读命令不自动启动实验。
+
+主输入采用4/1MPP；2/0.5远程提取队列/失败证据保留为扩展历史，不自动重启。下面P1说明均按历史理解。
+
 # P1 当前数据接口
 
 唯一现行方法见 `docs/experiment_restart.md` 第 0 节。本包与 `msrlsurv/` 早期草稿分开，包含真实数据预处理、部分获取、首版预后/TSU/策略打分与 episode 接口；尚未训练预后网络或 PPO。
