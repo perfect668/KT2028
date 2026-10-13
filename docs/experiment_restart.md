@@ -649,6 +649,15 @@ w_t是实际进入动作概率的门控，可日志检查，但区域评分a_i�
 
 W030曾升级高层像素与语义准备；W037已采用4/1输入，上段八周排期仍是工程粗估，不是毕业/性能或工期保证。当前主要准备转为UNI粗重编码和R2网络实现，高层批量吞吐不作此前置，不要求用户手工逐张下载。
 
+**W042融合与评价调研补充（2026-10-13，讨论建议，未改变已采用规格）。**
+
+- 实际R2采用粗路1024→256＋bbox位置＋单层Transformer；局部4头交叉注意力以对应coarse token为Q、真实fine投影＋相对位置为K/V，随后cat(coarse,local fine)→256＋位置、单层Transformer与门控池；delta头还接收zc/zf和观察比例，最后sigmoid(lc+delta)。空间按同切片物理坐标/有效patch中心映射、区域内[0,1]相对位置对齐，表示分别投影到256维；无MSE、TSU或显式语义对齐损失。同UNI/同维不保证两路语义已对齐。现有fine辅助头只作用于fine_projection→aux_pool/head，不直接监督local_attention/fusion/fine_encoder/fine_pool主干。
+- [DSCA原文](https://arxiv.org/abs/2206.05782)与[作者实现](https://github.com/liupei101/DSCA)支持双流、粗query引导fine池化、分别Transformer再融合，但当前粗锚点风险残差/任意缺fine接口属于本项目适配，不是原网络完整复现。当前局部注意力在fine patch之间归一化，不是粗细两路占比；给全部未归一化权重乘同一系数会被归一化抵消，放大汇聚后特征可能被下游映射补偿，不能据注意力值大宣称利用有效。推荐候选为独立fine主干＋共享该主干的预后辅助头，再做粗条件化交互/门控；减少新增预测量直接从zc重拟合的通路，保留全粗和零fine回退。尚未选门控/改代码/超参或重训，先看已训练纯fine辅助头与必要独立fine/简单融合对照。
+- 当前标签y=1为五年死亡，但输出是连续死亡概率sigmoid(logit)，训练/选择BCE和评价Brier/AUROC不先阈值成0/1。AUROC测排序，[TRIPOD+AI](https://www.bmj.com/content/385/bmj-2023-078378)同时要求说明辨别、校准和临床效用；[校准原文](https://doi.org/10.1186/s12916-019-1466-7)解释高辨别不保证风险可靠。推荐继续既有BCE选择，完整报告BCE/Brier/校准/AUROC与病例配对差异区间，不换指标挑正结果。现有best粗→full BCE0.60218→0.60427、Brier0.21260→0.21346均略恶化，所以目前不是仅AUROC掩盖了整体概率收益。风险变化方向/幅度、熵下降或注意力增加本身均非改善证据。
+- 用户假设的存活概率10%→48%：若真实五年存活，Brier0.81→0.2704、BCE2.3026→0.7340，虽都低于0.5也能反映改善；若实际死亡，Brier0.01→0.2304、BCE0.1054→0.6539，方向相反。这只是数学示例，非本项目实验结果。[proper scoring rule原文](https://sites.stat.washington.edu/people/raftery/Research/PDF/Gneiting2007jasa.pdf)提供概率评分依据。标签二值不妨碍评价概率，但把两个月与四年半死亡都映射同一五年死亡标签确实丢失时间信息。
+- 生存建模的真实来源已找到：[SurGen原论文](https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giaf086/8277208)描述死亡天数、五年行政删失；本轮读取[官方Files目录](https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/285/S-BIAD1285/Files/)确认SR386_labels.csv约52KB，实际Range首1024字节表头含case_id/died_within_5_years/days_till_death/crc_primary_cause_of_death。服务器现训练CSV仅case_id/slide_id/label，没有事件时间；未读取全部原临床行/核准423病例映射、死亡天数缺失及存活删失规则，Q01不关闭。只取1024字节元数据前缀，不取WSI/权重。
+- 若上述来源核准，推荐升级候选为少量时间区间的离散hazard头，输出S(t)=prod(1-h_k)，从同一曲线取1/3/5年风险并保留五年参照；事件/删失似然代替把缺失死亡日当普通回归。[Nnet-survival原文](https://pubmed.ncbi.nlm.nih.gov/30701130/)和[作者PyTorch实现](https://github.com/MGensheimer/nnet-survival)可复用；[生存评价官方文档](https://scikit-survival.readthedocs.io/en/stable/user_guide/evaluating-survival-models.html)支持C-index/时间依赖AUC/带删失校正的Brier与IBS，C-index仍测排序，不能单独解决概率评价。当前没有切换终点、时间分箱或训练头；生存模型也不保证fine增益，不能用更细标签挽救没有信号的数据或假定可准确预测个人死亡日期。
+
 **以下为历史交接与早期方案档案（第 1–9 节），不构成当前执行计划。**
 
 ## 1. 重启目标
