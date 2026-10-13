@@ -1,0 +1,253 @@
+{
+  "status": "completed",
+  "checked_utc": "2026-10-13T09:05:26.914805+00:00",
+  "checkpoint_sha256": "0eaac75899104f5f176ea432dcb7202367ef3188c5cea0a7ce8379b930dd1d73",
+  "source_commit": "43825ee027f8434a873fa58e9a57ea4d5ee537fa",
+  "diagnostic_source_sha256": "b69b1246b69a9575981e625914a5b7204eab0f26ff7b98a356c95c5823023700",
+  "selected_human_epoch": 1,
+  "cases": 84,
+  "positives": 30,
+  "negatives": 54,
+  "test_used": false,
+  "training": false,
+  "weights_changed": false,
+  "checkpoint_selection_changed": false,
+  "scope": "fixed-checkpoint Validation output/ranking/content-sensitivity audit; controls are diagnostic, not fitted baselines",
+  "metrics": {
+    "zero": {
+      "auroc": 0.6987654320987654,
+      "pairwise_auroc": 0.6987654320987654,
+      "positive_negative_pairs": 1620,
+      "concordant_pairs": 1132,
+      "tied_pairs": 0,
+      "bce": 0.6021798074777637,
+      "brier": 0.21260441350522058,
+      "logged_auroc": 0.6987654320987654,
+      "logged_bce": 0.6021798074777637,
+      "auroc_matches_log": true,
+      "bce_matches_log": true,
+      "mean_regions": 0.0,
+      "mean_patches": 0.0
+    },
+    "0.1": {
+      "auroc": 0.6993827160493827,
+      "pairwise_auroc": 0.6993827160493827,
+      "positive_negative_pairs": 1620,
+      "concordant_pairs": 1133,
+      "tied_pairs": 0,
+      "bce": 0.6044069328123615,
+      "brier": 0.21351736960875906,
+      "logged_auroc": 0.6993827160493827,
+      "logged_bce": 0.6044069321027824,
+      "auroc_matches_log": true,
+      "bce_matches_log": true,
+      "mean_regions": 36.07142857142857,
+      "mean_patches": 500.42857142857144
+    },
+    "0.2": {
+      "auroc": 0.6987654320987654,
+      "pairwise_auroc": 0.6987654320987654,
+      "positive_negative_pairs": 1620,
+      "concordant_pairs": 1132,
+      "tied_pairs": 0,
+      "bce": 0.6043135086517959,
+      "brier": 0.21348606137232962,
+      "logged_auroc": 0.6987654320987654,
+      "logged_bce": 0.604313510070954,
+      "auroc_matches_log": true,
+      "bce_matches_log": true,
+      "mean_regions": 71.57142857142857,
+      "mean_patches": 993.9047619047619
+    },
+    "0.4": {
+      "auroc": 0.6987654320987654,
+      "pairwise_auroc": 0.6987654320987654,
+      "positive_negative_pairs": 1620,
+      "concordant_pairs": 1132,
+      "tied_pairs": 0,
+      "bce": 0.6042356946993441,
+      "brier": 0.2134554270375529,
+      "logged_auroc": 0.6987654320987654,
+      "logged_bce": 0.6042356939897651,
+      "auroc_matches_log": true,
+      "bce_matches_log": true,
+      "mean_regions": 142.76190476190476,
+      "mean_patches": 1997.2619047619048
+    },
+    "full": {
+      "auroc": 0.6987654320987654,
+      "pairwise_auroc": 0.6987654320987654,
+      "positive_negative_pairs": 1620,
+      "concordant_pairs": 1132,
+      "tied_pairs": 0,
+      "bce": 0.6042669595529636,
+      "brier": 0.21346361049874696,
+      "logged_auroc": 0.6987654320987654,
+      "logged_bce": 0.6042669595529636,
+      "auroc_matches_log": true,
+      "bce_matches_log": true,
+      "mean_regions": 355.9166666666667,
+      "mean_patches": 4966.452380952381
+    }
+  },
+  "comparisons": {
+    "zero_to_0.1": {
+      "probabilities_exactly_equal": false,
+      "changed_probabilities": 84,
+      "mean_abs_probability_change": 0.0067001232167794595,
+      "max_abs_probability_change": 0.013913214206695557,
+      "all_case_pair_order_changes": 5,
+      "positive_negative_pair_order_changes": 1,
+      "gains": 1,
+      "losses": 0,
+      "logit_change_mean": 0.026438804077250615,
+      "logit_change_std": 0.02935802375300638,
+      "logit_change_min": -0.03392672538757324,
+      "logit_change_max": 0.08234024047851562,
+      "probability_correlation": 0.9999480996406932
+    },
+    "zero_to_0.2": {
+      "probabilities_exactly_equal": false,
+      "changed_probabilities": 84,
+      "mean_abs_probability_change": 0.006757802108214015,
+      "max_abs_probability_change": 0.014119863510131836,
+      "all_case_pair_order_changes": 4,
+      "positive_negative_pair_order_changes": 2,
+      "gains": 1,
+      "losses": 1,
+      "logit_change_mean": 0.026783000500429244,
+      "logit_change_std": 0.029301319777310743,
+      "logit_change_min": -0.034157514572143555,
+      "logit_change_max": 0.08299136161804199,
+      "probability_correlation": 0.9999472792933549
+    },
+    "zero_to_0.4": {
+      "probabilities_exactly_equal": false,
+      "changed_probabilities": 84,
+      "mean_abs_probability_change": 0.00674579194968655,
+      "max_abs_probability_change": 0.013878405094146729,
+      "all_case_pair_order_changes": 5,
+      "positive_negative_pair_order_changes": 2,
+      "gains": 1,
+      "losses": 1,
+      "logit_change_mean": 0.026587813161313534,
+      "logit_change_std": 0.02937262037865018,
+      "logit_change_min": -0.03175067901611328,
+      "logit_change_max": 0.08314800262451172,
+      "probability_correlation": 0.9999473463879625
+    },
+    "zero_to_full": {
+      "probabilities_exactly_equal": false,
+      "changed_probabilities": 84,
+      "mean_abs_probability_change": 0.006720139423296565,
+      "max_abs_probability_change": 0.013689577579498291,
+      "all_case_pair_order_changes": 5,
+      "positive_negative_pair_order_changes": 2,
+      "gains": 1,
+      "losses": 1,
+      "logit_change_mean": 0.02656723762906733,
+      "logit_change_std": 0.029211966088989655,
+      "logit_change_min": -0.0320281982421875,
+      "logit_change_max": 0.08307218551635742,
+      "probability_correlation": 0.9999482725819795
+    },
+    "0.2_to_full": {
+      "probabilities_exactly_equal": false,
+      "changed_probabilities": 84,
+      "mean_abs_probability_change": 0.00017506159132435207,
+      "max_abs_probability_change": 0.0006619095802307129,
+      "all_case_pair_order_changes": 1,
+      "positive_negative_pair_order_changes": 0,
+      "gains": 0,
+      "losses": 0,
+      "logit_change_mean": -0.00021576287136191414,
+      "logit_change_std": 0.001251431605564535,
+      "logit_change_min": -0.0040547847747802734,
+      "logit_change_max": 0.002643108367919922,
+      "probability_correlation": 0.9999994766333832
+    },
+    "full_to_full_zero_fine_values": {
+      "probabilities_exactly_equal": false,
+      "changed_probabilities": 84,
+      "mean_abs_probability_change": 0.0005213815630191849,
+      "max_abs_probability_change": 0.0009083747863769531,
+      "all_case_pair_order_changes": 0,
+      "positive_negative_pair_order_changes": 0,
+      "gains": 0,
+      "losses": 0,
+      "logit_change_mean": -0.0027793019433461482,
+      "logit_change_std": 0.0005176385689637086,
+      "logit_change_min": -0.003956198692321777,
+      "logit_change_max": -0.0014483928680419922,
+      "probability_correlation": 0.9999996225802851
+    },
+    "full_to_full_shuffle_fine_rows": {
+      "probabilities_exactly_equal": false,
+      "changed_probabilities": 84,
+      "mean_abs_probability_change": 2.3631290310905095e-05,
+      "max_abs_probability_change": 7.894635200500488e-05,
+      "all_case_pair_order_changes": 1,
+      "positive_negative_pair_order_changes": 0,
+      "gains": 0,
+      "losses": 0,
+      "logit_change_mean": 7.845736330463773e-05,
+      "logit_change_std": 0.00013183523545753115,
+      "logit_change_min": -0.00029015541076660156,
+      "logit_change_max": 0.000322192907333374,
+      "probability_correlation": 0.9999999959168265
+    }
+  },
+  "learned_fine_parameters": {
+    "fine_projection.": {
+      "changed_tensors": 2,
+      "tensors": 2,
+      "max_abs_parameter_change": 0.0026043904945254326
+    },
+    "fine_position.": {
+      "changed_tensors": 4,
+      "tensors": 4,
+      "max_abs_parameter_change": 0.0019904375076293945
+    },
+    "local_attention.": {
+      "changed_tensors": 4,
+      "tensors": 4,
+      "max_abs_parameter_change": 0.0026636794209480286
+    },
+    "fusion.": {
+      "changed_tensors": 2,
+      "tensors": 2,
+      "max_abs_parameter_change": 0.0030798078514635563
+    },
+    "fine_encoder.": {
+      "changed_tensors": 12,
+      "tensors": 12,
+      "max_abs_parameter_change": 0.0027939635328948498
+    },
+    "fine_pool.": {
+      "changed_tensors": 6,
+      "tensors": 6,
+      "max_abs_parameter_change": 0.0016147308051586151
+    },
+    "delta.": {
+      "changed_tensors": 4,
+      "tensors": 4,
+      "max_abs_parameter_change": 0.0031288303434848785
+    },
+    "aux_pool.": {
+      "changed_tensors": 6,
+      "tensors": 6,
+      "max_abs_parameter_change": 0.0022848546504974365
+    },
+    "aux_head.": {
+      "changed_tensors": 2,
+      "tensors": 2,
+      "max_abs_parameter_change": 0.0018131239339709282
+    }
+  },
+  "fine_distinct_case_hashes": 84,
+  "fine_std_min": 1.2012509107589722,
+  "strict_reload": true,
+  "coarse_anchor_equal": true,
+  "first_case_repeat_exact": true,
+  "private_outputs": "per_case.json; labels and identifiers remain outside Git"
+}
