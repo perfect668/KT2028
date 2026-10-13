@@ -1,0 +1,30 @@
+{
+  "schema": "KT2028-R2-predictor",
+  "architecture": {
+    "dim": 256,
+    "heads": 4,
+    "dropout": 0.2
+  },
+  "seed": 41,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "gradient_clip": 5.0,
+  "accumulate_cases": 8,
+  "max_epochs": 100,
+  "patience": 15,
+  "fine_loss_weights": [
+    0.5,
+    0.5,
+    0.2
+  ],
+  "validation_fractions": [
+    "0.1",
+    "0.2",
+    "0.4"
+  ],
+  "selection": "coarse: zero BCE; fusion: mean fixed 10/20/40 percent and full BCE; zero separately reported",
+  "partial_training": "25 percent zero,25 percent full,50 percent uniform intermediate region count; patient/epoch seeded",
+  "test_used": false,
+  "parameter_origin": "registered engineering starting configuration; not an optimality or efficacy claim",
+  "validation_fraction_unit": "fraction of acquirable regions; actual patch fraction reported separately"
+}
