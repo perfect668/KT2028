@@ -1,0 +1,38 @@
+{
+  "schema": "KT2028-R2-coarse-UNI-4MPP",
+  "scope": "coarse re-encoding from existing RGB; official 1MPP fine features unchanged",
+  "coarse_mpp_um": 4.0,
+  "fine_mpp_um": 1.0,
+  "input_pixels": 224,
+  "coarse_field_um": 896.0,
+  "fine_field_um": 224.0,
+  "feature_dimension": 1024,
+  "feature_dtype": "float32",
+  "pixel_sampling": "reuse physical EXTENT crop_region; bilinear; white edge padding; no additional center crop",
+  "region_mapping": "reuse verified legacy bbox and fine CSR; no new clinical split or synthetic fine",
+  "legacy_geometry_config_sha256": "257fe7699bcd29c622d44c76339eb11a780fbd6e10ba0cd558c7be14e68fdf61",
+  "batch_size": 16,
+  "uni": {
+    "repo_id": "MahmoodLab/UNI",
+    "revision": "b55a5ec6cade1a39edfe6534189a9b8ca7a022f0",
+    "filename": "pytorch_model.bin",
+    "size_bytes": 1213527781,
+    "sha256": "56ef09b44a25dc5c7eedc55551b3d47bcd17659a7a33837cf9abc9ec4e2ffb40",
+    "metadata_source": "official Hugging Face model API with blobs=true; checked 2026-10-12",
+    "model_name": "vit_large_patch16_224",
+    "init_values": 1e-05,
+    "output_dimension": 1024,
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "fine_source": "official SurGen 224px 1MPP UNI1024 cache; protocol recorded, numeric identity not re-verified",
+  "test_scope": "not processed or evaluated in current preparation"
+}

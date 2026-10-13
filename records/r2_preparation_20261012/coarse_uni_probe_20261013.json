@@ -1,0 +1,38 @@
+{
+  "checked_utc": "2026-10-13T02:57:55.519719+00:00",
+  "status": "real_existing_RGB_coarse_UNI_probe_verified",
+  "source_commit": "f3def4b49c0881dba90ebba144d2fc484c0b7952",
+  "config_sha256": "5dbe02f2ce6fe3093564b05ff7e7e49b6997edfc66de02230fd152f9fbf238b4",
+  "uni_weight_sha256": "56ef09b44a25dc5c7eedc55551b3d47bcd17659a7a33837cf9abc9ec4e2ffb40",
+  "legacy_geometry_sha256": "7eeb92743f1b1a236c4602bb054f51799d184fa37bf4875b140ed65b6e2e1d97",
+  "legacy_rgb_sha256": "4ac4cb469ad7d37f739592a5b34997aace5997128b1874e83cad0453df70ca3c",
+  "module_sha256": {
+    "regions.py": "d031244e8d0a442cfd80c64dced0226a9f03d5c67e95cf863fcff3cdea7db3a6",
+    "uni_encoder.py": "1b30243fb2cd80700e6591624e1653e8cec939585fe4c3a06cbc2972d7524467"
+  },
+  "coarse_shape": [
+    54,
+    1024
+  ],
+  "fine_shape": [
+    735,
+    1024
+  ],
+  "fine_assigned_rows": 735,
+  "coarse_mpp_um": 4.0,
+  "fine_mpp_um": 1.0,
+  "input_pixels": 224,
+  "coarse_field_um": 896.0,
+  "pixel_mpp_xy": [
+    3.55939358854118,
+    3.55939358854118
+  ],
+  "all_coarse_values_finite": true,
+  "saved_exact_equal": true,
+  "output_sha256": "c06312c7a0fb10b53b60dde5279cc5c27571f4f1a43d22145f4d4d885a9cb2a0",
+  "crop_and_encoding_seconds": 0.578,
+  "network_image_bytes": 0,
+  "scope": "one Train case engineering encoding/storage probe only; no new fine extraction, prognosis/policy training, Validation/Test or batch queue",
+  "full_train_coarse_queue_completed": false,
+  "official_fine_numeric_reproduction_verified": false
+}
