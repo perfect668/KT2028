@@ -1,0 +1,254 @@
+{
+  "checked_utc": "2026-10-13T08:49:55.306668+00:00",
+  "pipeline": {
+    "status": "completed",
+    "phase": "predictor_stages_completed",
+    "pid": 189237,
+    "test_used": false,
+    "checked_utc": "2026-10-13T08:46:08.277844+00:00"
+  },
+  "runs": {
+    "coarse": {
+      "completion": {
+        "completed_epochs": 20,
+        "selected_epoch": 4,
+        "checkpoint_sha256": "94818dd755b72baa65495cb690bd600b9799a7c18feae022e193972573e4b9a7",
+        "best_selection_bce": 0.6021798074777637,
+        "strict_reload": true,
+        "test_used": false
+      },
+      "logged_epochs": 20,
+      "best": {
+        "epoch": 4,
+        "train_objective": 0.5313896073138012,
+        "selection_bce": 0.6021798074777637,
+        "validation": {
+          "zero": {
+            "cases": 84,
+            "bce": 0.6021798074777637,
+            "auroc": 0.6987654320987654,
+            "brier": 0.21260441350522058,
+            "mean_observed_regions": 0.0,
+            "mean_observed_patches": 0.0,
+            "mean_patch_fraction": 0.0
+          }
+        },
+        "coarse_anchor_frozen": false
+      },
+      "last": {
+        "epoch": 19,
+        "train_objective": 0.00018436660811768852,
+        "selection_bce": 2.5036425892323915,
+        "validation": {
+          "zero": {
+            "cases": 84,
+            "bce": 2.5036425892323915,
+            "auroc": 0.704320987654321,
+            "brier": 0.32643953441983103,
+            "mean_observed_regions": 0.0,
+            "mean_observed_patches": 0.0,
+            "mean_patch_fraction": 0.0
+          }
+        },
+        "coarse_anchor_frozen": false
+      },
+      "first": {
+        "epoch": 0,
+        "train_objective": 0.6709027001670763,
+        "selection_bce": 0.6228284750665937,
+        "validation": {
+          "zero": {
+            "cases": 84,
+            "bce": 0.6228284750665937,
+            "auroc": 0.6641975308641975,
+            "brier": 0.2165675771392493,
+            "mean_observed_regions": 0.0,
+            "mean_observed_patches": 0.0,
+            "mean_patch_fraction": 0.0
+          }
+        },
+        "coarse_anchor_frozen": false
+      },
+      "source_commit": "43825ee027f8434a873fa58e9a57ea4d5ee537fa",
+      "strict_reload_reverified": true,
+      "completion_and_checkpoint_match": true,
+      "test_used": false
+    },
+    "fusion": {
+      "completion": {
+        "completed_epochs": 16,
+        "selected_epoch": 0,
+        "checkpoint_sha256": "0eaac75899104f5f176ea432dcb7202367ef3188c5cea0a7ce8379b930dd1d73",
+        "best_selection_bce": 0.6043057739291162,
+        "strict_reload": true,
+        "test_used": false
+      },
+      "logged_epochs": 16,
+      "best": {
+        "epoch": 0,
+        "train_objective": 0.5820378821270139,
+        "selection_bce": 0.6043057739291162,
+        "validation": {
+          "zero": {
+            "cases": 84,
+            "bce": 0.6021798074777637,
+            "auroc": 0.6987654320987654,
+            "brier": 0.21260441350522058,
+            "mean_observed_regions": 0.0,
+            "mean_observed_patches": 0.0,
+            "mean_patch_fraction": 0.0
+          },
+          "0.1": {
+            "cases": 84,
+            "bce": 0.6044069321027824,
+            "auroc": 0.6993827160493827,
+            "brier": 0.21351736960875906,
+            "mean_observed_regions": 36.07142857142857,
+            "mean_observed_patches": 500.42857142857144,
+            "mean_patch_fraction": 0.10103787531092025
+          },
+          "0.2": {
+            "cases": 84,
+            "bce": 0.604313510070954,
+            "auroc": 0.6987654320987654,
+            "brier": 0.2134860615564261,
+            "mean_observed_regions": 71.57142857142857,
+            "mean_observed_patches": 993.9047619047619,
+            "mean_patch_fraction": 0.20094865640338172
+          },
+          "0.4": {
+            "cases": 84,
+            "bce": 0.6042356939897651,
+            "auroc": 0.6987654320987654,
+            "brier": 0.2134554270375529,
+            "mean_observed_regions": 142.76190476190476,
+            "mean_observed_patches": 1997.2619047619048,
+            "mean_patch_fraction": 0.40205089531779936
+          },
+          "full": {
+            "cases": 84,
+            "bce": 0.6042669595529636,
+            "auroc": 0.6987654320987654,
+            "brier": 0.21346361049874696,
+            "mean_observed_regions": 355.9166666666667,
+            "mean_observed_patches": 4966.452380952381,
+            "mean_patch_fraction": 1.0
+          }
+        },
+        "coarse_anchor_frozen": true
+      },
+      "last": {
+        "epoch": 15,
+        "train_objective": 0.18036544541782681,
+        "selection_bce": 1.9899601230445545,
+        "validation": {
+          "zero": {
+            "cases": 84,
+            "bce": 0.6021798074777637,
+            "auroc": 0.6987654320987654,
+            "brier": 0.21260441350522058,
+            "mean_observed_regions": 0.0,
+            "mean_observed_patches": 0.0,
+            "mean_patch_fraction": 0.0
+          },
+          "0.1": {
+            "cases": 84,
+            "bce": 2.012302997253192,
+            "auroc": 0.6981481481481482,
+            "brier": 0.37231266995676815,
+            "mean_observed_regions": 36.07142857142857,
+            "mean_observed_patches": 500.42857142857144,
+            "mean_patch_fraction": 0.10103787531092025
+          },
+          "0.2": {
+            "cases": 84,
+            "bce": 1.9092905897568493,
+            "auroc": 0.6993827160493827,
+            "brier": 0.3411073416177589,
+            "mean_observed_regions": 71.57142857142857,
+            "mean_observed_patches": 993.9047619047619,
+            "mean_patch_fraction": 0.20094865640338172
+          },
+          "0.4": {
+            "cases": 84,
+            "bce": 1.9961280414846398,
+            "auroc": 0.6814814814814815,
+            "brier": 0.34606213556427534,
+            "mean_observed_regions": 142.76190476190476,
+            "mean_observed_patches": 1997.2619047619048,
+            "mean_patch_fraction": 0.40205089531779936
+          },
+          "full": {
+            "cases": 84,
+            "bce": 2.0421188636835375,
+            "auroc": 0.6808641975308641,
+            "brier": 0.3596399572210468,
+            "mean_observed_regions": 355.9166666666667,
+            "mean_observed_patches": 4966.452380952381,
+            "mean_patch_fraction": 1.0
+          }
+        },
+        "coarse_anchor_frozen": true
+      },
+      "first": {
+        "epoch": 0,
+        "train_objective": 0.5820378821270139,
+        "selection_bce": 0.6043057739291162,
+        "validation": {
+          "zero": {
+            "cases": 84,
+            "bce": 0.6021798074777637,
+            "auroc": 0.6987654320987654,
+            "brier": 0.21260441350522058,
+            "mean_observed_regions": 0.0,
+            "mean_observed_patches": 0.0,
+            "mean_patch_fraction": 0.0
+          },
+          "0.1": {
+            "cases": 84,
+            "bce": 0.6044069321027824,
+            "auroc": 0.6993827160493827,
+            "brier": 0.21351736960875906,
+            "mean_observed_regions": 36.07142857142857,
+            "mean_observed_patches": 500.42857142857144,
+            "mean_patch_fraction": 0.10103787531092025
+          },
+          "0.2": {
+            "cases": 84,
+            "bce": 0.604313510070954,
+            "auroc": 0.6987654320987654,
+            "brier": 0.2134860615564261,
+            "mean_observed_regions": 71.57142857142857,
+            "mean_observed_patches": 993.9047619047619,
+            "mean_patch_fraction": 0.20094865640338172
+          },
+          "0.4": {
+            "cases": 84,
+            "bce": 0.6042356939897651,
+            "auroc": 0.6987654320987654,
+            "brier": 0.2134554270375529,
+            "mean_observed_regions": 142.76190476190476,
+            "mean_observed_patches": 1997.2619047619048,
+            "mean_patch_fraction": 0.40205089531779936
+          },
+          "full": {
+            "cases": 84,
+            "bce": 0.6042669595529636,
+            "auroc": 0.6987654320987654,
+            "brier": 0.21346361049874696,
+            "mean_observed_regions": 355.9166666666667,
+            "mean_observed_patches": 4966.452380952381,
+            "mean_patch_fraction": 1.0
+          }
+        },
+        "coarse_anchor_frozen": true
+      },
+      "source_commit": "43825ee027f8434a873fa58e9a57ea4d5ee537fa",
+      "strict_reload_reverified": true,
+      "completion_and_checkpoint_match": true,
+      "test_used": false
+    }
+  },
+  "fusion_coarse_parameters_equal_selected_anchor": true,
+  "scope": "completed single-seed Train/Validation-selected runs; not independent Test or significant fine benefit"
+}
