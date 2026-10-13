@@ -1,0 +1,55 @@
+{
+  "checked_utc": "2026-10-13T01:28:10.796207+00:00",
+  "checkout_commit": "5c522d0",
+  "extraction_source_commit": "863529e",
+  "scope": "read-only night status and saved feature verification; no restart/source changes/training",
+  "process_alive": false,
+  "log_last_write_utc": "2026-10-12T21:41:16.388858+00:00",
+  "expected_train_cases": 255,
+  "completed_dual_scale_cases": 1,
+  "second_case_progress": {
+    "coarse_saved": 2221,
+    "coarse_expected": 2221,
+    "fine_saved": 12352,
+    "fine_expected": 34516
+  },
+  "scales": {
+    "mpp_2p0": {
+      "completed_stores": 2,
+      "saved_rows": 2418,
+      "all_saved_rows_finite": true,
+      "completed_store_hashes_match": true
+    },
+    "mpp_0p5": {
+      "completed_stores": 1,
+      "saved_rows": 15173,
+      "all_saved_rows_finite": true,
+      "completed_store_hashes_match": true
+    }
+  },
+  "failure": {
+    "outer_error": "ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)",
+    "traceback_leaf_error": "ValueError: Network byte cap exceeded; no full ZIP download allowed",
+    "network_cap_bytes_per_image": 8589934592,
+    "resumable": true,
+    "extraction_lock_exists": false
+  },
+  "temporary_range_cache": {
+    "range_files": 3634,
+    "stored_range_bytes": 8577475504,
+    "unique_source_byte_coverage": 2147206776,
+    "overlapping_stored_bytes": 6430268728
+  },
+  "disk_free_bytes": 115517956096,
+  "gpu_snapshot": {
+    "memory_used_mib": 0,
+    "utilization_percent": 0
+  },
+  "relay_status": "local 12-hour proxy expired; SSH tunnel remains; extraction stopped earlier due byte cap",
+  "not_verified": [
+    "semantic/clinical image mapping for whole cohort",
+    "whole cohort throughput after overlap-cache optimization",
+    "prognostic value or policy benefit",
+    "SHA for incomplete prefix has no prior complete-file reference"
+  ]
+}
