@@ -1,0 +1,426 @@
+{
+  "date": "2026-10-14",
+  "source_commit": "c0c06f0c3e281a7cee9a10cbf9e14479a8bbff54",
+  "scope": "clinical Train/Validation and excluded four only; Test ID/geometry only; no Test outcomes or feature values, model evaluation, fitting, relabelling or endpoint change",
+  "raw_clinical": {
+    "sha256": "992cc6cc68dd5c1a7145512af362b04961eb052b268b571821c016ecf519a8e4",
+    "bytes": 53291,
+    "rows": 427,
+    "columns": [
+      "case_id",
+      "died_within_5_years",
+      "days_till_death",
+      "crc_primary_cause_of_death",
+      "age_at_diagnosis",
+      "sex",
+      "site_of_tumour",
+      "site_of_tumour_grouping",
+      "kras_ex_2",
+      "kras_ex_3",
+      "kras_codon_117",
+      "nras_ex_2",
+      "nras_ex_3",
+      "braf_mutant_status",
+      "mmr_ihc",
+      "mmr_loss_binary",
+      "primary_metastatic",
+      "stage",
+      "stage_subgroup",
+      "pT",
+      "pN",
+      "pM",
+      "tumour_type",
+      "differentiation",
+      "peri_surface_involved",
+      "distance_to_peritoneum_macroscopic_measurement",
+      "em_lvi",
+      "em_lvi_notes",
+      "pre-op_radio",
+      "pre-op_chemo"
+    ],
+    "duplicate_case_ids": 0
+  },
+  "splits": {
+    "train": {
+      "cases": 255,
+      "unique_cases": 255,
+      "manifest_sha256": "af67f405c4cb3a418a37b00dd6108d887d34a63d4d1164b6701bdb37089e1d39",
+      "one_slide_cases": 255,
+      "fine_patches_total": 1321180,
+      "fine_patches_assigned": 1319753,
+      "fine_outside_image": 0,
+      "fine_inside_but_no_candidate": 1427,
+      "fine_partially_padded": 1978,
+      "zero_fine_regions": 664,
+      "coarse_regions": 94933,
+      "r2_cases": 255,
+      "legacy_hash_matches": 255,
+      "rgb_size_checks": 255,
+      "coord_hash_matches": 255,
+      "mapping_recomputed_matches": 255,
+      "r2_hash_matches": 255,
+      "r2_provenance_matches": 255,
+      "r2_geometry_matches": 255,
+      "relative_xy_matches": 255,
+      "regions_over16": 167,
+      "regions_over16_at_partial_image_edge": 2,
+      "regions_over16_touching_partially_padded_fine": 5,
+      "duplicate_coords": 0,
+      "fine_nonfinite_values": 0,
+      "fine_zero_rows": 0,
+      "coarse_nonfinite_values": 0,
+      "fine_patches_per_case": {
+        "min": 735.0,
+        "p25": 3980.5,
+        "median": 5048.0,
+        "p75": 6294.5,
+        "max": 9610.0
+      },
+      "coarse_regions_per_case": {
+        "min": 54.0,
+        "p25": 292.0,
+        "median": 365.0,
+        "p75": 449.5,
+        "max": 672.0
+      },
+      "fine_per_nonempty_region": {
+        "min": 1.0,
+        "p25": 14.0,
+        "median": 16.0,
+        "p75": 16.0,
+        "max": 20.0
+      },
+      "clinical": {
+        "matched": 255,
+        "binary_matches": 255,
+        "deaths": 100,
+        "survivors": 155,
+        "death_day_stats": {
+          "min": 0.0,
+          "p25": 329.25,
+          "median": 712.0,
+          "p75": 1229.0,
+          "max": 2297.0
+        },
+        "death_days_gt1827": 6,
+        "death_days_zero": 1,
+        "death_days_negative": 0,
+        "deaths_crc_primary_cause_counts": {
+          "": 44,
+          "1": 56
+        },
+        "missing_counts": {
+          "case_id": 0,
+          "died_within_5_years": 0,
+          "days_till_death": 0,
+          "crc_primary_cause_of_death": 199,
+          "age_at_diagnosis": 0,
+          "sex": 0,
+          "site_of_tumour": 2,
+          "site_of_tumour_grouping": 2,
+          "kras_ex_2": 0,
+          "kras_ex_3": 0,
+          "kras_codon_117": 0,
+          "nras_ex_2": 0,
+          "nras_ex_3": 0,
+          "braf_mutant_status": 0,
+          "mmr_ihc": 0,
+          "mmr_loss_binary": 0,
+          "primary_metastatic": 0,
+          "stage": 1,
+          "stage_subgroup": 1,
+          "pT": 1,
+          "pN": 1,
+          "pM": 240,
+          "tumour_type": 2,
+          "differentiation": 2,
+          "peri_surface_involved": 5,
+          "distance_to_peritoneum_macroscopic_measurement": 17,
+          "em_lvi": 2,
+          "em_lvi_notes": 136,
+          "pre-op_radio": 2,
+          "pre-op_chemo": 2
+        },
+        "stage_counts": {
+          "1": 37,
+          "2": 93,
+          "3": 71,
+          "3C": 43,
+          "4": 10,
+          "": 1
+        },
+        "primary_metastatic_counts": {
+          "P": 255
+        },
+        "sex_counts": {
+          "F": 117,
+          "M": 138
+        },
+        "age_stats": {
+          "min": 33.0,
+          "p25": 59.0,
+          "median": 69.0,
+          "p75": 77.0,
+          "max": 97.0
+        },
+        "survivors_raw_death_day_literals": {
+          "Alive": 155
+        },
+        "survivors_without_numeric_death_time": 155
+      },
+      "assigned_fine_cross_parent_bbox": 574004,
+      "maximum_parent_bbox_overhang_um": 111.87325934870023
+    },
+    "validate": {
+      "cases": 84,
+      "unique_cases": 84,
+      "manifest_sha256": "a8aca4636d52fd2f2db8d1ba724aa8bae18ac6619ea352461e6f6a5cfbdca568",
+      "one_slide_cases": 84,
+      "fine_patches_total": 417615,
+      "fine_patches_assigned": 417182,
+      "fine_outside_image": 0,
+      "fine_inside_but_no_candidate": 433,
+      "fine_partially_padded": 661,
+      "zero_fine_regions": 148,
+      "coarse_regions": 30045,
+      "r2_cases": 84,
+      "legacy_hash_matches": 84,
+      "rgb_size_checks": 84,
+      "coord_hash_matches": 84,
+      "mapping_recomputed_matches": 84,
+      "r2_hash_matches": 84,
+      "r2_provenance_matches": 84,
+      "r2_geometry_matches": 84,
+      "relative_xy_matches": 84,
+      "regions_over16": 1,
+      "regions_over16_at_partial_image_edge": 0,
+      "regions_over16_touching_partially_padded_fine": 0,
+      "duplicate_coords": 0,
+      "fine_nonfinite_values": 0,
+      "fine_zero_rows": 0,
+      "coarse_nonfinite_values": 0,
+      "fine_patches_per_case": {
+        "min": 1529.0,
+        "p25": 3853.0,
+        "median": 4935.5,
+        "p75": 6101.25,
+        "max": 9538.0
+      },
+      "coarse_regions_per_case": {
+        "min": 124.0,
+        "p25": 280.0,
+        "median": 355.5,
+        "p75": 433.5,
+        "max": 640.0
+      },
+      "fine_per_nonempty_region": {
+        "min": 1.0,
+        "p25": 14.0,
+        "median": 16.0,
+        "p75": 16.0,
+        "max": 17.0
+      },
+      "clinical": {
+        "matched": 84,
+        "binary_matches": 84,
+        "deaths": 30,
+        "survivors": 54,
+        "death_day_stats": {
+          "min": 136.0,
+          "p25": 388.5,
+          "median": 1029.0,
+          "p75": 1282.0,
+          "max": 2282.0
+        },
+        "death_days_gt1827": 3,
+        "death_days_zero": 0,
+        "death_days_negative": 0,
+        "deaths_crc_primary_cause_counts": {
+          "": 11,
+          "1": 19
+        },
+        "missing_counts": {
+          "case_id": 0,
+          "died_within_5_years": 0,
+          "days_till_death": 0,
+          "crc_primary_cause_of_death": 65,
+          "age_at_diagnosis": 0,
+          "sex": 0,
+          "site_of_tumour": 0,
+          "site_of_tumour_grouping": 0,
+          "kras_ex_2": 0,
+          "kras_ex_3": 0,
+          "kras_codon_117": 0,
+          "nras_ex_2": 0,
+          "nras_ex_3": 0,
+          "braf_mutant_status": 0,
+          "mmr_ihc": 0,
+          "mmr_loss_binary": 0,
+          "primary_metastatic": 0,
+          "stage": 0,
+          "stage_subgroup": 0,
+          "pT": 0,
+          "pN": 0,
+          "pM": 76,
+          "tumour_type": 0,
+          "differentiation": 0,
+          "peri_surface_involved": 1,
+          "distance_to_peritoneum_macroscopic_measurement": 4,
+          "em_lvi": 0,
+          "em_lvi_notes": 43,
+          "pre-op_radio": 0,
+          "pre-op_chemo": 0
+        },
+        "stage_counts": {
+          "2": 27,
+          "1": 13,
+          "3": 24,
+          "3C": 16,
+          "4": 4
+        },
+        "primary_metastatic_counts": {
+          "P": 84
+        },
+        "sex_counts": {
+          "F": 38,
+          "M": 46
+        },
+        "age_stats": {
+          "min": 39.0,
+          "p25": 59.0,
+          "median": 69.0,
+          "p75": 76.25,
+          "max": 87.0
+        },
+        "survivors_raw_death_day_literals": {
+          "Alive": 54
+        },
+        "survivors_without_numeric_death_time": 54
+      },
+      "assigned_fine_cross_parent_bbox": 181523,
+      "maximum_parent_bbox_overhang_um": 110.87128964063231
+    },
+    "test": {
+      "cases": 84,
+      "unique_cases": 84,
+      "manifest_sha256": "3f047f39fd0690b6223990c755f8a2133d0ec130cbe77d0b373fdfa37bd9ab69",
+      "one_slide_cases": 84,
+      "fine_patches_total": 440611,
+      "fine_patches_assigned": 438684,
+      "fine_outside_image": 1407,
+      "fine_inside_but_no_candidate": 520,
+      "fine_partially_padded": 718,
+      "zero_fine_regions": 210,
+      "coarse_regions": 31417,
+      "r2_cases": 0,
+      "legacy_hash_matches": 84,
+      "rgb_size_checks": 84,
+      "coord_hash_matches": 84,
+      "mapping_recomputed_matches": 84,
+      "r2_hash_matches": 0,
+      "r2_provenance_matches": 0,
+      "r2_geometry_matches": 0,
+      "relative_xy_matches": 0,
+      "regions_over16": 13,
+      "regions_over16_at_partial_image_edge": 0,
+      "regions_over16_touching_partially_padded_fine": 3,
+      "duplicate_coords": 0,
+      "fine_nonfinite_values": null,
+      "fine_zero_rows": null,
+      "coarse_nonfinite_values": null,
+      "fine_patches_per_case": {
+        "min": 1374.0,
+        "p25": 4186.5,
+        "median": 5191.5,
+        "p75": 6358.25,
+        "max": 11118.0
+      },
+      "coarse_regions_per_case": {
+        "min": 41.0,
+        "p25": 307.0,
+        "median": 377.0,
+        "p75": 448.75,
+        "max": 733.0
+      },
+      "fine_per_nonempty_region": {
+        "min": 1.0,
+        "p25": 15.0,
+        "median": 16.0,
+        "p75": 16.0,
+        "max": 20.0
+      }
+    }
+  },
+  "errors": [],
+  "overlaps": {
+    "train__validate": 0,
+    "train__test": 0,
+    "validate__test": 0
+  },
+  "duplicate_whole_arrays": {
+    "fine_train_val": 0,
+    "coarse_train_val": 0,
+    "coords_all423": 0,
+    "interpretation": "Whole-array SHA exact duplication only, not pixel duplicates or clinical linkage proof."
+  },
+  "excluded_four": {
+    "count": 4,
+    "raw_matches": 4,
+    "raw_flags": {
+      "NULL": 2,
+      "1": 2
+    },
+    "raw_death_day_literals": {
+      "NULL": 2,
+      "388": 1,
+      "Err:502": 1
+    }
+  },
+  "asset_counts": {
+    "data/regions_p1_20261009": 423,
+    "data/coarse_uni_r2_20261013": 339
+  },
+  "fine_stores": 427,
+  "raw_wsi_files": 0,
+  "audit_script_sha256": "9b1d6662b35d3d81b143ae51aa951d38899077360b903cab5a403b449de304f3",
+  "corrections": [
+    "Source survivor time literal is Alive, not blank; previous W044 description corrected. No numerical death/censor time provided for survivors.",
+    "Test fine numerical values were not read in W045; unmeasured numeric fields now null instead of loop counters zero.",
+    "Initial W045 receipt preserved; this clarified receipt adds raw literals and parent footprint audit."
+  ],
+  "no_independent_censor_date_or_time_origin_column": true,
+  "official_archives_actual": [
+    {
+      "name": "SurGen_UNI_patch_embeddings.zip",
+      "bytes": 16846959224
+    }
+  ],
+  "raw_wsi_files_note": "No whole WSI in raw_wsi; low PNGs and partial Range caches exist separately, not a complete WSI archive.",
+  "initial_receipt_sha256": "3b7391da2dd5921bd76d319bb3682948b232144e484b3ccfaff06d207d0f8de9",
+  "sources": {
+    "clinical_url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/285/S-BIAD1285/Files/SR386_labels.csv",
+    "paper": "https://arxiv.org/html/2502.04946v2",
+    "features": "https://zenodo.org/records/14047723",
+    "biostudies_api": "https://www.ebi.ac.uk/biostudies/api/v1/studies/S-BIAD1285",
+    "biostudies_snapshot_sha256": "4164333eeea2976d2cc8fae0e8bf1f54d4b4baa97bf54203d4da520d814dc59a",
+    "current_official_csv_hash_matches_server": {
+      "train": "e93f0930020a2df3899cc6adbaebf91128c0df8e6439c5bfb9546c0531cefe93",
+      "validate": "c0d8768b3a546c044b1b5f8f7e8d3971d701fe1bb0011a7c4b443d29be708a32"
+    },
+    "clinical_source_code_search": "Uploaded official source .py/.md/.ipynb has no days_till_death or died_within_5_years processing; no per-case censor dates/data dictionary found in inspected public materials. GitHub commits API 403 rate limited; no claim of complete repository history audit."
+  },
+  "interpretation": [
+    "427 raw clinical rows/427 feature stores; official binary split contains 423, not all clinical labels are necessarily included.",
+    "Two excluded cases NULL outcome/time; one excluded has binary1/day388 with exclusion reason unresolved; one binary1/day Err:502. No additions/deletions made.",
+    "Train/Validation raw labels match all339 current official task labels; raw survivor time value Alive, not blank or zero.",
+    "Nine of130 Train/Validation death labels have times beyond1827 days; one zero-day. Documented diagnosis origin/five-year administrative censoring not independently reconstructable from raw dates.",
+    "CRC-primary-cause field has75 ones and55 blanks among130 Train/Validation deaths; blank is not confirmed non-CRC. Paper cohort count67/161 and current source count cannot be assumed same version.",
+    "No exact whole-array duplication among339 coarse or fine arrays; this is not proof of pixel uniqueness or independently verified patient identity.",
+    "Full fine input means all candidate-assigned cached fine, not literally every official patch:1736935/1738795 Train/Validation,1860 omitted by RGB candidate mask.",
+    "Center-based ownership is internally consistent but does not enforce whole-patch containment:755527 assigned patches cross parent bbox; no forced fixed4x4 grid.",
+    "168 Train/Validation regions exceed16 children; only2 at partial image edge and5 touching partially padded fine. Edge padding alone does not explain all excess counts; no duplicate coord/index found.",
+    "Test read only ID/schema/coords/legacy files, no clinical outcomes/numeric fine/model inference. Existing one-slide1407/1918 out-of-image discrepancy remains unresolved.",
+    "Fresh file integrity/mapping checks do not prove all fine pixels/UNI preprocessing numerically reproduce official extraction or all slides visually register.",
+    "No label, split, algorithm, endpoint, loss, model selection or training changes."
+  ]
+}
