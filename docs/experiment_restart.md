@@ -622,6 +622,18 @@ DACHS/Graz等研究队列可有结局，但原研究访问为合作/申请，未
 
 第6轮full的真实Val81结果：C-index0.760641、NLL1.007535、年度IBS0.105147；1/3/5年AUROC0.910959/0.763462/0.792181、Brier0.063528/0.124017/0.175181。各年度事件比例不同，不用跨年度值证明临床优越；全部是选权重验证集，不是独立Test。现行契约/标签/架构保持，本轮只读说明和存档，无新推理/训练。
 
+**W053｜2026-10-14 TCGA官方下载指引（用户手动操作，尚未扩充）。** 官方入口[COAD](https://portal.gdc.cancer.gov/projects/TCGA-COAD)、[READ](https://portal.gdc.cancer.gov/projects/TCGA-READ)及[GDC Portal](https://portal.gdc.cancer.gov/)。按[官方Repository文档](https://docs.gdc.cancer.gov/Data_Portal/Users_Guide/Repository/)进入文件检索，项目选TCGA-COAD/TCGA-READ、Experimental Strategy=Diagnostic Slide、Data Format=SVS、Access=open（Data Type=Slide Image）。导出结果Manifest及JSON/TSV元数据，再将本次目标文件加入Cart，下载配套Clinical(JSON、TSV)、Sample Sheet和Metadata(JSON)。先只保存这些小文件、核图像病例与OS时间/事件/末次随访；Manifest不含预后标签，不冒称向量特征，Cart Clinical范围只是相关病例。原发肿瘤/非肿瘤、切片代表性/多切片按样本表再核，不按文件数当新增患者数。
+
+[GDC Data Transfer Tool官方下载页](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool)现列Windows x64 2.3.0，用户下载解压，并将实际gdc-client.exe放到示例路径`D:\TCGA\tools\gdc-client.exe`；目录是操作示例，不宣称已存在/客户端已安装。先在Portal选1–3张SVS另导出试下载清单并保存为`D:\TCGA\metadata\gdc_manifest_probe.txt`，确认目录和目标磁盘空间后，用PowerShell执行下例（本轮没有执行）：
+
+```powershell
+& "D:\TCGA\tools\gdc-client.exe" download -m "D:\TCGA\metadata\gdc_manifest_probe.txt" -d "D:\TCGA\wsi" -n 2
+```
+
+按[官方下载命令文档](https://docs.gdc.cancer.gov/Data_Transfer_Tool/Users_Guide/Data_Download_and_Upload/)，-m为文件清单、-d为输出目录、-n为连接数量；2仅网络慢时的小批起点，不称最优。中断后以同清单/输出重新运行续传，保留MD5/SSL校验；客户端关闭/电脑休眠会暂停传输，未承诺后台持续。确认可用病例/元数据及真实下载速度后，才将probe清单换为登记的正式选定清单，不立即启动整个项目所有文件。已有字节/日志应保留，最终核文件MD5和大小。按[GDC访问规则](https://gdc.cancer.gov/access-data/data-access-processes-and-tools)，open文件不需登录/token；controlled须dbGaP/eRA等授权，本研究此次目标为开放病理/公开临床，不默认申请测序数据或发送token。
+
+本轮只核官方指引和存档，没有获取真实新增患者清单、临床/图像/特征、下载/安装客户端、测试链路、修改当前标签/架构/配置或启动预测/训练/Test/RL。Windows目录/文件名仅推荐保存位置；下一项是实际小文件到位后的患者-切片-随访匹配、输入缺口与空间统计，而不是默许将现成UNI2-h包混入现行原UNI。
+
 **准备顺序与停止点。** `prepare_survival`读取原表及三个原manifest，输出独立私有Train/Val/Test生存清单、10例排除理由和匿名汇总；不改源清单。`SurvivalDataset`只接受Train/Val，用既有R2粗数据并只读已观察fine；同一索引批量读取降低重复解压，权限与旧输入数值不变。`train_survival`默认核329份资产/源hash及真实最大Train病例零/部分/全输入、NLL梯度、曲线和内存保存重载，optimizer_steps=0；训练必须显式`--execute`。配置见`configs/predictor_survival.json`，实现见`kt2028/survival*.py`、`prepare_survival.py`、`train_survival.py`。真实检查通过后记回执并停止，不启动训练。Test粗UNI尚未编码且Q05未解决，不影响248+81训练准备，正式Test前另处理。
 
 ```bash
