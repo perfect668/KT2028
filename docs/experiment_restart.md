@@ -579,6 +579,22 @@ bash /root/autodl-tmp/KT2028/repo/scripts/start_survival_training.sh --attach
 
 当前先保留第6轮；下一最小建议是固定已选权重、粗输入、几何/位置和观察数量，核查真实fine内容对概率/NLL/Brier的配对影响，区分真实细证据与观察标志/粗门控贡献；再讨论缩小容量或正则/学习率候选。诊断是建议尚未运行，不因单次结果自动扩数据、换尺度/终点、重选AUROC峰值、改结构或重新训练；Validation不是独立Test，不宣称显著/临床有效或RL已获益。本轮只读日志/元数据和CPU严格重载并存档，没有新预测、梯度更新、Test或RL。此前W046/W048未启动状态保留为历史准备记录，不能继续误报当前未训练。
 
+**W050｜2026-10-14 跨癌种扩充与公开性能位置（讨论建议，未改变主方案）。** 用户询问其他癌种能否帮助扩数据，以及第6轮结果和SOTA差距。可以研究跨癌种迁移，但不能将“能共用输入/损失”当成“混合后必然提高CRC预测”。优先同癌种外部队列（如[TCGA-COAD](https://portal.gdc.cancer.gov/projects/TCGA-COAD)/[READ](https://portal.gdc.cancer.gov/projects/TCGA-READ)，实际可用数/随访/输入资产待核）；如采用其他癌种，更合适的是共享粗细表征/汇聚预训练后对CRC微调，或共享主干加癌种条件/轻量特异头，并按癌种分别评价、避免大癌种样本压制目标队列。癌种之间生存基线不同，识别器官/癌种本身可能改善混合总体排序而未改善同癌种个体风险；这是方法学风险推断，不是本项目已复现实验。
+
+依据：[UNI原论文](https://www.nature.com/articles/s41591-024-02857-3)已在20类组织的大量WSI自监督预训练，本项目已经复用这层跨组织知识；再训练共享生存任务模块不是重复称从零训练UNI。[MICE预印本](https://arxiv.org/html/2509.12600v1)使用11,799患者/30癌种、共享与癌种特异表示及跨癌种预训练，但输入还含报告/组学。[PaRa-MIL原研究](https://doi.org/10.1016/j.compmedimag.2026.102744)跨七癌种学习病理-放射交互后辅助小样本生存建模。两者支持路线可行，不能直接证明当前纯病理双尺度结构必获同样增益。外部数据要真实统一OS起点、死亡事件、末次随访、五年截断和患者划分；当前`survival.py/common_censor_metrics`和`survival_data.py`明确拒绝提前删失，外部不足五年随访者不能强赋1825或按五年存活标签使用，接入须另登记删失评价契约。两路编码器版本/MPP/坐标及临床来源兼容尚未核；单尺度向量包不冒称现有双尺度/RL接口即用。
+
+截至2026-10-14本轮实际核到的相近原文结果如下，用于了解数量级，**不是跨论文统一排行榜或完整穷尽的世界SOTA**：
+
+| 原研究/表格 | 数据与协议 | 实际指标 | 可比性限制 |
+| --- | --- | --- | --- |
+| [THREADS Table29](https://arxiv.org/html/2501.16652v1)，监督THREADS | SurGen387例、五年死亡、五折 | AUROC0.715±0.024（SE） | 与我们五年终点接近，但病例筛选、输入、划分、评估不同 |
+| [THREADS Table35](https://arxiv.org/html/2501.16652v1)，THREADS+CoxNet | SurGen144例OS、表7标0%删失、五折 | C-index0.638±0.014（SE） | 仅死亡/无删失子队列，与413共同五年删失不能直接比较 |
+| [SEAL ExtendedTable40](https://arxiv.org/html/2602.14177v1)，Virchow2-SEAL+MeanMIL | SurGen表标387例OS、五折；2026预印本 | C-index0.688±0.065（原表±值） | 正文写389、表写387；不借此编造纳入规则，非我们413协议 |
+| [CrossFusion Table2](https://arxiv.org/html/2503.02064v2)，GigaPath骨干 | TCGA-COAD、五折，MIDL2026对应v2 | C-index0.718±0.064（SD） | 另一队列/提取器/尺度，不能把0.718当CRC所有方法统一SOTA |
+| 本项目R3已选第6轮 | 413总队列，Val81/27死亡用于权重选择 | C-index0.76064、五年AUROC0.79218、NLL1.00754、五年Brier0.17518（full） | 单次选权重验证结果，无独立Test/跨折均值/CI，不宣称超过上述方法 |
+
+判断：当前数值是较好的初步结果，值得继续推进预测器诊断；真正的性能排名还没有证据。SOTA必须限定队列筛选、OS/DFS终点、图像/临床/组学输入、分箱/随访、划分及验证用途，不能给一个跨全部癌种/模态的唯一数值。NLL/Brier还受分箱及事件风险结构影响，不按异协议绝对值判先进程度；累计五年AUROC和C-index不是同一指标。近期强方法/多模态模型也不能仅因标题SOTA就直接搬为本项目正式比较。所有扩充/共享头建议仍是候选，未下载、改源码/数据契约或运行训练/新预测/Test/RL，现行R3与第6轮保持。
+
 **准备顺序与停止点。** `prepare_survival`读取原表及三个原manifest，输出独立私有Train/Val/Test生存清单、10例排除理由和匿名汇总；不改源清单。`SurvivalDataset`只接受Train/Val，用既有R2粗数据并只读已观察fine；同一索引批量读取降低重复解压，权限与旧输入数值不变。`train_survival`默认核329份资产/源hash及真实最大Train病例零/部分/全输入、NLL梯度、曲线和内存保存重载，optimizer_steps=0；训练必须显式`--execute`。配置见`configs/predictor_survival.json`，实现见`kt2028/survival*.py`、`prepare_survival.py`、`train_survival.py`。真实检查通过后记回执并停止，不启动训练。Test粗UNI尚未编码且Q05未解决，不影响248+81训练准备，正式Test前另处理。
 
 ```bash
