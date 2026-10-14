@@ -560,6 +560,19 @@ NLST粗细单路接近、融合改善很小；BRCA直接双路反而下降，粗
 
 接入RL后的协同方式仍为分块交替：先固定较稳定预测器训练策略，再固定策略微调预测器，再用新预测器重新采轨迹更新策略。预测器内部粗/细/门控/生存头一起训练；此顺序调整不改变现有413数据、网络/损失/配置，不改为从头同时更新两网。本轮只更新计划与记录，不调用训练入口、实现或运行RL。
 
+**W048｜2026-10-14 用户自行启动、断开SSH仍持续与实时进度。** 用户要求提供命令，由其手动启动；Codex本轮只准备启动封装/日志，不代执行训练。服务器无tmux，已有nohup/setsid/flock/tail，使用`scripts/start_survival_training.sh`：nohup忽略挂断，setsid脱离SSH会话，stdin为/dev/null，stdout/stderr写持久日志，前台仅tail；Ctrl+C退出查看不停止训练。锁由训练子进程继承，重复启动附着既有进程或拒绝覆盖旧run/log，不自动重训。启动前工具/清单/Git干净检查；`--check`只检查路径和显示拟执行命令，不启动或建立训练/控制目录。启动默认仅此预测器，不串行RL/Test。代码只增加资产检查、每8病例训练、各观察模式验证、checkpoint/早停与结束的中文进度输出，epochs.jsonl仍保存完整原指标，不改模型/损失/选择/超参。
+
+```bash
+# 登录服务器后由用户执行：真正启动训练并前台查看
+cd /root/autodl-tmp/KT2028/repo
+bash scripts/start_survival_training.sh
+
+# 断开后重新连接：仅查看原任务，不重复启动
+bash /root/autodl-tmp/KT2028/repo/scripts/start_survival_training.sh --attach
+```
+
+计划run仍为`survival_s41_413_20261014`；日志在项目根`launches/survival_s41_413_20261014/training.log`，PID同目录`pid`；训练模型/epochs/completion在`runs/survival_s41_413_20261014/`。启动后先校验329例资产，再开始训练；每轮先Train248，再按zero/10/20/40/full验证Val81。后台封装不提供服务器重启后的自动恢复；当前无训练run/进程，后续用户运行后按真实run.json/日志核查，不将“启动命令准备好”记成已训练。
+
 **准备顺序与停止点。** `prepare_survival`读取原表及三个原manifest，输出独立私有Train/Val/Test生存清单、10例排除理由和匿名汇总；不改源清单。`SurvivalDataset`只接受Train/Val，用既有R2粗数据并只读已观察fine；同一索引批量读取降低重复解压，权限与旧输入数值不变。`train_survival`默认核329份资产/源hash及真实最大Train病例零/部分/全输入、NLL梯度、曲线和内存保存重载，optimizer_steps=0；训练必须显式`--execute`。配置见`configs/predictor_survival.json`，实现见`kt2028/survival*.py`、`prepare_survival.py`、`train_survival.py`。真实检查通过后记回执并停止，不启动训练。Test粗UNI尚未编码且Q05未解决，不影响248+81训练准备，正式Test前另处理。
 
 ```bash

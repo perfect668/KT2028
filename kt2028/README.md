@@ -6,6 +6,8 @@
 
 `train_survival`**默认只做就绪检查**（资产/坐标/源hash、真实Train三状态、损失backward、权重不变、内存重载），不创建optimizer或训练run。正式拟合需显式`--execute`，本轮禁止执行。优化/早停按注册配置，Val五模式平均NLL选权重；无旧binary checkpoint加载/自动PPO。共同行政删失指标不能用于提前/可变删失数据。训练命令在唯一方案中维护，不复制新任务单。
 
+W048提供用户手动启动封装`scripts/start_survival_training.sh`，后台nohup/独立会话/进程锁＋持久日志，前台仅查看；`--attach`重连查看、`--check`不启动。真实启动命令仅维护于方案0.23 W048。训练控制台显示资产核对、每8病例训练进度、各观察量验证结果和早停状态；完整每轮指标仍在epochs.jsonl。本轮Codex未运行启动分支。
+
 借鉴DSCA`a749074cb3415c3a6eb83bee39191bdb69968dcc`的双流/粗Q池化/SurvMLE(alpha=0)；本项目变长fine、门控、观察权限/辅助共享及稳定logit实现为适配，不称原DSCA完整复现。旧P1/R2源码、配置、权重与负结果保留。以下入口说明为历史。
 
 # R2预测器历史入口（2026-10-13，4/1MPP）

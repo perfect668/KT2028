@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-14",
+  "base_commit": "0dbbfd504ff327ad89384f05bc9d91a92d302f8a",
+  "scope": "manual-user-launch preparation;Codex did not start training",
+  "launcher": {
+    "bash_syntax": true,
+    "launcher_readonly_check": true,
+    "launcher_sha256": "3a65bed9e130a6df25ee6cf05bbfa195dd8c30e88da5c1cc94b5a655aa468a6a",
+    "training_run_created": false,
+    "control_directory_created": false,
+    "training_started": false
+  },
+  "detachment_software_fixture": {
+    "non_training_fixture": true,
+    "survived_previous_ssh_disconnect": true,
+    "separate_session": true,
+    "sighup_ignored": true,
+    "inherited_lock_held": true,
+    "fixture_completed": true,
+    "training_started": false
+  },
+  "network_loss_config_changed": false,
+  "training_started": false,
+  "no_auto_RL_or_Test": true
+}
