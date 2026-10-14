@@ -1,0 +1,104 @@
+{
+  "source_url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/285/S-BIAD1285/Files/SR386_labels.csv",
+  "source_bytes": 53291,
+  "source_sha256": "992cc6cc68dd5c1a7145512af362b04961eb052b268b571821c016ecf519a8e4",
+  "scope": "Train/Validation clinical metadata only; no Test outcomes or predictions inspected; no training or endpoint change",
+  "partitions": {
+    "train": {
+      "counts": {
+        "cases": 255,
+        "matched_unique": 255,
+        "label_matches": 255,
+        "label_disagrees": 0,
+        "deaths": 100,
+        "death_days_numeric": 100,
+        "death_days_gt_1827": 6,
+        "five_year_survivors": 155,
+        "survivor_death_days_missing": 155,
+        "death_days_zero": 1
+      },
+      "raw_flag_counts": {
+        "1": 100,
+        "0": 155
+      },
+      "missing_death_day_literals": {},
+      "numeric_death_days_min": 0.0,
+      "numeric_death_days_max": 2297.0,
+      "manifest_sha256": "af67f405c4cb3a418a37b00dd6108d887d34a63d4d1164b6701bdb37089e1d39"
+    },
+    "validate": {
+      "counts": {
+        "cases": 84,
+        "matched_unique": 84,
+        "label_matches": 84,
+        "label_disagrees": 0,
+        "five_year_survivors": 54,
+        "survivor_death_days_missing": 54,
+        "deaths": 30,
+        "death_days_numeric": 30,
+        "death_days_gt_1827": 3
+      },
+      "raw_flag_counts": {
+        "0": 54,
+        "1": 30
+      },
+      "missing_death_day_literals": {},
+      "numeric_death_days_min": 136.0,
+      "numeric_death_days_max": 2282.0,
+      "manifest_sha256": "a8aca4636d52fd2f2db8d1ba724aa8bae18ac6619ea352461e6f6a5cfbdca568"
+    }
+  },
+  "checked_date": "2026-10-14",
+  "source_commit": "54316d968dde2cab409a6db59f73181439ef6dac",
+  "attachment": {
+    "name": "粗细融合.md",
+    "sha256": "da63078d4f86fa389a7b479072baccb5b75f139dad3bd76577c1d902f9906409",
+    "role": "user-provided discussion material; recommendations not automatically adopted"
+  },
+  "clinical_limits": [
+    "Raw public CSV downloaded whole; only Train and Validation rows analyzed. No Test evaluation or model selection.",
+    "Binary labels match official CSV; nine death-labelled Train/Validation records have days_till_death > 1827. Meaning/time origin unresolved, no relabelling.",
+    "Survivors have blank death-day field; blank is not a death time. Five-year administrative censoring is documented at cohort level, not independently verified per case.",
+    "One Train death-day value is zero; no exclusion or offset applied."
+  ],
+  "geometry_scope": "Read fine_counts from actual R2 regions.npz for official Train/Validation; no fine feature values, GPU inference or fitting",
+  "geometry": {
+    "train": {
+      "cases": 255,
+      "coarse_regions": 94933,
+      "fine_patches_assigned": 1319753,
+      "zero_fine_regions": 664,
+      "all_regions_mean_fine": 13.901941369176155,
+      "nonzero_regions_mean_fine": 13.99986209676564,
+      "nonzero_percentiles": {
+        "min": 1,
+        "p25": 14,
+        "median": 16,
+        "p75": 16,
+        "p95": 16,
+        "max": 20
+      },
+      "regions_with_16": 65718,
+      "regions_over_16": 167
+    },
+    "validate": {
+      "cases": 84,
+      "coarse_regions": 30045,
+      "fine_patches_assigned": 417182,
+      "zero_fine_regions": 148,
+      "all_regions_mean_fine": 13.885238808453986,
+      "nonzero_regions_mean_fine": 13.953975315249021,
+      "nonzero_percentiles": {
+        "min": 1,
+        "p25": 14,
+        "median": 16,
+        "p75": 16,
+        "p95": 16,
+        "max": 17
+      },
+      "regions_with_16": 20885,
+      "regions_over_16": 1
+    }
+  },
+  "no_training_or_algorithm_change": true
+}
