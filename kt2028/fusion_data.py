@@ -39,13 +39,18 @@ class FusionCase:
         fine, relative = {}, {}
         if selected:
             group = zarr.open_group(self.receipt['fine_path'], mode='r')
-            for i in selected:
-                a, b = self.ptr[i:i+2]
-                values = np.asarray(group['features'].oindex[self.indices[a:b], :], dtype=np.float32)
-                if values.shape != (b-a, 1024) or not np.isfinite(values).all():
-                    raise ValueError('Invalid real observed fine')
-                fine[i] = torch.from_numpy(values.copy())
+            spans = [tuple(self.ptr[i:i+2]) for i in selected]
+            chosen = np.concatenate([self.indices[a:b] for a, b in spans])
+            # One indexed read avoids repeatedly decoding the same Zarr chunks.
+            # It still requests ONLY selected indices, not the complete fine array.
+            values = np.asarray(group['features'].oindex[chosen, :], dtype=np.float32)
+            if values.shape != (len(chosen), 1024) or not np.isfinite(values).all():
+                raise ValueError('Invalid real observed fine')
+            offset = 0
+            for i, (a, b) in zip(selected, spans):
+                fine[i] = torch.from_numpy(values[offset:offset+b-a].copy())
                 relative[i] = torch.from_numpy(self.relative[a:b].copy())
+                offset += b-a
         return dict(coarse=torch.from_numpy(self.coarse.copy()), boxes=torch.from_numpy(self.boxes.copy()),
                     observed_fine=fine, relative_xy=relative,
                     candidate_patch_count=int(self.counts.sum()))

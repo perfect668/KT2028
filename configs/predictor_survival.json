@@ -1,0 +1,32 @@
+{
+  "schema": "KT2028-survival-predictor-1",
+  "plan": "R3/W046: 413-case administrative five-year survival",
+  "data_contract": {
+    "endpoint": "overall_survival_5y_discrete",
+    "time_unit": "days",
+    "interval_edges_days": [0, 365, 730, 1095, 1460, 1825],
+    "administrative_censor_day": 1825,
+    "censoring_basis": "Adopt published common five-year administrative censoring; per-patient dates not independently verified",
+    "eligibility": "official423; Alive and label0 censored at1825; label1 and 0<death_day<=1825 are events; exclude nine late days and one zero day; preserve original split",
+    "clinical_source_sha256": "992cc6cc68dd5c1a7145512af362b04961eb052b268b571821c016ecf519a8e4",
+    "expected_cases": {"train": 248, "validate": 81, "test": 84},
+    "expected_events": {"train": 93, "validate": 27, "test": 29}
+  },
+  "architecture": {"dim": 256, "heads": 4, "dropout": 0.25, "intervals": 5, "fusion": "cross_gate"},
+  "seed": 41,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.001,
+  "gradient_clip": 5.0,
+  "accumulate_cases": 8,
+  "max_epochs": 100,
+  "patience": 15,
+  "loss_weights": {"partial": 0.4, "full": 0.4, "coarse_aux": 0.1, "fine_aux": 0.1},
+  "partial_training": "25 percent zero;25 percent full;50 percent uniform intermediate acquirable region count; case/epoch seeded",
+  "validation_modes": ["zero", "0.1", "0.2", "0.4", "full"],
+  "selection": "minimum equally weighted mean Validation discrete survival NLL over all five fixed observation modes",
+  "evaluation": "NLL;Harrell C-index using minus mean annual survival;1/3/5-year AUROC and Brier;annual-grid trapezoidal integrated Brier over0..1825;not individual death-day regression",
+  "auxiliary": "same head and fusion projection;coarse-only shares coarse trunk;fine-only fixed-query pooling shares fine projection/local attention/encoder/pool;not new private auxiliary heads",
+  "test_used_for_model_selection": false,
+  "old_checkpoint_reuse": false,
+  "parameter_origin": "registered engineering starting configuration;annual bins fixed without outcome-driven tuning;no efficacy guarantee"
+}

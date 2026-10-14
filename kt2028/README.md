@@ -1,4 +1,14 @@
-# R2预测器入口（2026-10-13，现行4/1MPP）
+# R3生存预测器入口（2026-10-14，413例，训练准备）
+
+当前规格只维护在`docs/experiment_restart.md`的0.23 W046。`configs/predictor_survival.json`固定413例、原划分248/81/84、五年行政删失假设及年度五段hazard。`prepare_survival`派生私有清单并保留旧数据；`survival_data`复用已检查的R2真fine访问，但目标为事件时间/删失，目标不进入模型输入。Test清单只封存，没有预测器Test入口。
+
+`survival_network.SurvivalPredictor`为独立双流、变长局部cross-attention、观察状态cross-gate及共享五段生存头；所有任务模块共同训练，无旧粗锚点/风险残差。辅助监督经过共用主干/头。`survival.discrete_nll`实现DSCA式无事件上权的删失似然，event=1死亡；DSCA原代码c=1删失，符号不同。`fusion_data`改为一次索引读所选fine，再按原区域行顺序拆回，未观察fine仍不读取。
+
+`train_survival`**默认只做就绪检查**（资产/坐标/源hash、真实Train三状态、损失backward、权重不变、内存重载），不创建optimizer或训练run。正式拟合需显式`--execute`，本轮禁止执行。优化/早停按注册配置，Val五模式平均NLL选权重；无旧binary checkpoint加载/自动PPO。共同行政删失指标不能用于提前/可变删失数据。训练命令在唯一方案中维护，不复制新任务单。
+
+借鉴DSCA`a749074cb3415c3a6eb83bee39191bdb69968dcc`的双流/粗Q池化/SurvMLE(alpha=0)；本项目变长fine、门控、观察权限/辅助共享及稳定logit实现为适配，不称原DSCA完整复现。旧P1/R2源码、配置、权重与负结果保留。以下入口说明为历史。
+
+# R2预测器历史入口（2026-10-13，4/1MPP）
 
 `prepare_coarse_uni`只用已有低RGB按原物理区域重新编码UNI，输出独立1024维粗数据与原fine CSR/相对位置；Train/Validation可做无结局使用的数据准备，Test不由此入口处理。`fusion_data`只读已观察区域fine值，zero不读fine值；`fusion_network`始终保留全部粗上下文，真实fine通过cross-attention/残差融合，纯fine辅助头不输入coarse。旧P1入口继续留作历史，不接新数据。
 

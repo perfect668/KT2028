@@ -536,6 +536,40 @@ NLST粗细单路接近、融合改善很小；BRCA直接双路反而下降，粗
 
 ### 0.23 2026-10-12唯一实施建议R2：跨尺度证据融合与条件化序贯观察
 
+#### W046｜2026-10-14 已采用R3：413例、共享生存头与观察状态跨门控
+
+**本段是最新执行规格，覆盖下方R2锚定/风险残差/二分类的历史描述。** 用户明确采用413例并授权修改代码和计划至可以开始训练，但禁止开始训练。本轮只准备预测器；强化学习仍为工作二，系统按交替协同设计，完整PPO/新环境在后续实现。旧源码、423例清单、权重与负结果保留，不覆盖。
+
+**任务与数据。** 在诊断后五年窗口内，输入全部粗UNI和已经观察的真精细UNI，输出五段条件死亡概率及累计生存概率；不回归确定死亡日期，不给出治疗建议。采用原官方423清单内的保守413例：死亡天数严格>0且<=1825者149例，Alive者264例；9例超窗和1例零天只从新任务清单排除，原文件不删除，另外4个原官方未纳入病例不补回。保持原病例归属，Train248（93事件/155删失）、Val81（27/54）、Test84（29/55）；测试仅数据清单准备，不进行预测或模型选择。共同五年行政删失按论文与本次用户决定采用为1825天（365天/年），不是已独立核查每人的末次随访日期；该假设须写入论文。真实纳入死亡最大1821天，所以1825与上轮1827边界不改变413人。源表SHA固定992cc6cc…8e4。
+
+**时间标签与损失。** 固定边界[0,365,730,1095,1460,1825]，5个区间(0,365]、(365,730]…；365天死亡归第0段。Alive赋随访时间1825、event=0，不赋死亡日；死亡赋原始天数、event=1。h_k=sigmoid(l_k)，S_k=prod_{j<=k}(1-h_j)，1/3/5年风险=1-S_0/2/4。死亡所在段b的NLL=-sum_{j<b}log(1-h_j)-log(h_b)，删失NLL=-sum已完成区间log(1-h_j)。复用[DSCA SurvMLE](https://github.com/liupei101/DSCA/blob/main/loss/loss_interface.py)的alpha=0似然思想，以softplus/logsigmoid稳定计算；本项目event=1死亡，与DSCA c=1删失相反，不能混用。年度分箱为可解释的工程起点，不根据Val/Test调边界，不宣称最优。
+
+**网络精确组成。** 保留已完成4/1MPP、896/224µm、224像素、两路原始UNI1024维缓存与有效中心归属，数量变长；不重提5×/20×。结构如下：
+
+1. 全粗[R,1024]→Linear/GELU256＋bbox位置MLP4→64→256→一层4头Transformer（FFN512、dropout0.25），得到Hc[R,256]；同一门控池化得到粗病例zc。
+2. 仅已观察区域i的[Pi,1024]真fine→Linear/GELU256＋相对位置MLP2→64→256；Q=对应Hc_i、K/V=该区域fine，4头带padding mask的cross-attention汇聚Pi→1。所有观察区域单token＋bbox位置进入独立的一层同规格fine Transformer，得Hf[O,256]。不强制Pi=16，不推断未见fine，不添加TSU或粗细MSE。
+3. q=[是否有fine,观察区域数/R,观察patch数/全部可获取patch数]。已观察粗区通道门gc_i=sigmoid(Linear[Hf_i,q])；细通道门gf_i=sigmoid(Linear[Hc_i,zc,q])。粗路仅已观察对应token乘gc，未观察粗token保留；全部R粗token经原粗pool得zc'，gf×Hf经fine pool得zf。concat[zc',zf,q]→Linear(515,256)/GELU/LayerNorm/dropout→**唯一共享Linear(256,5)生存头**。无lc+delta、固定粗锚点或永久冻结；只有上游UNI特征提取器冻结。
+4. 空fine：zf全零、q全零、跳过fine/门控，全部粗表征经同一融合投影/生存头输出。主预测无内部硬选区、组织专家或STOP，获取由未来外部策略负责。
+5. 辅助监督不另建私有头：coarse-only沿同粗主干/融合投影/生存头；fine-only用共享local_attention的独立可学习query（不读coarse值）→同fine Transformer/pool→同融合投影/生存头。fine-only仍使用空间位置和观察标志，不冒称与空间协议无关。主预测仍采用粗query；两种query共用fine主干使辅助损失确实监督该主干。concat消融开关关闭cross-gates、保留相同双流/共享头，未运行。
+
+**预测器第一轮训练规格（尚未启动）。** 单seed41、AdamW lr1e-4/weight_decay1e-3、梯度裁剪5、按病例累积8，最大100轮/早停15；工程起点不是性能承诺。全部任务参数同时训练，从随机任务权重开始，不加载旧二分类checkpoint。每病例部分观察按seed/病例/epoch生成25%空、25%全、50%中间区域数量；每次同时使用随机状态及full状态。目标0.4*NLL_partial+0.4*NLL_full+0.1*NLL_coarse_aux+0.1*NLL_fine_aux，四项共用主干/头。Val81固定zero/10%/20%/40%/full，按五模式等权平均NLL最小选checkpoint，zero不再排除在选择之外。按模式独立报告NLL、C-index（risk=-mean S_k）、1/3/5年AUROC/Brier和年度网格梯形积分Brier；共同删失之前G(t-)=1，当前指标实现明确拒绝提前/可变删失。网格积分不是日级曲线或任意删失IPCW实现；NLL绝对值不与旧BCE直接比较，Val用于选择而非独立Test。
+
+**工作二与协同顺序。** 第一阶段零/随机/全观察监督预训练共享预测器；第二阶段冻结这一版本，以终末生存NLL＋正获取成本为目标训练证据条件化获取/STOP；第三阶段冻结策略，混合Train策略观察与随机/全观察监督微调预测器；再冻结新预测器重新采轨迹更新策略。每个策略块内状态编码/奖励版本固定，换预测器不能沿用旧advantages/returns。本轮只落实第一阶段的可运行入口及未来可读的粗/细token、病例表示、q/门控接口，**没有实现或启动新PPO、策略轨迹微调、Test评价**。组织语义仍是后续辅助候选，不阻塞预测器，也不把注意力/门控冒称真实组织标签。
+
+**准备顺序与停止点。** `prepare_survival`读取原表及三个原manifest，输出独立私有Train/Val/Test生存清单、10例排除理由和匿名汇总；不改源清单。`SurvivalDataset`只接受Train/Val，用既有R2粗数据并只读已观察fine；同一索引批量读取降低重复解压，权限与旧输入数值不变。`train_survival`默认核329份资产/源hash及真实最大Train病例零/部分/全输入、NLL梯度、曲线和内存保存重载，optimizer_steps=0；训练必须显式`--execute`。配置见`configs/predictor_survival.json`，实现见`kt2028/survival*.py`、`prepare_survival.py`、`train_survival.py`。真实检查通过后记回执并停止，不启动训练。Test粗UNI尚未编码且Q05未解决，不影响248+81训练准备，正式Test前另处理。
+
+```bash
+# 默认仅就绪检查，本轮只运行此形式
+/root/autodl-tmp/KT2028/.venv/bin/python -m kt2028.train_survival \
+  --train-manifest /root/autodl-tmp/KT2028/audit/survival_preparation_w046_20261014/cohort413/train_survival_manifest.json \
+  --validation-manifest /root/autodl-tmp/KT2028/audit/survival_preparation_w046_20261014/cohort413/validate_survival_manifest.json \
+  --regions /root/autodl-tmp/KT2028/data/coarse_uni_r2_20261013 \
+  --config configs/predictor_survival.json \
+  --output /root/autodl-tmp/KT2028/runs/survival_s41_413_20261014 --device cuda
+```
+
+以后明确授权启动时才在相同命令末尾添加`--execute`，执行前核对run目录不存在和Git干净。本轮不添加该开关。旧R2的W029–W045规格与结果以下按历史日期理解。
+
 **范围与状态。** 开工`55691ceda6c8f54dff5827de6d3f8966eeeb8d4e`、工作区干净。用户明确任何现有方案内容均可修改，要求本轮给出具体推荐；本节固定唯一建议规格，后续修改仍原位记录，不另建报告/连续版本脚本。本轮只有联网/源码/记录核查及文档，无实现、数据/权重下载、服务器作业或实验。R2是推荐方案，不是已有模型或用户要求本轮启动全部阶段。
 
 **题目与两项主要工作。** 推荐《基于跨尺度病理证据融合与强化学习序贯观察的结直肠癌预后预测研究》。目标：根据全部粗视图和已经获取的真实fine预测五年死亡风险，并根据新证据改变下一步获取/停止，在质量和成本间作决策。不是完整医生诊疗模仿/治疗推荐。
