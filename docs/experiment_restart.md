@@ -595,6 +595,25 @@ bash /root/autodl-tmp/KT2028/repo/scripts/start_survival_training.sh --attach
 
 判断：当前数值是较好的初步结果，值得继续推进预测器诊断；真正的性能排名还没有证据。SOTA必须限定队列筛选、OS/DFS终点、图像/临床/组学输入、分箱/随访、划分及验证用途，不能给一个跨全部癌种/模态的唯一数值。NLL/Brier还受分箱及事件风险结构影响，不按异协议绝对值判先进程度；累计五年AUROC和C-index不是同一指标。近期强方法/多模态模型也不能仅因标题SOTA就直接搬为本项目正式比较。所有扩充/共享头建议仍是候选，未下载、改源码/数据契约或运行训练/新预测/Test/RL，现行R3与第6轮保持。
 
+**W051｜2026-10-14 早期过拟合与同癌种扩充（仅建议，不改现行队列/训练顺序）。** 过拟合出现在后期，不代表按原规则保留的第6轮不可用；冻结预测器后，其输出/奖励版本固定，技术上可以单独训练获取/STOP策略，但策略自身仍可能记住训练病例或利用预测器偏差。当前尚未隔离fine内容贡献，按W047先预测器诊断再RL；建议暂缓预测器与策略交替联合更新，而非永久放弃RL或等待完美预测器。联合训练本身不增加独立病例/死亡事件，不能承诺解决监督过拟合。扩充同癌种队列是候选增强途径，不是RL研究唯一前置硬条件。
+
+本轮按“同CRC＋真实生存随访＋WSI能构建全粗/真部分细＋访问/资源可承受”核查，基础数据可行与即用双尺度特征包分别列出：
+
+| 候选/提供方 | 实际公开证据 | 当前适用判断/缺口 |
+| --- | --- | --- |
+| [TCGA-COAD](https://portal.gdc.cancer.gov/projects/TCGA-COAD) / [TCGA-READ](https://portal.gdc.cancer.gov/projects/TCGA-READ) | 数百例项目、公开病理/临床；[CRC生存曲线原研究](https://www.nature.com/articles/s41698-023-00451-3)已使用同队列WSI与事件/删失时间 | 优先核查的开放扩充候选；病例配对后可用人数未计算，不把项目规模当新增人数；需处理随访和跨队列分布 |
+| [CPTAC-COAD官方TCIA目录](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=70227852) | 目录记录106参与者、373SVS、66.69GB，临床链接PDC/GDC；数据版本/可用来源应继续核 | 小规模候选；OS起点/末次随访和可匹配事件数未取得，不宣称106均可直接训练；避免临床旧发现队列与图像前瞻队列错配 |
+| [MCO提供方](https://www.sredhconsortium.org/sredh-datasets/mco-study-whole-slide-image-dataset) | 1500WSI、约3TB；官网现标访问费A$12,500税前、申请、成员/用途/项目协议及成果审查 | 补充W050只写申请的不完整说明；不是免费开放即用候选，不作为当前首选或自动申请/付款 |
+| [欧洲CRC-Cohort](https://www.nature.com/articles/s41597-026-06822-2) | WSI及临床结局、BBMRI-ERIC访问审批/DTA；可申请项目级图像/个体数据 | 长线合作候选，不把论文“available”解释为免申请下载，未核准可用图像配对人数 |
+
+DACHS/Graz等研究队列可有结局，但原研究访问为合作/申请，未发现本轮可直接获取的兼容双尺度包；不把已发表大队列当现可用资产。SPIDER/NCT等提供组织/图块标签，不增加患者级预后样本。[SurGen提供方](https://github.com/CraigMyles/SurGen-Dataset)总1020WSI/843例只有特定SR386子队列随访，不能从SR1482生物标志物图像推断可扩生存病例。
+
+**已找到特征候选，但不是现接口即用。** [sofieneb/uni2h_features数据卡](https://huggingface.co/datasets/sofieneb/uni2h_features)列TCGA-COAD458切片/READ166切片、CPTAC_COAD98切片；20X、256px、UNI2-h1536维，含level0左上角coords与提取attrs，无生存标签。切片数不能当独立患者数；页面访问条件与正文“无需登录”不一致，实际h5/权限/数值本轮未验。当前原UNI1024及4/1MPP两路不能直接混入该20X包，也不能以均值池化冒称真2.5X粗输入。若使用此包做独立预训练/基线、换编码器或引入适配器，都须另登记为候选采用，不能静默更换现行尺度/编码空间。WSI可提供实际低/高尺度像素，仍需真实读取/提取工程；没有保证无需原图处理或下载吞吐。
+
+跨队列接入还需患者级去重/多切片处理、OS起点与事件/末次随访统一、五年截断及提前删失评价，当前SurvivalDataset只支持一例一切片和已注册共同五年删失；不足五年存活者不能赋1825。增加队列的分期/治疗/医院分布不同，不能把合并后的总体排序提高称SurGen域内改善，原验证/测试不能悄悄并入Train。
+
+下一最小建议仅取TCGA临床和图像/特征小清单，输出有效可匹配患者/死亡事件数、原UNI/MPP/coords/粗像素缺口、候选所需空间与访问方式，再确定正式扩充/划分。当前没有取得或下载新增临床/图像/权重，未改代码/终点/样本/配置、运行推理/训练/Test/RL或提交申请，保留R3/413/第6轮；本轮到讨论存档停止。
+
 **准备顺序与停止点。** `prepare_survival`读取原表及三个原manifest，输出独立私有Train/Val/Test生存清单、10例排除理由和匿名汇总；不改源清单。`SurvivalDataset`只接受Train/Val，用既有R2粗数据并只读已观察fine；同一索引批量读取降低重复解压，权限与旧输入数值不变。`train_survival`默认核329份资产/源hash及真实最大Train病例零/部分/全输入、NLL梯度、曲线和内存保存重载，optimizer_steps=0；训练必须显式`--execute`。配置见`configs/predictor_survival.json`，实现见`kt2028/survival*.py`、`prepare_survival.py`、`train_survival.py`。真实检查通过后记回执并停止，不启动训练。Test粗UNI尚未编码且Q05未解决，不影响248+81训练准备，正式Test前另处理。
 
 ```bash
