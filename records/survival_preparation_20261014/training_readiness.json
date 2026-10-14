@@ -1,0 +1,284 @@
+{
+  "schema": "KT2028-survival-training-preparation-1",
+  "date": "2026-10-14",
+  "source_commit": "5d1e05adbb753196385cbb0cce9475f740b6e463",
+  "status": "READY;TRAINING_NOT_STARTED",
+  "scope": "413-case supervised predictor readiness only;no optimizer.step or training epochs;no Validation predictions;no Test model input/evaluation;no RL",
+  "cohort": {
+    "schema": "KT2028-survival-cohort-1",
+    "clinical_source_sha256": "992cc6cc68dd5c1a7145512af362b04961eb052b268b571821c016ecf519a8e4",
+    "config_sha256": "2c802622632d4b8ca364667cd3f02c0ebab2743ab2a41a471a59945911a19cbb",
+    "contract_sha256": "fe4963bbeba2a97f896f36ee55f68874047588294c47c73547a143ba6add2a0b",
+    "partitions": {
+      "train": {
+        "cases": 248,
+        "events": 93,
+        "censored": 155,
+        "removed": 7
+      },
+      "validate": {
+        "cases": 81,
+        "events": 27,
+        "censored": 54,
+        "removed": 3
+      },
+      "test": {
+        "cases": 84,
+        "events": 29,
+        "censored": 55,
+        "removed": 0
+      }
+    },
+    "prepare_source_sha256": "db61338ecb4ae151e137b2335ef2c982a224b03725e97f5f405ac8ccd259d712",
+    "total": 413,
+    "official_sources_modified": false,
+    "censoring_assumption": "Adopt published common five-year administrative censoring; per-patient dates not independently verified",
+    "test_scope": "cohort preparation only;no prediction/selection",
+    "manifest_sha256": {
+      "train": "c908cd104d1d3e804ed320d2bb7badd140a3326d66886523f8b2fdb966c8b607",
+      "validate": "11931f5e397c67756c52891d74b56a6e61e9ea2b181bf3499129efebedf55d7e",
+      "test": "456707414a203982b8329545d69cad4e6d9a0d574cd06ab4b30364993a2a3d81"
+    }
+  },
+  "preflight": {
+    "schema": "KT2028-survival-run-1",
+    "config": {
+      "schema": "KT2028-survival-predictor-1",
+      "plan": "R3/W046: 413-case administrative five-year survival",
+      "data_contract": {
+        "endpoint": "overall_survival_5y_discrete",
+        "time_unit": "days",
+        "interval_edges_days": [
+          0,
+          365,
+          730,
+          1095,
+          1460,
+          1825
+        ],
+        "administrative_censor_day": 1825,
+        "censoring_basis": "Adopt published common five-year administrative censoring; per-patient dates not independently verified",
+        "eligibility": "official423; Alive and label0 censored at1825; label1 and 0<death_day<=1825 are events; exclude nine late days and one zero day; preserve original split",
+        "clinical_source_sha256": "992cc6cc68dd5c1a7145512af362b04961eb052b268b571821c016ecf519a8e4",
+        "expected_cases": {
+          "train": 248,
+          "validate": 81,
+          "test": 84
+        },
+        "expected_events": {
+          "train": 93,
+          "validate": 27,
+          "test": 29
+        }
+      },
+      "architecture": {
+        "dim": 256,
+        "heads": 4,
+        "dropout": 0.25,
+        "intervals": 5,
+        "fusion": "cross_gate"
+      },
+      "seed": 41,
+      "learning_rate": 0.0001,
+      "weight_decay": 0.001,
+      "gradient_clip": 5.0,
+      "accumulate_cases": 8,
+      "max_epochs": 100,
+      "patience": 15,
+      "loss_weights": {
+        "partial": 0.4,
+        "full": 0.4,
+        "coarse_aux": 0.1,
+        "fine_aux": 0.1
+      },
+      "partial_training": "25 percent zero;25 percent full;50 percent uniform intermediate acquirable region count; case/epoch seeded",
+      "validation_modes": [
+        "zero",
+        "0.1",
+        "0.2",
+        "0.4",
+        "full"
+      ],
+      "selection": "minimum equally weighted mean Validation discrete survival NLL over all five fixed observation modes",
+      "evaluation": "NLL;Harrell C-index using minus mean annual survival;1/3/5-year AUROC and Brier;annual-grid trapezoidal integrated Brier over0..1825;not individual death-day regression",
+      "auxiliary": "same head and fusion projection;coarse-only shares coarse trunk;fine-only fixed-query pooling shares fine projection/local attention/encoder/pool;not new private auxiliary heads",
+      "test_used_for_model_selection": false,
+      "old_checkpoint_reuse": false,
+      "parameter_origin": "registered engineering starting configuration;annual bins fixed without outcome-driven tuning;no efficacy guarantee"
+    },
+    "config_sha256": "2c802622632d4b8ca364667cd3f02c0ebab2743ab2a41a471a59945911a19cbb",
+    "contract_sha256": "fe4963bbeba2a97f896f36ee55f68874047588294c47c73547a143ba6add2a0b",
+    "train_manifest_sha256": "c908cd104d1d3e804ed320d2bb7badd140a3326d66886523f8b2fdb966c8b607",
+    "validation_manifest_sha256": "11931f5e397c67756c52891d74b56a6e61e9ea2b181bf3499129efebedf55d7e",
+    "assets_sha256": "a2d49535c7a06c705ea41a15e24d3f01df539f0f6a5f8eec63e9b6a119c9599f",
+    "source_commit": "5d1e05adbb753196385cbb0cce9475f740b6e463",
+    "source_shas": {
+      "survival.py": "18f2c6db8c56285f983531af0601ddbc0d4505088c04f4d9e78a61a709b701ea",
+      "prepare_survival.py": "db61338ecb4ae151e137b2335ef2c982a224b03725e97f5f405ac8ccd259d712",
+      "survival_data.py": "3ef0dce7d9de948acb3a7acb28d2f009d4caf1551854ac54f9bde610a2e97aa1",
+      "survival_network.py": "0c0aea86a822172e46413a7785addd51190f51413377a4c6e6f1908146a31acf",
+      "train_survival.py": "a2a8681c065d4c7b703bbe3ebf7a4d6ab6200aff22d47c4e204be469d1b8cbf8",
+      "fusion_data.py": "890fc6ab93cdd96118c6d57d50cc476f89a96b522e41ea5e855c4651c80c4843",
+      "fusion_network.py": "ecd425189e45bb8c9b69c3c63882ef2760250a316978c992ea9b6b9a56660464",
+      "network.py": "fc6450822fec53af0761ce5ce33dc5f621c9215d3f0d2d666c7f83f2c8e7a585",
+      "uni_encoder.py": "1b30243fb2cd80700e6591624e1653e8cec939585fe4c3a06cbc2972d7524467"
+    },
+    "data_summary": {
+      "train": {
+        "cases": 248,
+        "regions": 92222,
+        "candidate_fine_patches": 1281736
+      },
+      "validate": {
+        "cases": 81,
+        "regions": 29069,
+        "candidate_fine_patches": 403744
+      }
+    },
+    "validation_role": "checkpoint selection;not independent Test",
+    "test_used": false,
+    "binary_checkpoint_reused": false,
+    "status": "ready_for_supervised_predictor_training;NOT_STARTED",
+    "checks": {
+      "states": {
+        "zero": {
+          "observed_regions": 0,
+          "observed_fine_patches": 0,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        },
+        "0.2": {
+          "observed_regions": 132,
+          "observed_fine_patches": 1836,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        },
+        "full": {
+          "observed_regions": 656,
+          "observed_fine_patches": 9069,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        }
+      },
+      "gradient_paths": {
+        "coarse_projection": {
+          "finite": true,
+          "nonzero": true
+        },
+        "region_position": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_encoder": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_pool": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_projection": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_position": {
+          "finite": true,
+          "nonzero": true
+        },
+        "local_attention": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_encoder": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_pool": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_gate": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_gate": {
+          "finite": true,
+          "nonzero": true
+        },
+        "patient_fusion": {
+          "finite": true,
+          "nonzero": true
+        },
+        "survival_head": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_only_query": {
+          "finite": true,
+          "nonzero": true
+        }
+      },
+      "model_state_unchanged": true,
+      "strict_in_memory_reload": true,
+      "optimizer_steps": 0,
+      "epochs": 0,
+      "checkpoint_written": false,
+      "validation_predictions": false,
+      "peak_cuda_allocated_bytes": 352197120
+    },
+    "runtime": {
+      "torch": "2.8.0+cu128",
+      "device": "cuda"
+    },
+    "training_run_created": false
+  },
+  "software_checks": {
+    "passed": 15,
+    "deselected": 1,
+    "deselected_reason": "old binary test executes optimizer.step;not run under no-training request",
+    "log_sha256": "77f96f0ae21eb4ba6fcbdf168f00448d2227c1be253af9357465e4d78f99ea39",
+    "coverage": [
+      "DSCA alpha0 likelihood equivalence",
+      "event/censor symbols and interval boundaries",
+      "extreme logits and monotone curves",
+      "common-censor metric contract",
+      "shared auxiliary gradient path",
+      "zero/partial/ragged observations",
+      "unobserved NaN isolation and selected-row order",
+      "Test loader refused"
+    ]
+  },
+  "stop_state": {
+    "training_run_exists": false,
+    "active_predictor_processes": [],
+    "gpu": "0 MiB, 0 %",
+    "git_head": "5d1e05adbb753196385cbb0cce9475f740b6e463",
+    "git_clean": true
+  },
+  "test_scope": {
+    "cohort_eligibility_QC_only": true,
+    "model_inputs_used": false,
+    "predictions": false,
+    "selection": false
+  },
+  "not_claimed": [
+    "predictive efficacy",
+    "fine benefit",
+    "RL superiority",
+    "independently verified individual censor dates"
+  ],
+  "remaining_before_Test": [
+    "encode Test coarse UNI under separately authorized preparation",
+    "resolve known one-slide fine/OME geometry mismatch Q05"
+  ],
+  "private_assets": "Case manifests/exclusions/raw labels retained outside Git;only anonymous receipt committed"
+}
