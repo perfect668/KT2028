@@ -1,0 +1,492 @@
+{
+  "schema": "KT2028-survival-completion-audit-1",
+  "audit_utc": "2026-10-14T10:01:06.828027+00:00",
+  "run_id": "survival_s41_413_20261014",
+  "source_commit": "600fe14511fbb6cd9c842598d578f41251d064e3",
+  "source_sha_matches": {
+    "survival.py": true,
+    "prepare_survival.py": true,
+    "survival_data.py": true,
+    "survival_network.py": true,
+    "train_survival.py": true,
+    "fusion_data.py": true,
+    "fusion_network.py": true,
+    "network.py": true,
+    "uni_encoder.py": true
+  },
+  "config_sha256": "2c802622632d4b8ca364667cd3f02c0ebab2743ab2a41a471a59945911a19cbb",
+  "contract_sha256": "fe4963bbeba2a97f896f36ee55f68874047588294c47c73547a143ba6add2a0b",
+  "train_manifest_sha256": "c908cd104d1d3e804ed320d2bb7badd140a3326d66886523f8b2fdb966c8b607",
+  "validation_manifest_sha256": "11931f5e397c67756c52891d74b56a6e61e9ea2b181bf3499129efebedf55d7e",
+  "assets_sha256": "a2d49535c7a06c705ea41a15e24d3f01df539f0f6a5f8eec63e9b6a119c9599f",
+  "completion": {
+    "completed_epochs": 21,
+    "selected_epoch": 5,
+    "checkpoint_sha256": "00ee9b6b2141f494c07ce0b9b19e12643658d2633074c10745bcd24dcbea267e",
+    "best_selection_nll": 1.0441351697584729,
+    "strict_reload": true,
+    "test_used": false
+  },
+  "checkpoint_bytes": 9392703,
+  "audit_strict_reload": true,
+  "parameter_count": 2340615,
+  "parameter_groups": {
+    "coarse_projection": 262400,
+    "region_position": 16960,
+    "coarse_encoder": 527104,
+    "coarse_pool": 65921,
+    "fine_projection": 262400,
+    "fine_position": 16832,
+    "local_attention": 263168,
+    "fine_encoder": 527104,
+    "fine_pool": 65921,
+    "coarse_gate": 66560,
+    "fine_gate": 132096,
+    "patient_fusion": 132608,
+    "survival_head": 1285
+  },
+  "epoch_numbering": "source epoch zero-based;human epoch=epoch+1",
+  "selected_epoch_record": {
+    "epoch": 5,
+    "train_objective": 1.1038352865124903,
+    "selection_nll": 1.0441351697584729,
+    "validation": {
+      "zero": {
+        "c_index": 0.7169707020453289,
+        "comparable_pairs": 1809,
+        "risk_tied_pairs": 0,
+        "risk_definition": "minus_mean_annual_survival",
+        "by_day": {
+          "365": {
+            "brier": 0.09881828191592999,
+            "auroc": 0.8065068493150684
+          },
+          "730": {
+            "brier": 0.11668032775313908,
+            "auroc": 0.8212669683257918
+          },
+          "1095": {
+            "brier": 0.15077365568751452,
+            "auroc": 0.7365384615384615
+          },
+          "1460": {
+            "brier": 0.18425852874683019,
+            "auroc": 0.7342857142857143
+          },
+          "1825": {
+            "brier": 0.19719122807649986,
+            "auroc": 0.7318244170096022
+          }
+        },
+        "integrated_brier_annual_grid": 0.12982528162833273,
+        "censoring_metric_contract": "common admin cutoff;known alive through endpoint;no earlier censoring",
+        "cases": 81,
+        "nll": 1.1255440505014525,
+        "mean_observed_regions": 0.0,
+        "mean_observed_patches": 0.0,
+        "mean_patch_fraction": 0.0
+      },
+      "0.1": {
+        "c_index": 0.7435046987285793,
+        "comparable_pairs": 1809,
+        "risk_tied_pairs": 0,
+        "risk_definition": "minus_mean_annual_survival",
+        "by_day": {
+          "365": {
+            "brier": 0.0705121300236861,
+            "auroc": 0.8852739726027399
+          },
+          "730": {
+            "brier": 0.09214053905464269,
+            "auroc": 0.8653846153846154
+          },
+          "1095": {
+            "brier": 0.1266413182061415,
+            "auroc": 0.7519230769230769
+          },
+          "1460": {
+            "brier": 0.16512173272651332,
+            "auroc": 0.7778571428571428
+          },
+          "1825": {
+            "brier": 0.17770905356038977,
+            "auroc": 0.7743484224965705
+          }
+        },
+        "integrated_brier_annual_grid": 0.10865404935823571,
+        "censoring_metric_contract": "common admin cutoff;known alive through endpoint;no earlier censoring",
+        "cases": 81,
+        "nll": 1.0302133003686682,
+        "mean_observed_regions": 36.19753086419753,
+        "mean_observed_patches": 502.61728395061726,
+        "mean_patch_fraction": 0.1011340036036457
+      },
+      "0.2": {
+        "c_index": 0.7473742399115534,
+        "comparable_pairs": 1809,
+        "risk_tied_pairs": 0,
+        "risk_definition": "minus_mean_annual_survival",
+        "by_day": {
+          "365": {
+            "brier": 0.0708302002642693,
+            "auroc": 0.8886986301369864
+          },
+          "730": {
+            "brier": 0.09422140972306127,
+            "auroc": 0.8665158371040724
+          },
+          "1095": {
+            "brier": 0.1292618382873376,
+            "auroc": 0.75
+          },
+          "1460": {
+            "brier": 0.16634125750726125,
+            "auroc": 0.7721428571428572
+          },
+          "1825": {
+            "brier": 0.17791676746054183,
+            "auroc": 0.7736625514403292
+          }
+        },
+        "integrated_brier_annual_grid": 0.10992261790244007,
+        "censoring_metric_contract": "common admin cutoff;known alive through endpoint;no earlier censoring",
+        "cases": 81,
+        "nll": 1.0305495529815003,
+        "mean_observed_regions": 71.81481481481481,
+        "mean_observed_patches": 997.2716049382716,
+        "mean_patch_fraction": 0.20092297722055014
+      },
+      "0.4": {
+        "c_index": 0.7517965726920951,
+        "comparable_pairs": 1809,
+        "risk_tied_pairs": 0,
+        "risk_definition": "minus_mean_annual_survival",
+        "by_day": {
+          "365": {
+            "brier": 0.07033137674864705,
+            "auroc": 0.886986301369863
+          },
+          "730": {
+            "brier": 0.09336033204107194,
+            "auroc": 0.8755656108597285
+          },
+          "1095": {
+            "brier": 0.1284046654692303,
+            "auroc": 0.7528846153846154
+          },
+          "1460": {
+            "brier": 0.165372686247958,
+            "auroc": 0.7807142857142856
+          },
+          "1825": {
+            "brier": 0.17805353154939818,
+            "auroc": 0.7770919067215364
+          }
+        },
+        "integrated_brier_annual_grid": 0.10929916525632129,
+        "censoring_metric_contract": "common admin cutoff;known alive through endpoint;no earlier censoring",
+        "cases": 81,
+        "nll": 1.0268337517792796,
+        "mean_observed_regions": 143.25925925925927,
+        "mean_observed_patches": 2004.1358024691358,
+        "mean_patch_fraction": 0.4019668215608747
+      },
+      "full": {
+        "c_index": 0.7606412382531785,
+        "comparable_pairs": 1809,
+        "risk_tied_pairs": 0,
+        "risk_definition": "minus_mean_annual_survival",
+        "by_day": {
+          "365": {
+            "brier": 0.06352784125173962,
+            "auroc": 0.910958904109589
+          },
+          "730": {
+            "brier": 0.08825941808230375,
+            "auroc": 0.8914027149321267
+          },
+          "1095": {
+            "brier": 0.1240173435967043,
+            "auroc": 0.7634615384615384
+          },
+          "1460": {
+            "brier": 0.1623390594494329,
+            "auroc": 0.7899999999999999
+          },
+          "1825": {
+            "brier": 0.1751810471935127,
+            "auroc": 0.7921810699588477
+          }
+        },
+        "integrated_brier_annual_grid": 0.10514683719538738,
+        "censoring_metric_contract": "common admin cutoff;known alive through endpoint;no earlier censoring",
+        "cases": 81,
+        "nll": 1.007535193161464,
+        "mean_observed_regions": 357.14814814814815,
+        "mean_observed_patches": 4984.493827160494,
+        "mean_patch_fraction": 1.0
+      }
+    },
+    "all_task_parameters_trainable": true
+  },
+  "epoch_trajectory": [
+    {
+      "epoch_human": 1,
+      "train_weighted_objective": 1.433955580356621,
+      "validation_mean_main_nll": 1.1396190782388051,
+      "zero_nll": 1.1406079111275849,
+      "full_nll": 1.1374872554967432,
+      "full_c_index": 0.6882255389718076,
+      "full_auroc_5y": 0.6906721536351167,
+      "full_brier_5y": 0.2204530172659086
+    },
+    {
+      "epoch_human": 2,
+      "train_weighted_objective": 1.2687311088365893,
+      "validation_mean_main_nll": 1.1116460340994376,
+      "zero_nll": 1.1237279838985867,
+      "full_nll": 1.1073454357223746,
+      "full_c_index": 0.7114427860696517,
+      "full_auroc_5y": 0.6392318244170095,
+      "full_brier_5y": 0.21922487373299504
+    },
+    {
+      "epoch_human": 3,
+      "train_weighted_objective": 1.2059940873615203,
+      "validation_mean_main_nll": 1.1427866717915476,
+      "zero_nll": 1.1422460502312508,
+      "full_nll": 1.1443126856544872,
+      "full_c_index": 0.7125483692647872,
+      "full_auroc_5y": 0.7187928669410151,
+      "full_brier_5y": 0.2122076505843488
+    },
+    {
+      "epoch_human": 4,
+      "train_weighted_objective": 1.1734155643611186,
+      "validation_mean_main_nll": 1.0836699851501135,
+      "zero_nll": 1.0974083167535287,
+      "full_nll": 1.0752245901543418,
+      "full_c_index": 0.728579325594251,
+      "full_auroc_5y": 0.6899862825788752,
+      "full_brier_5y": 0.21053888951215743
+    },
+    {
+      "epoch_human": 5,
+      "train_weighted_objective": 1.1614393134631458,
+      "validation_mean_main_nll": 1.0874613881111146,
+      "zero_nll": 1.123345524072647,
+      "full_nll": 1.0570187907160065,
+      "full_c_index": 0.7412935323383084,
+      "full_auroc_5y": 0.7462277091906723,
+      "full_brier_5y": 0.19722494497037085
+    },
+    {
+      "epoch_human": 6,
+      "train_weighted_objective": 1.1038352865124903,
+      "validation_mean_main_nll": 1.0441351697584729,
+      "zero_nll": 1.1255440505014525,
+      "full_nll": 1.007535193161464,
+      "full_c_index": 0.7606412382531785,
+      "full_auroc_5y": 0.7921810699588477,
+      "full_brier_5y": 0.1751810471935127
+    },
+    {
+      "epoch_human": 7,
+      "train_weighted_objective": 1.0184711444401933,
+      "validation_mean_main_nll": 1.0445760647087923,
+      "zero_nll": 1.1082199493676057,
+      "full_nll": 1.016557521842144,
+      "full_c_index": 0.736318407960199,
+      "full_auroc_5y": 0.752400548696845,
+      "full_brier_5y": 0.1778686571709938
+    },
+    {
+      "epoch_human": 8,
+      "train_weighted_objective": 0.9407340511379223,
+      "validation_mean_main_nll": 1.1136035996270768,
+      "zero_nll": 1.1774506432774625,
+      "full_nll": 1.0915467759341368,
+      "full_c_index": 0.6943062465450525,
+      "full_auroc_5y": 0.7037037037037036,
+      "full_brier_5y": 0.18547069534353816
+    },
+    {
+      "epoch_human": 9,
+      "train_weighted_objective": 0.8802104034130612,
+      "validation_mean_main_nll": 1.2368430117766063,
+      "zero_nll": 1.3979192368778182,
+      "full_nll": 1.1612557477237266,
+      "full_c_index": 0.7180762852404643,
+      "full_auroc_5y": 0.7414266117969821,
+      "full_brier_5y": 0.20287080650724765
+    },
+    {
+      "epoch_human": 10,
+      "train_weighted_objective": 0.7679145256049871,
+      "validation_mean_main_nll": 1.1601799505820245,
+      "zero_nll": 1.2184726196674653,
+      "full_nll": 1.153977297982316,
+      "full_c_index": 0.7556661138750691,
+      "full_auroc_5y": 0.779835390946502,
+      "full_brier_5y": 0.18119847056876157
+    },
+    {
+      "epoch_human": 11,
+      "train_weighted_objective": 0.7005771042839173,
+      "validation_mean_main_nll": 1.468589851246388,
+      "zero_nll": 1.6068929943405552,
+      "full_nll": 1.4169127977924583,
+      "full_c_index": 0.6384742951907131,
+      "full_auroc_5y": 0.6310013717421125,
+      "full_brier_5y": 0.23599106781407375
+    },
+    {
+      "epoch_human": 12,
+      "train_weighted_objective": 0.5727769867967694,
+      "validation_mean_main_nll": 1.2101321796024285,
+      "zero_nll": 1.2825692296028137,
+      "full_nll": 1.2017592345306902,
+      "full_c_index": 0.7086788280818132,
+      "full_auroc_5y": 0.6954732510288066,
+      "full_brier_5y": 0.18846793794587668
+    },
+    {
+      "epoch_human": 13,
+      "train_weighted_objective": 0.487850128582889,
+      "validation_mean_main_nll": 1.4279693435923553,
+      "zero_nll": 1.3610775287688515,
+      "full_nll": 1.5111678317189217,
+      "full_c_index": 0.6749585406301825,
+      "full_auroc_5y": 0.6748971193415638,
+      "full_brier_5y": 0.23110655371675218
+    },
+    {
+      "epoch_human": 14,
+      "train_weighted_objective": 0.3874324388039719,
+      "validation_mean_main_nll": 1.3305656747041659,
+      "zero_nll": 1.3402077563015031,
+      "full_nll": 1.347790099358485,
+      "full_c_index": 0.6567164179104478,
+      "full_auroc_5y": 0.6632373113854595,
+      "full_brier_5y": 0.22357545530289635
+    },
+    {
+      "epoch_human": 15,
+      "train_weighted_objective": 0.2861627653999735,
+      "validation_mean_main_nll": 1.4235090599544806,
+      "zero_nll": 1.5070167257002107,
+      "full_nll": 1.4318070091238175,
+      "full_c_index": 0.6749585406301825,
+      "full_auroc_5y": 0.6728395061728395,
+      "full_brier_5y": 0.21146622653232555
+    },
+    {
+      "epoch_human": 16,
+      "train_weighted_objective": 0.1988837240684417,
+      "validation_mean_main_nll": 1.602752284495229,
+      "zero_nll": 1.7356455835950688,
+      "full_nll": 1.620740788988769,
+      "full_c_index": 0.6567164179104478,
+      "full_auroc_5y": 0.6577503429355283,
+      "full_brier_5y": 0.23411297184092583
+    },
+    {
+      "epoch_human": 17,
+      "train_weighted_objective": 0.14105960935440606,
+      "validation_mean_main_nll": 1.6860229061755505,
+      "zero_nll": 1.787439853027693,
+      "full_nll": 1.7104610603411947,
+      "full_c_index": 0.6650082918739635,
+      "full_auroc_5y": 0.668724279835391,
+      "full_brier_5y": 0.24773554566861283
+    },
+    {
+      "epoch_human": 18,
+      "train_weighted_objective": 0.10186307715071787,
+      "validation_mean_main_nll": 1.8231031813377077,
+      "zero_nll": 1.9515879233540208,
+      "full_nll": 1.8795939911973236,
+      "full_c_index": 0.6799336650082919,
+      "full_auroc_5y": 0.700960219478738,
+      "full_brier_5y": 0.25298377625751484
+    },
+    {
+      "epoch_human": 19,
+      "train_weighted_objective": 0.07283332062633557,
+      "validation_mean_main_nll": 1.6803747633276622,
+      "zero_nll": 1.7494938263186701,
+      "full_nll": 1.7089338511153827,
+      "full_c_index": 0.6683250414593698,
+      "full_auroc_5y": 0.6790123456790124,
+      "full_brier_5y": 0.22585140633904532
+    },
+    {
+      "epoch_human": 20,
+      "train_weighted_objective": 0.05936878131122343,
+      "validation_mean_main_nll": 1.7454876382748978,
+      "zero_nll": 1.8379291885900368,
+      "full_nll": 1.7560256291353316,
+      "full_c_index": 0.6362631288004422,
+      "full_auroc_5y": 0.6556927297668038,
+      "full_brier_5y": 0.2412800801020737
+    },
+    {
+      "epoch_human": 21,
+      "train_weighted_objective": 0.05222946226563034,
+      "validation_mean_main_nll": 1.896551611505012,
+      "zero_nll": 2.0020024355523933,
+      "full_nll": 1.8968892425347557,
+      "full_c_index": 0.6727473742399116,
+      "full_auroc_5y": 0.6790123456790123,
+      "full_brier_5y": 0.24489911116561172
+    }
+  ],
+  "train_objective_vs_validation_note": "Weighted main/auxiliary random/full train objective with dropout differs from equal-five-mode main-head validation NLL; compare trajectories, not numeric gaps as identical losses.",
+  "observations": [
+    "Early validation NLL optimum at human epoch6;late validation NLL rises while training objective approaches zero.",
+    "Selected shared-model fine-observed modes outperform zero on this selection validation set;not independent trained coarse baseline.",
+    "Small patient/event sample relative to task-model capacity is a plausible major overfitting factor, not experimentally isolated causal proof."
+  ],
+  "limits": [
+    "Validation used for checkpoint selection;not independent Test.",
+    "No new prediction, calibration, fine-content intervention, training or RL performed during this audit.",
+    "No proof of monotone gain for each patient/budget or RL advantage.",
+    "Frozen upstream UNI parameters are not included in trainable count."
+  ],
+  "gpu_snapshot": "0 MiB, 0 %",
+  "outcome_counts": {
+    "train": {
+      "cases": 248,
+      "events": 93,
+      "censored": 155,
+      "annual_event_counts": [
+        29,
+        22,
+        14,
+        18,
+        10
+      ]
+    },
+    "validate": {
+      "cases": 81,
+      "events": 27,
+      "censored": 54,
+      "annual_event_counts": [
+        8,
+        5,
+        3,
+        9,
+        2
+      ]
+    }
+  },
+  "local_checkpoint_backup_sha_matches": true,
+  "completion_time_beijing_from_log": "2026-10-14 17:45:47",
+  "backup_files_sha256": {
+    "best.pt": "00ee9b6b2141f494c07ce0b9b19e12643658d2633074c10745bcd24dcbea267e",
+    "run.json": "d7915335ecb2e7d25ba93100340dcb4f482d2f0d9cdac68eb6d469154766af76",
+    "completion.json": "130d8dc76ff3f81dc812c98828120fe7eb9af854b0baa7000ab7c4661098c1c0",
+    "epochs.jsonl": "19f87ce4ae2460926a287b1fc12168a48d7483d8fdc4e9fbf4d08cc01ccaca8d",
+    "training.log": "f163c42744d33d5c9d333ab6f2b7fe728d10f877c3ff01f328d0a6bce442a01d"
+  }
+}
