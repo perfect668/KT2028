@@ -1,0 +1,24 @@
+{
+  "schema": "KT2028-TCGA-feature-dataset-audit-1",
+  "at_unix": 1792051697.206817,
+  "expected_files": 625,
+  "expected_patients": 616,
+  "slide_status_counts": {
+    "verified": 6,
+    "pending": 619
+  },
+  "completed_files": 6,
+  "completed_patients": 6,
+  "complete_os_candidate_patients": 6,
+  "coarse_patches": 3678,
+  "fine_patches": 49125,
+  "completed_output_bytes": 239263536,
+  "feature_content_hashes_checked": true,
+  "feature_dataset_complete": false,
+  "patient_split_assigned": false,
+  "model_training_ready_claimed": false,
+  "manifest_sha256": "93cfabd16c0f8186bbea8a3ec3b568d3903e7d08d7e080c72152b4d4cd6229e9",
+  "clinical_sha256": "dc0eb6a8afba8d15bb7a2d953497e5e5ce67ecbcb45aae5bdbc0fd628a0730e3",
+  "config_sha256": "9368b7da1c1ee80340c445b74cbc32d7635656abf9b89bbd361992b637269fb9",
+  "audit_code_sha256": "3fcdfa5f63aad2c7499f79c738771068f065337162469aadb00782a373b69c83"
+}
