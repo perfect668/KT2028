@@ -640,6 +640,18 @@ DACHS/Graz等研究队列可有结局，但原研究访问为合作/申请，未
 
 临床仍需Clinical JSON/TSV和Sample Sheet/Metadata配对，用户源manifest不改；两份清单和测速元数据已复制本机仓库外KT2028-assets/tcga_speed_w054_20261014，Git只放匿名数量/哈希/时间/速率。没有新增完整原图/临床标签、更新训练清单/配置/网络、安装、提取、模型推理/训练/Test/RL或后台下载。下一项仍是小临床资料到位后的有效患者/事件与输入缺口核查，不以清单覆盖完整为大批下载或扩容授权。
 
+**W056｜2026-10-15 E盘下载交付（最新授权覆盖之前“仅小流量测速”的准备范围）。** 用户要求把全部所需资料下载到E:/刘锦煜数据集并给可看速度/断点续传命令。本轮已将工具和所需小元数据准备到指定盘，但原图命令由用户执行，未自动运行批量图像下载。实际NTFS空余初始474.5GB，625SVS总363.15GB；保留约111GB原图后空间，不据此保证后续特征全部足够。
+
+官方下载链接为[GDC Windows包](https://gdc.cancer.gov/system/files/public/file/gdc-client_2.3_Windows_x64-py3.8-windows-2019.zip)，官网MD5 525ce44bb5f3f0624066b906c7dbdaf4已核；嵌套ZIP完整解压到E盘tools/gdc-client_2.3.0/gdc-client.exe，本机--version(2.3)/download --help退出0。合并清单metadata/gdc_manifest_all.tsv（SHA efc5b430…48b82）625行、原两份各自副本保留。当前GDC files显式字段/关联实体再次匹配625图像，项目原临床633记录与其中616图像病例对应已保存到metadata/gdc_api_20261015_103738/（cases_raw.json、files_raw.json/files_mapped_raw.json、sample_sheet.tsv、clinical_tables.tsv）；表中复杂临床保留JSON列，原始响应不删，不自动派生OS或改当前413标签。整个metadata本机仓库外备份，患者资料不进Git。[匿名命令准备回执](../records/tcga_local_download_20261015/preparation.json)。
+
+用户在本机PowerShell执行以下一条命令（无需管理员/执行策略更改），原生工具显示下载进度/速度，真实吞吐以启动后为准；连接4/重试10/等待10秒是工程起点，不保证比服务器快：
+
+```powershell
+& "E:\刘锦煜数据集\tools\gdc-client_2.3.0\gdc-client.exe" download -m "E:\刘锦煜数据集\metadata\gdc_manifest_all.tsv" -d "E:\刘锦煜数据集\wsi" -n 4 --retry-amount 10 --wait-time 10 --log-file "E:\刘锦煜数据集\logs\gdc_download.log"
+```
+
+重跑同命令、同目录恢复未完成文件；保留wsi/<UUID>/的logs与.partial，默认MD5/SSL不关闭，不加--latest改变已核文件版本。关闭终端/Ctrl+C/休眠会中断，未提供后台或断电自动恢复承诺；重新打开PowerShell重跑续传。原图完成后再核全625大小/MD5与正式临床可用人数，本轮仅检查客户端version和download --help、未执行真实下载，因此端到端下载/断点能力依据官方工具协议而非已实测。当前E盘wsi仍无SVS，没有新特征提取、模型推理/训练/Test/RL；向服务器只同步源码/匿名记录，不复制临床或原图。
+
 **准备顺序与停止点。** `prepare_survival`读取原表及三个原manifest，输出独立私有Train/Val/Test生存清单、10例排除理由和匿名汇总；不改源清单。`SurvivalDataset`只接受Train/Val，用既有R2粗数据并只读已观察fine；同一索引批量读取降低重复解压，权限与旧输入数值不变。`train_survival`默认核329份资产/源hash及真实最大Train病例零/部分/全输入、NLL梯度、曲线和内存保存重载，optimizer_steps=0；训练必须显式`--execute`。配置见`configs/predictor_survival.json`，实现见`kt2028/survival*.py`、`prepare_survival.py`、`train_survival.py`。真实检查通过后记回执并停止，不启动训练。Test粗UNI尚未编码且Q05未解决，不影响248+81训练准备，正式Test前另处理。
 
 ```bash
