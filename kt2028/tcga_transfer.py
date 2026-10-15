@@ -172,6 +172,7 @@ def main():
                     action('retire', sid, state['backed_up'][sid]['sha256'])
                     log(event='server_working_copy_retired', file_id=sid)
             if len(state['backed_up']) == len(samples):
+                ssh('touch '+shlex.quote(args.server_root+'/STOP'))
                 log(event='relay_completed', completed=len(samples)); return
             status = action('status')
             admitted = False
@@ -188,9 +189,13 @@ def main():
                     continue
                 source = local_source(sample)
                 remote = args.server_root+'/incoming/'+sid+'.svs.partial'
+                # OpenSSH reput/put -a requires an existing remote target on Windows.
+                # Only resume partials; new transfers use ordinary put.
+                resume = ssh('test -f '+shlex.quote(remote)+' && echo yes || echo no') == 'yes'
                 started = time.monotonic()
                 log(event='upload_started', file_id=sid, bytes=sample['size'])
-                sftp('put -a '+json.dumps(source.as_posix(), ensure_ascii=False)+' '+json.dumps(remote))
+                sftp(('put -a ' if resume else 'put ')+
+                     json.dumps(source.as_posix(), ensure_ascii=False)+' '+json.dumps(remote))
                 action('stage', sid)
                 seconds = time.monotonic()-started
                 state['staged'].append(sid); save()
