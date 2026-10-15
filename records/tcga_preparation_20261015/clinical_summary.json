@@ -1,0 +1,30 @@
+{
+  "schema": "KT2028-TCGA-clinical-candidate-1",
+  "patients_with_images": 616,
+  "image_files": 625,
+  "eligible_candidates": 583,
+  "full_os_events": 119,
+  "five_year_events": 111,
+  "five_year_censored": 472,
+  "five_year_binary_unobservable_among_eligible": 425,
+  "exclusions": {
+    "nonpositive_observation_time": 29,
+    "unknown_vital_status": 2,
+    "dead_missing_valid_death_days": 1,
+    "alive_missing_follow_up": 1
+  },
+  "flags": {
+    "age_obfuscated_timeline_may_be_compressed": 19
+  },
+  "cases_sha256": "1897013a7ee4e6c786e87f459596934a45cad7cb9c36bed96112a4e62a43a671",
+  "samples_sha256": "93cfabd16c0f8186bbea8a3ec3b568d3903e7d08d7e080c72152b4d4cd6229e9",
+  "code_sha256": "b175cfe3ea3248b263ca29ed3be8e893131d7a0055372347e8cd52b20cfa6c73",
+  "rule": "Dead: demographic.days_to_death; Alive: maximum nonnegative diagnosis/follow-up days; strictly positive duration; ambiguous records quarantined; original times preserved",
+  "endpoint": "overall survival from initial diagnosis; not cancer-specific survival",
+  "references": [
+    "https://docs.gdc.cancer.gov/Data_Submission_Portal/Users_Guide/Best_Practices/",
+    "https://docs.gdc.cancer.gov/API/Release_Notes/API_Release_Notes/"
+  ],
+  "no_patient_split_or_training": true,
+  "separate_from_surgen": true
+}

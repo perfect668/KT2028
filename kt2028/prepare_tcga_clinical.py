@@ -121,8 +121,9 @@ def main():
     payload = json.dumps(rows, indent=2)
     if table.exists() and table.read_text() != payload:
         raise ValueError('Existing clinical derivation differs; preserve it')
-    table.write_text(payload)
-    (args.output/'clinical_summary.json').write_text(json.dumps(summary, indent=2))
+    table.write_text(payload, encoding='utf-8', newline='\n')
+    (args.output/'clinical_summary.json').write_text(json.dumps(summary, indent=2),
+                                                   encoding='utf-8', newline='\n')
     print(json.dumps(summary), flush=True)
 
 

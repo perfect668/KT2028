@@ -1,0 +1,43 @@
+{
+  "schema": "KT2028-TCGA-preparation-progress-1",
+  "snapshot_beijing": "2026-10-15T15:58:36.807787+08:00",
+  "feature_core_commit": "f8f6c29",
+  "transfer_controller_commit": "60ca9ac",
+  "target_files": 625,
+  "image_linked_patients": 616,
+  "first_three_upload_bytes": 2323852996,
+  "first_three_upload_seconds": 237.2839665,
+  "first_three_upload_MB_s": 9.793563,
+  "subsequent_verified_upload_MB_s": 10.21,
+  "actual_sftp_resume_prefix_bytes": 8388608,
+  "actual_resumed_source_passed_gdc_md5": true,
+  "completed_slides": 5,
+  "coarse_patches": 2478.0,
+  "fine_patches": 33406.0,
+  "completed_output_bytes": 166986438.0,
+  "off_server_feature_backups": 4,
+  "off_server_backup_sha256_checked": true,
+  "server_free_bytes": 113317019648,
+  "staged_raw_limit_bytes": 21474836480,
+  "minimum_free_bytes": 32212254720,
+  "storage_estimate_feature_qc_GiB": [
+    20,
+    40
+  ],
+  "storage_estimate_provisional": true,
+  "expand_now_recommended": false,
+  "all_raw_resident_requires_more_storage": true,
+  "local_originals_preserved": true,
+  "old_assets_preserved": true,
+  "feature_encoder_frozen": true,
+  "new_predictor_training_started": false,
+  "policy_training_started": false,
+  "geometry_software_checks_passed": 4,
+  "clinical_software_checks_passed": 5,
+  "svs_dependency_versions": {
+    "openslide-python": "1.4.6",
+    "openslide-bin": "4.0.1.2"
+  },
+  "queue_running_not_complete": true,
+  "clinical_candidate_sha256": "dc0eb6a8afba8d15bb7a2d953497e5e5ce67ecbcb45aae5bdbc0fd628a0730e3"
+}
