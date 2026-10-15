@@ -61,6 +61,7 @@ def main():
         import fcntl
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     state = json.loads(args.state.read_text()) if args.state.exists() else dict(verified={}, staged=[], backed_up={})
+    state.setdefault('retired', [])
     samples = json.loads(args.samples.read_text(encoding='utf-8-sig'))
     with args.gdc_manifest.open(encoding='utf-8-sig', newline='') as f:
         original = list(csv.DictReader(f, delimiter='\t'))
@@ -138,6 +139,26 @@ def main():
                 if sid not in lookup:
                     continue
                 sample = lookup[sid]
+                final = args.backup/(sid+'.tar.gz')
+                saved = state['backed_up'].get(sid)
+                if saved is not None:
+                    if not final.is_file():
+                        # A missing backup must be rebuilt while server features still exist.
+                        del state['backed_up'][sid]
+                        if sid in state['retired']:
+                            state['retired'].remove(sid)
+                        save()
+                    else:
+                        signature = [final.stat().st_size, final.stat().st_mtime_ns]
+                        if saved.get('signature') != signature:
+                            if final.stat().st_size != saved['bytes'] or digest(final) != saved['sha256']:
+                                raise ValueError('Previously verified local archive changed; preserve all copies')
+                            saved['signature'] = signature
+                            save()
+                        if sid in state['retired']:
+                            # Avoid one SSH round trip per past slide on every new upload.
+                            # Final dataset audit remains independent of these cached acknowledgements.
+                            continue
                 if sid not in state['backed_up']:
                     if not verified(sample):
                         log(event='local_original_unverified_no_retire', file_id=sid); continue
@@ -149,7 +170,6 @@ def main():
                         log(event='waiting_local_backup_space', free_bytes=free, reserved_download_bytes=pending_wsi)
                         continue
                     archive = action('pack', sid)
-                    final = args.backup/(sid+'.tar.gz')
                     temp = final.with_suffix('.gz.partial')
                     if not final.exists():
                         sftp('get -a '+json.dumps(args.server_root+'/archives/'+sid+'.tar.gz')+' '+
@@ -165,7 +185,8 @@ def main():
                         temp.rename(final)
                     if digest(final) != archive['sha256']:
                         raise ValueError('Existing local backup fingerprint mismatch')
-                    state['backed_up'][sid] = dict(sha256=archive['sha256'], bytes=archive['bytes'], at=time.time())
+                    state['backed_up'][sid] = dict(sha256=archive['sha256'], bytes=archive['bytes'],
+                        signature=[final.stat().st_size, final.stat().st_mtime_ns], at=time.time())
                     save(); log(event='feature_backup_verified', file_id=sid, bytes=archive['bytes'])
                 retired = args.server_root+'/staged/'+sid+'.retired.json'
                 # Retire is idempotent only while its temporary archive is present.
@@ -173,6 +194,10 @@ def main():
                 if exists == 'no' and verified(sample):
                     action('retire', sid, state['backed_up'][sid]['sha256'])
                     log(event='server_working_copy_retired', file_id=sid)
+                    exists = 'yes'
+                if exists == 'yes':
+                    state['retired'].append(sid)
+                    save()
             if len(state['backed_up']) == len(samples):
                 ssh('touch '+shlex.quote(args.server_root+'/STOP'))
                 log(event='relay_completed', completed=len(samples)); return
