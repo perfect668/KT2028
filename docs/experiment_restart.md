@@ -548,6 +548,8 @@ W060增加独立资产验收/患者分组入口`python -m kt2028.audit_tcga --ro
 
 W061补齐样本来源：`prepare_tcga_clinical --files-metadata .../files_mapped_raw.json`沿associated_entities.slide_id匹配真实sample，不用病例的第一个sample或仅凭DX命名推断组织类型；625张中624 Primary Tumor/1 Metastatic，625均Tumor/FFPE，该非原发患者同时有原发片，616人均有原发候选，583 OS候选不变。私有biospecimen_index/患者索引保留非原发待审标志和primary_diagnostic_candidate_file_ids，主分析应在训练前显式锁定来源；本轮不删图、不自动排训练样本、不从2018等元数据创建时间推断取材时点。[GDC官方样本代码](https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes)。最终资产验收须另加`--biospecimens .../biospecimen_index.json --verify-feature-hashes --final`，当前10张独立检查通过/615待处理，最终模式确实exit2拒绝宣布完成。按10张实际输出均值/源体积比外推约37/28GiB，考虑未覆盖样本差异将产物预留暂修为30–50GiB，配20GiB原片队列/30GiB余量，仍先不扩容；与早期20–40GiB估计区分，不承诺最终体积。所有真实进度及备份见W061。
 
+W062真实验收20GiB队列限制：接近阈值后上传等待、提取仍推进；新特征离机备份核准并回收工作原片后，自动恢复749MB上传/MD5通过，随后再进入容量等待。阈值未改，没有清理历史缓存或E盘原片。17:10独立检查20张已完成资产内容/物理映射与来源全部通过，19名患者全部所需切片齐备，另605张待处理，非完整数据集/训练结果。最终依旧须全625内容与备份验收，不以小样本通过代替；证据与当前进度维护于W062。
+
 用户已接受W057新队列尺度建议：TCGA粗2µm/px、细0.5µm/px，均RGB224×224、同一冻结原始UNI/同一权重和归一化，各patch输出1024维；对应448/112µm视野，重建真实父子坐标和组织过滤，满组织理论16子patch。无需新建或微调特征提取网络、重下UNI权重；已有uni_encoder.py严格输入/输出契约可复用。尺度由采样器决定，不通过更改ViT内部16像素token patch大小来实现。旧dual_scale_r2.json已有2/0.5数值，但绑定SurGen远程源/旧运行语义，不能冒称TCGA配置及本地SVS入口已就绪。本轮只记录决定/核源码，未改运行配置或算法、未提取/上传/训练。后续先适配本地SVS与MPP/对齐/校验队列；现有预测器1024维接口原则可复用，但新数据/尺度需重新拟合预测器，不能把旧checkpoint直接称已适配。SurGen原4/1MPP及已训权重保留；跨队列统一尺度/标签与患者划分尚未执行，不直接混训。
 
 ### 0.23 2026-10-12唯一实施建议R2：跨尺度证据融合与条件化序贯观察
