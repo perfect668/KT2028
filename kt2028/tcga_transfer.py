@@ -80,8 +80,9 @@ def main():
         tmp.replace(args.state)
 
     def ssh(command):
-        p = subprocess.run(['ssh', *base, '-p', str(args.port), target, command],
-                           check=True, capture_output=True, text=True, encoding='utf-8')
+        p = subprocess.run(['ssh', '-n', *base, '-p', str(args.port), target, command],
+                           check=True, capture_output=True, text=True, encoding='utf-8',
+                           stdin=subprocess.DEVNULL, timeout=120)
         return p.stdout.strip()
 
     def action(name, sid=None, backup_hash=None):
@@ -98,7 +99,8 @@ def main():
         with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', suffix='.sftp', delete=False) as f:
             batch = Path(f.name); f.write(command+'\n')
         try:
-            subprocess.run(['sftp', *base, '-P', str(args.port), '-b', str(batch), target], check=True)
+            subprocess.run(['sftp', *base, '-P', str(args.port), '-b', str(batch), target],
+                           check=True, stdin=subprocess.DEVNULL, timeout=7200)
         finally:
             batch.unlink()
 
@@ -210,7 +212,7 @@ def main():
                 if not args.watch:
                     return
                 time.sleep(args.poll_seconds)
-        except (subprocess.CalledProcessError, OSError) as error:
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError) as error:
             log(event='transient_transfer_error', error=str(error)[:500])
             if not args.watch:
                 raise
