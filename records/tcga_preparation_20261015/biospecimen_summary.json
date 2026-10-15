@@ -1,0 +1,23 @@
+{
+  "schema": "KT2028-TCGA-biospecimen-audit-1",
+  "files": 625,
+  "sample_type_counts": {
+    "Primary Tumor": 624,
+    "Metastatic": 1
+  },
+  "tissue_type_counts": {
+    "Tumor": 625
+  },
+  "preservation_counts": {
+    "FFPE": 625
+  },
+  "primary_diagnostic_files": 624,
+  "patients_with_primary_diagnostic": 616,
+  "patients_with_nonprimary_specimen": 1,
+  "nonprimary_patients_also_with_primary": true,
+  "no_automatic_file_deletion_or_training_exclusion": true,
+  "files_metadata_sha256": "06137446ab6eda3479307eb09ab0591dbb479c44959bcb2f4352707a513c9dd6",
+  "samples_sha256": "93cfabd16c0f8186bbea8a3ec3b568d3903e7d08d7e080c72152b4d4cd6229e9",
+  "code_sha256": "5db8ee821082c2c1338682ddd0fae4108828d55076ab7adaaec14244d54801db",
+  "reference": "https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes"
+}

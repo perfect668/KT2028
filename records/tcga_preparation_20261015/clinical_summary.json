@@ -18,7 +18,7 @@
   },
   "cases_sha256": "1897013a7ee4e6c786e87f459596934a45cad7cb9c36bed96112a4e62a43a671",
   "samples_sha256": "93cfabd16c0f8186bbea8a3ec3b568d3903e7d08d7e080c72152b4d4cd6229e9",
-  "code_sha256": "b175cfe3ea3248b263ca29ed3be8e893131d7a0055372347e8cd52b20cfa6c73",
+  "code_sha256": "5db8ee821082c2c1338682ddd0fae4108828d55076ab7adaaec14244d54801db",
   "rule": "Dead: demographic.days_to_death; Alive: maximum nonnegative diagnosis/follow-up days; strictly positive duration; ambiguous records quarantined; original times preserved",
   "endpoint": "overall survival from initial diagnosis; not cancer-specific survival",
   "references": [

@@ -9,6 +9,7 @@ from collections import Counter
 import json
 import math
 from pathlib import Path
+import re
 
 from .uni_encoder import sha256_file
 
@@ -80,11 +81,56 @@ def derive(case, images):
                 binary_death_5y_if_observable=label5)
 
 
+def link_biospecimens(files, samples):
+    """Follow exact associated slide IDs, not the first sample in a case."""
+    files_by_id = {f['file_id']: f for f in files}
+    if len(files_by_id) != len(files):
+        raise ValueError('Duplicate GDC file metadata')
+    rows = []
+    for sample in samples:
+        f = files_by_id[sample['id']]
+        if f['file_name'] != sample['filename']:
+            raise ValueError('File metadata/source name mismatch')
+        linked = [a for a in f.get('associated_entities', []) if a['entity_type'] == 'slide']
+        if len(linked) != 1:
+            raise ValueError('Ambiguous GDC associated slide')
+        matches = []
+        for case in f.get('cases', []):
+            for specimen in case.get('samples', []):
+                for portion in specimen.get('portions', []):
+                    for slide in portion.get('slides', []):
+                        if slide['slide_id'] == linked[0]['entity_id']:
+                            matches.append((case, specimen, slide))
+        if len(matches) != 1:
+            raise ValueError('Associated slide cannot be uniquely linked to specimen')
+        case, specimen, slide = matches[0]
+        if case['case_id'] not in sample['case_ids'] or slide['submitter_id'] != linked[0]['entity_submitter_id']:
+            raise ValueError('Specimen/clinical mapping disagreement')
+        match = re.match(r'^TCGA-[^-]+-[^-]+-(\d\d)[A-Z]-', sample['filename'])
+        if match is None:
+            raise ValueError('Unrecognized TCGA slide barcode')
+        code = match.group(1)
+        kind = specimen.get('sample_type')
+        expected = {'01': {'Primary Tumor', 'Primary Solid Tumor'}, '06': {'Metastatic'}}
+        if code in expected and kind not in expected[code]:
+            raise ValueError('Barcode and GDC specimen type disagree')
+        rows.append(dict(file_id=sample['id'], case_id=case['case_id'],
+            patient_id=case['submitter_id'], associated_slide_id=slide['slide_id'],
+            specimen_id=specimen['sample_id'], sample_type_code=code,
+            sample_type=kind, tumor_descriptor=specimen.get('tumor_descriptor'),
+            tissue_type=specimen.get('tissue_type'), preservation_method=specimen.get('preservation_method'),
+            primary_diagnostic_candidate=code == '01' and kind in expected['01'],
+            review_flags=[] if code == '01' else ['nonprimary_specimen_review_before_baseline_os_analysis']))
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--cases', type=Path, required=True)
     ap.add_argument('--samples', type=Path, required=True)
     ap.add_argument('--output', type=Path, required=True)
+    ap.add_argument('--files-metadata', type=Path,
+                    help='Optional original GDC expanded file metadata for specimen linkage')
     args = ap.parse_args()
     cases = json.loads(args.cases.read_text(encoding='utf-8-sig'))['data']['hits']
     samples = json.loads(args.samples.read_text(encoding='utf-8-sig'))
@@ -124,6 +170,28 @@ def main():
     table.write_text(payload, encoding='utf-8', newline='\n')
     (args.output/'clinical_summary.json').write_text(json.dumps(summary, indent=2),
                                                    encoding='utf-8', newline='\n')
+    if args.files_metadata:
+        files = json.loads(args.files_metadata.read_text(encoding='utf-8-sig'))['data']['hits']
+        specimens = link_biospecimens(files, samples)
+        specimen_summary = dict(schema='KT2028-TCGA-biospecimen-audit-1', files=len(specimens),
+            sample_type_counts=dict(Counter(s['sample_type'] for s in specimens)),
+            tissue_type_counts=dict(Counter(s['tissue_type'] for s in specimens)),
+            preservation_counts=dict(Counter(s['preservation_method'] for s in specimens)),
+            primary_diagnostic_files=sum(s['primary_diagnostic_candidate'] for s in specimens),
+            patients_with_primary_diagnostic=len({s['patient_id'] for s in specimens if s['primary_diagnostic_candidate']}),
+            patients_with_nonprimary_specimen=len({s['patient_id'] for s in specimens if not s['primary_diagnostic_candidate']}),
+            nonprimary_patients_also_with_primary=all(
+                any(p['patient_id'] == s['patient_id'] and p['primary_diagnostic_candidate'] for p in specimens)
+                for s in specimens if not s['primary_diagnostic_candidate']),
+            no_automatic_file_deletion_or_training_exclusion=True,
+            files_metadata_sha256=sha256_file(args.files_metadata), samples_sha256=sha256_file(args.samples),
+            code_sha256=sha256_file(Path(__file__)),
+            reference='https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes')
+        (args.output/'biospecimen_index.json').write_text(json.dumps(specimens, indent=2),
+                                                        encoding='utf-8', newline='\n')
+        (args.output/'biospecimen_summary.json').write_text(json.dumps(specimen_summary, indent=2),
+                                                          encoding='utf-8', newline='\n')
+        print(json.dumps(specimen_summary), flush=True)
     print(json.dumps(summary), flush=True)
 
 

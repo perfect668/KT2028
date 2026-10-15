@@ -102,12 +102,16 @@ def main():
     ap.add_argument('--manifest', type=Path, required=True)
     ap.add_argument('--clinical', type=Path, required=True)
     ap.add_argument('--config', type=Path, required=True)
+    ap.add_argument('--biospecimens', type=Path,
+                    help='GDC associated-slide-linked specimen index; required for final audit')
     ap.add_argument('--output', type=Path, required=True)
     ap.add_argument('--verify-feature-hashes', action='store_true')
     ap.add_argument('--final', action='store_true')
     args = ap.parse_args()
     if args.final and not args.verify_feature_hashes:
         raise ValueError('Final audit requires feature content hashes')
+    if args.final and not args.biospecimens:
+        raise ValueError('Final audit requires explicit specimen provenance')
     samples = json.loads(args.manifest.read_text(encoding='utf-8-sig'))
     clinical = json.loads(args.clinical.read_text(encoding='utf-8-sig'))
     if len({s['id'] for s in samples}) != len(samples):
@@ -116,6 +120,12 @@ def main():
     if len(clinical_by_patient) != len(clinical):
         raise ValueError('Duplicate clinical patient')
     expected_by_patient, slides = {}, {}
+    specimens = None
+    if args.biospecimens:
+        bio = json.loads(args.biospecimens.read_text(encoding='utf-8-sig'))
+        specimens = {s['file_id']: s for s in bio}
+        if len(specimens) != len(bio) or set(specimens) != {s['id'] for s in samples}:
+            raise ValueError('Incomplete/duplicate specimen mapping')
     for sample in samples:
         if len(sample['patient_ids']) != 1 or len(sample['case_ids']) != 1:
             raise ValueError('Ambiguous slide/patient mapping')
@@ -135,15 +145,24 @@ def main():
                                         error=json.loads((folder/'failure.json').read_text())['error'])
         else:
             slides[sample['id']] = dict(file_id=sample['id'], status='pending')
+        if specimens is not None:
+            specimen = specimens[sample['id']]
+            if specimen['patient_id'] != pid or specimen['case_id'] != sample['case_ids'][0]:
+                raise ValueError('Specimen/patient mapping mismatch')
+            slides[sample['id']]['biospecimen'] = specimen
     if set(expected_by_patient) != set(clinical_by_patient):
         raise ValueError('Clinical cohort and image cohort differ')
     good = {'verified', 'metadata_checked'}
     patients = []
     for pid, ids in sorted(expected_by_patient.items()):
         r = clinical_by_patient[pid]
+        primary_ids = [sid for sid in ids if specimens is not None and specimens[sid]['primary_diagnostic_candidate']]
         patients.append(dict(patient_id=pid, case_id=r['case_id'], project=r['project'],
             slides=[slides[sid] for sid in ids],
             all_expected_slides_ready=all(slides[sid]['status'] in good for sid in ids),
+            primary_diagnostic_candidate_file_ids=primary_ids if specimens is not None else None,
+            contains_nonprimary_specimen=any(not specimens[sid]['primary_diagnostic_candidate'] for sid in ids)
+                                        if specimens is not None else None,
             os_candidate=dict(time_days=r['os_time_days'], event=r['os_event'],
                 time_days_5y=r['time_days_5y'], event_5y=r['event_5y'],
                 eligible=r['eligible_candidate'], exclusion_reason=r['exclusion_reason'], flags=r['flags']),
@@ -162,6 +181,12 @@ def main():
         patient_split_assigned=False, model_training_ready_claimed=False,
         manifest_sha256=sha256_file(args.manifest), clinical_sha256=sha256_file(args.clinical),
         config_sha256=sha256_file(args.config), audit_code_sha256=sha256_file(Path(__file__)))
+    summary.update(specimen_provenance_checked=specimens is not None,
+                   biospecimen_sha256=sha256_file(args.biospecimens) if args.biospecimens else None,
+                   primary_diagnostic_candidate_files=sum(s['primary_diagnostic_candidate'] for s in specimens.values())
+                                                     if specimens is not None else None,
+                   nonprimary_specimens=sum(not s['primary_diagnostic_candidate'] for s in specimens.values())
+                                        if specimens is not None else None)
     from .extract_dual_scale import atomic_json
     args.output.mkdir(parents=True, exist_ok=True)
     atomic_json(args.output/'patient_index.json', patients)
