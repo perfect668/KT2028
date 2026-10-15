@@ -1,0 +1,195 @@
+{
+  "schema": "KT2028-GDC-throughput-audit-1",
+  "audit_started_utc": "2026-10-14T11:53:27.340827+00:00",
+  "audit_finished_utc": "2026-10-14T12:00:28.730431+00:00",
+  "audit_id": "tcga_speed_w054_20261014_195327",
+  "source_commit": "eda13fb2dcaa8c264e2185ddc3c31700ec249e57",
+  "purpose": "User-authorized small-traffic server-to-GDC throughput test;no bulk download or training",
+  "endpoint": "https://api.gdc.cancer.gov/data/<public file UUID>",
+  "inventory_query_endpoint": "https://api.gdc.cancer.gov/files",
+  "filters": {
+    "projects": [
+      "TCGA-COAD",
+      "TCGA-READ"
+    ],
+    "experimental_strategy": "Diagnostic Slide",
+    "data_format": "SVS",
+    "access": "open"
+  },
+  "projects": {
+    "TCGA-COAD": {
+      "files": 459,
+      "cases": 451,
+      "total_bytes": 283667484028,
+      "median_file_bytes": 506907171,
+      "query_elapsed_s": 7.023744512349367,
+      "metadata_sha256": "b6ac56836b6835046e502b37d2d66fa4f3fa40d7476821dcf88caa0e0ac7dfd3",
+      "selected_file_bytes": 506907171,
+      "selected_source_uuid_sha256": "6b91a2f51e92bbe98794b55fb04eb97cd8439afbd9028d44a34b5794ec0a39d3"
+    },
+    "TCGA-READ": {
+      "files": 166,
+      "cases": 165,
+      "total_bytes": 79480439259,
+      "median_file_bytes": 375731556,
+      "query_elapsed_s": 4.9646078161895275,
+      "metadata_sha256": "abca3fa6e095375f3acffe2e2dbad7a6546b6a297082a5d9f008a5fc2ee1b079",
+      "selected_file_bytes": 375731556,
+      "selected_source_uuid_sha256": "3e502547b0ed2e2daead82fb6b66e5ae835bbe80f9e74371ce4b8eeec2fbec63"
+    }
+  },
+  "inventory": {
+    "files": 625,
+    "unique_cases": 616,
+    "cross_project_case_overlap": 0,
+    "total_bytes": 363147923287,
+    "decimal_GB": 363.147923287,
+    "GiB": 338.2078588819131,
+    "clinical_eligibility_not_audited": true
+  },
+  "disk_snapshot": {
+    "total_bytes": 214748364800,
+    "free_bytes": 115065364480,
+    "free_GiB": 107.16297149658203
+  },
+  "single_results": [
+    {
+      "project": "TCGA-COAD",
+      "phase": "single",
+      "offset_bytes": 0,
+      "byte_cap": 67108864,
+      "wall_limit_s": 45.0,
+      "started_utc": "2026-10-14T11:54:36.410308+00:00",
+      "http_status": 206,
+      "content_range": "0-67108863/506907171",
+      "content_length": "67108864",
+      "content_type": "application/octet-stream",
+      "headers_elapsed_s": 1.4517771676182747,
+      "end_reason": "wall_limit",
+      "bytes_received": 9437184,
+      "elapsed_s": 47.220843609422445,
+      "effective_MB_s": 0.1998520839241615,
+      "first_data_elapsed_s": 4.590380143374205,
+      "body_after_first_MB_s": 0.221371797349328,
+      "partial_sha256": "ab3244735504bdcc424833043f655f1ae06ed700dfe2a013d49ff85dd0dc083e",
+      "saved_as_partial_not_complete_wsi": true
+    }
+  ],
+  "parallel_two_results": {
+    "connections": 2,
+    "total_byte_cap": 8388608,
+    "aggregate_bytes": 2097152,
+    "wall_elapsed_s": 27.462907694280148,
+    "aggregate_MB_s": 0.07636307208783961,
+    "results": [
+      {
+        "project": "TCGA-COAD",
+        "phase": "parallel2",
+        "offset_bytes": 67108864,
+        "byte_cap": 4194304,
+        "wall_limit_s": 25.0,
+        "started_utc": "2026-10-14T11:56:51.172206+00:00",
+        "http_status": 206,
+        "content_range": "67108864-71303167/506907171",
+        "content_length": "4194304",
+        "headers_elapsed_s": 1.6235375069081783,
+        "end_reason": "wall_limit",
+        "bytes_received": 1114112,
+        "elapsed_s": 27.461135495454073,
+        "effective_MB_s": 0.04057050008672914,
+        "first_data_elapsed_s": 3.3888621628284454,
+        "partial_sha256": "ba6bd3df248c86aff6a964fbdba6e73e5a175eae0f19472cb2e1eebec82a247c",
+        "saved_as_partial_not_complete_wsi": true
+      },
+      {
+        "project": "TCGA-READ",
+        "phase": "parallel2",
+        "offset_bytes": 0,
+        "byte_cap": 4194304,
+        "wall_limit_s": 25.0,
+        "started_utc": "2026-10-14T11:56:51.173350+00:00",
+        "http_status": 206,
+        "content_range": "0-4194303/375731556",
+        "content_length": "4194304",
+        "headers_elapsed_s": 1.705913383513689,
+        "end_reason": "wall_limit",
+        "bytes_received": 983040,
+        "elapsed_s": 25.22373517230153,
+        "effective_MB_s": 0.03897281640823312,
+        "first_data_elapsed_s": 3.4446699023246765,
+        "partial_sha256": "79c669ce9e1734c38c643542d9872bee6eb09abe2ac7a8d4ed31e850740f09ee",
+        "saved_as_partial_not_complete_wsi": true
+      }
+    ],
+    "prior_read_probe_interrupted_for_user_small_traffic_request": true
+  },
+  "read_single_small_attempt": {
+    "project": "TCGA-READ",
+    "phase": "single_small_after_parallel",
+    "offset_bytes": 4194304,
+    "byte_cap": 1048576,
+    "wall_limit_s": 25.0,
+    "started_utc": "2026-10-14T11:58:23.394597+00:00",
+    "error_type": "RemoteDisconnected",
+    "error": "Remote end closed connection without response",
+    "bytes_received": 0,
+    "elapsed_s": 4.462630119174719,
+    "effective_MB_s": 0.0,
+    "first_data_elapsed_s": null,
+    "partial_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "saved_as_partial_not_complete_wsi": true
+  },
+  "initial_read_probe_interruption": {
+    "reason": "User clarified small traffic only;stopped exact process holding this audit partial file viaSIGINT",
+    "saved_file_bytes": 0,
+    "not_treated_as_endpoint_failure": true
+  },
+  "partial_files": {
+    "TCGA-COAD_single_offset0.partial.bin": {
+      "bytes": 9437184,
+      "sha256": "ab3244735504bdcc424833043f655f1ae06ed700dfe2a013d49ff85dd0dc083e"
+    },
+    "TCGA-READ_single_offset0.partial.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TCGA-COAD_parallel2_67108864.partial.bin": {
+      "bytes": 1114112,
+      "sha256": "ba6bd3df248c86aff6a964fbdba6e73e5a175eae0f19472cb2e1eebec82a247c"
+    },
+    "TCGA-READ_parallel2_0.partial.bin": {
+      "bytes": 983040,
+      "sha256": "79c669ce9e1734c38c643542d9872bee6eb09abe2ac7a8d4ed31e850740f09ee"
+    }
+  },
+  "total_saved_image_payload_bytes": 11534336,
+  "total_saved_image_payload_MiB": 11.0,
+  "traffic_note": "Saved application payload, not measured total wire bytes;headers,TLS,metadata and partially buffered reads are additional.",
+  "headers_confirmed_tiff": {
+    "COAD_first": "49492a00",
+    "READ_first": "49492a00"
+  },
+  "linear_time_estimates_not_predictions": {
+    "all_inventory_at_observed_coad_single_days": 21.03105897842362,
+    "all_inventory_at_parallel_aggregate_days": 55.04101457750581,
+    "coad_median_file_at_first_single_minutes": 42.27352892255034,
+    "read_median_file_at_parallel_read_minutes": 160.681038147325
+  },
+  "limitations": [
+    "One median-size public slide per project;short time windows and small ranges;not sustained bulk transfer benchmark.",
+    "Connection-count and time variation not independently separated;do not claim concurrency caused slowdown.",
+    "Existing urllib HTTPS used;gdc-client not installed or benchmarked.",
+    "RemoteDisconnected attempt has no throughput sample;do not call it zero-bandwidth.",
+    "Whole SVS not downloaded or MD5-verified;partial-file SHA only.",
+    "Inventory count does not imply patients have usableOS/followup or matched coarse/fine inputs."
+  ],
+  "recommendation": "Current observed route too slow/variable for confident bulk server download;disk expansion alone does not improve link speed.",
+  "stop_state": {
+    "bulk_download_started": false,
+    "new_packages_installed": false,
+    "clinical_labels_downloaded": false,
+    "new_feature_extraction": false,
+    "training_or_model_evaluation": false,
+    "rl_started": false
+  }
+}

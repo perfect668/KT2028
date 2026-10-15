@@ -634,6 +634,12 @@ DACHS/Graz等研究队列可有结局，但原研究访问为合作/申请，未
 
 本轮只核官方指引和存档，没有获取真实新增患者清单、临床/图像/特征、下载/安装客户端、测试链路、修改当前标签/架构/配置或启动预测/训练/Test/RL。Windows目录/文件名仅推荐保存位置；下一项是实际小文件到位后的患者-切片-随访匹配、输入缺口与空间统计，而不是默许将现成UNI2-h包混入现行原UNI。
 
+**W054/W055｜2026-10-14测速、10-15用户清单核对（实际证据，不改变扩充候选状态）。** 用户限量服务器测速已结束，HTTP206短片段共保存11MiB；COAD首轮单连接约200KB/s，后续两条连接COAD/READ各约41/39KB/s、合计约76KB/s，另READ单连接被远端断开。时间/并发变化未分离，不能称两个癌种固定网速或网络总带宽；未用gdc-client实测/安装，不下载整张或整库。按当时全部原图体积短测线性外推约21–55天，仅数量级提示；当前不能因磁盘扩容就承诺快速下载。空余当时107.16GiB，实际诊断原图338.21GiB。[匿名测速审计](../records/tcga_download_audit_20261015/throughput_audit_20261014.json)。
+
+用户实际文件D:/chromedownload/gdc_manifest.2026-10-14.194447.txt为COAD459张/451患者/283.67GB，194909.txt为READ166张/165患者/79.48GB。逐文件UUID、名称、大小、清单MD5与10-14 19:53官方完整open/SVS/Diagnostic Slide快照一致，缺失/额外/字段差异0，无跨表重复；合计625张/616患者/363.15GB（338.21GiB）。是这两个项目当时全部开放诊断切片的清单，不是全模态/生存标签包，也不表示实际原图MD5验收通过。[匿名清单核对](../records/tcga_download_audit_20261015/manifest_comparison.json)。病例与切片不同，616未做OS/末次随访/原发/质量筛选，不报成新增可训练人数。
+
+临床仍需Clinical JSON/TSV和Sample Sheet/Metadata配对，用户源manifest不改；两份清单和测速元数据已复制本机仓库外KT2028-assets/tcga_speed_w054_20261014，Git只放匿名数量/哈希/时间/速率。没有新增完整原图/临床标签、更新训练清单/配置/网络、安装、提取、模型推理/训练/Test/RL或后台下载。下一项仍是小临床资料到位后的有效患者/事件与输入缺口核查，不以清单覆盖完整为大批下载或扩容授权。
+
 **准备顺序与停止点。** `prepare_survival`读取原表及三个原manifest，输出独立私有Train/Val/Test生存清单、10例排除理由和匿名汇总；不改源清单。`SurvivalDataset`只接受Train/Val，用既有R2粗数据并只读已观察fine；同一索引批量读取降低重复解压，权限与旧输入数值不变。`train_survival`默认核329份资产/源hash及真实最大Train病例零/部分/全输入、NLL梯度、曲线和内存保存重载，optimizer_steps=0；训练必须显式`--execute`。配置见`configs/predictor_survival.json`，实现见`kt2028/survival*.py`、`prepare_survival.py`、`train_survival.py`。真实检查通过后记回执并停止，不启动训练。Test粗UNI尚未编码且Q05未解决，不影响248+81训练准备，正式Test前另处理。
 
 ```bash

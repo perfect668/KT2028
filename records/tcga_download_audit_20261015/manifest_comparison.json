@@ -1,0 +1,56 @@
+{
+  "schema": "KT2028-GDC-user-manifest-comparison-1",
+  "audit_date_beijing": "2026-10-15",
+  "source_commit": "eda13fb2dcaa8c264e2185ddc3c31700ec249e57",
+  "official_inventory_snapshot_utc": "2026-10-14T11:53:27.340827+00:00",
+  "scope": "Manifest coverage of open SVS Diagnostic Slide inventory for TCGA-COAD/READ snapshot;not all project modalities,clinical labels or downloaded image integrity.",
+  "comparisons": [
+    {
+      "manifest_name": "gdc_manifest.2026-10-14.194909.txt",
+      "manifest_sha256": "ed3f361518cf68eccdc29e3a06f3efac2b3dbfc64169b25e5324fb12c7623438",
+      "project": "TCGA-READ",
+      "files": 166,
+      "unique_file_ids": 166,
+      "unique_cases_from_official_snapshot": 165,
+      "total_bytes": 79480439259,
+      "all_svs": true,
+      "all_diagnostic_DX_filenames": true,
+      "all_state_released": true,
+      "missing_file_ids_vs_snapshot": 0,
+      "extra_file_ids_vs_snapshot": 0,
+      "mismatches_vs_snapshot": {
+        "filename": 0,
+        "md5": 0,
+        "size": 0
+      },
+      "snapshot_payload_sha256": "abca3fa6e095375f3acffe2e2dbad7a6546b6a297082a5d9f008a5fc2ee1b079"
+    },
+    {
+      "manifest_name": "gdc_manifest.2026-10-14.194447.txt",
+      "manifest_sha256": "3b505315b6181af0735c9e7a427bab1a0121699fc377549614f54597cbf996a0",
+      "project": "TCGA-COAD",
+      "files": 459,
+      "unique_file_ids": 459,
+      "unique_cases_from_official_snapshot": 451,
+      "total_bytes": 283667484028,
+      "all_svs": true,
+      "all_diagnostic_DX_filenames": true,
+      "all_state_released": true,
+      "missing_file_ids_vs_snapshot": 0,
+      "extra_file_ids_vs_snapshot": 0,
+      "mismatches_vs_snapshot": {
+        "filename": 0,
+        "md5": 0,
+        "size": 0
+      },
+      "snapshot_payload_sha256": "b6ac56836b6835046e502b37d2d66fa4f3fa40d7476821dcf88caa0e0ac7dfd3"
+    }
+  ],
+  "total_files": 625,
+  "unique_cases": 616,
+  "cross_project_file_id_overlap": 0,
+  "total_bytes": 363147923287,
+  "clinical_or_survival_labels_in_manifests": false,
+  "whole_wsi_download_started": false,
+  "candidate_eligible_survival_patients_not_determined": true
+}
