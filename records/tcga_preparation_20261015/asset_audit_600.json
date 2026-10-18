@@ -1,0 +1,28 @@
+{
+  "schema": "KT2028-TCGA-feature-dataset-audit-1",
+  "at_unix": 1792293889.8300216,
+  "expected_files": 625,
+  "expected_patients": 616,
+  "slide_status_counts": {
+    "verified": 600,
+    "extraction_failed": 25
+  },
+  "completed_files": 600,
+  "completed_patients": 591,
+  "complete_os_candidate_patients": 560,
+  "coarse_patches": 560960,
+  "fine_patches": 7747422,
+  "completed_output_bytes": 36813890985,
+  "feature_content_hashes_checked": true,
+  "feature_dataset_complete": false,
+  "patient_split_assigned": false,
+  "model_training_ready_claimed": false,
+  "manifest_sha256": "93cfabd16c0f8186bbea8a3ec3b568d3903e7d08d7e080c72152b4d4cd6229e9",
+  "clinical_sha256": "dc0eb6a8afba8d15bb7a2d953497e5e5ce67ecbcb45aae5bdbc0fd628a0730e3",
+  "config_sha256": "9368b7da1c1ee80340c445b74cbc32d7635656abf9b89bbd361992b637269fb9",
+  "audit_code_sha256": "8d8bd3e502a69fcb80403e0b7b0753be1ca628f5cb8d85f2b33a740926b5ef9c",
+  "specimen_provenance_checked": true,
+  "biospecimen_sha256": "eadf52fe66a3d55ece757d6e8d313bedf91f0b6cecb062aca10e74f511d1083b",
+  "primary_diagnostic_candidate_files": 624,
+  "nonprimary_specimens": 1
+}
