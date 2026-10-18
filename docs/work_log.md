@@ -147,6 +147,7 @@
 - 已启动独立600张特征SHA/有限值/几何/来源/患者索引复验，以及本地600份归档逐字节SHA复验；完成结果随后原位补记。全625仍未验收，不能称训练就绪；现有583 OS候选也不能直接称特征齐备病例数。
 - 11:24服务器独立复验退出0：600 verified、25 extraction_failed，无新增内容/几何审计失败；粗560,960、细7,747,422，产物36,813,890,985字节。591名患者全部预期图像齐备，其中560名符合当前OS候选规则；不是600名独立患者或583名全部齐备。feature_dataset_complete=false，split未指定、model_training_ready_claimed=false。[匿名600张验收](../records/tcga_preparation_20261015/asset_audit_600.json)，私有患者索引同步E盘。归档SHA复验仍在进行。
 - 下一最小工作：取得25张可信的扫描MPP/原始扫描版本来源，或提出明确的受限纳入规则供用户决定；在此之前保留全625目标与失败，不静默改成600张成功。当前不训练、不改预测器/RL或分配数据划分。
+- 后续来源核查：对这25个真实file_id实时查询官方GDC files并expand=index_files，返回25条、关联index_files为0，完整响应留仓库外。未从该接口取得扫描尺度补充，不能据此断言所有外部备份都不存在。OpenSlide官方[属性说明](https://openslide.org/docs/properties/)定义MPP为level 0每像素微米数，并指出物镜倍率可能不准确；[Aperio说明](https://openslide.org/formats/aperio/)确认MPP来自aperio.MPP、物镜来自AppMag。本批两项均缺，因此不以层级downsample或图像宽高伪造绝对尺度。
 
 ### W062｜2026-10-15：真实20GiB限流/回收后续传与首20张复核（通过，队列继续）
 
