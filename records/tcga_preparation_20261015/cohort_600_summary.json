@@ -1,0 +1,19 @@
+{
+  "schema": "KT2028-TCGA-available-cohort-1",
+  "decision": "2026-10-18 user: use 600 slides; retain 25 pending MPP",
+  "source_files": 625,
+  "selected_files": 600,
+  "deferred_files": 25,
+  "available_patients": 591,
+  "os_candidate_patients": 560,
+  "full_os_events": 116,
+  "five_year_events": 108,
+  "selected_cohort_assets_complete": true,
+  "original_625_complete": false,
+  "patient_split_assigned": false,
+  "model_training_ready_claimed": false,
+  "manifest_sha256": "93cfabd16c0f8186bbea8a3ec3b568d3903e7d08d7e080c72152b4d4cd6229e9",
+  "patient_index_sha256": "a10481a987968d37f777869efa4f42b1f7def5d5aa6149aaa20f3122c66694b4",
+  "audit_sha256": "788b30d742d42a2f90d5ae193974c65849aceeddbca524c457cefac3cee080a3",
+  "builder_sha256": "7f0b3868ef48b26bcdd8cbf317642bda8161e49b6a4eb11c1de0f26c5cd9e10e"
+}
