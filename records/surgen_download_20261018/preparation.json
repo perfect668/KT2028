@@ -1,0 +1,20 @@
+{
+  "patients": 413,
+  "files": 413,
+  "bytes": 1735269355616,
+  "directory_czi_files": 427,
+  "official_hash_available": false,
+  "preflight_passed": true,
+  "batch_download_started": false,
+  "range_header_probe_status": 200,
+  "range_supported": true,
+  "official_source": "https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1285",
+  "list_sha256": "9ad6f1c84cdc9c537a4c9506ed8fad5776fbc58488b14b976e0510e1f1ecf9d7",
+  "manifest_sha256": "2968e7967858fbd8a691d940dc33d958ca79edca3fabbf879a52f192ffeb1b05",
+  "official_file_list_sha256": "ad142aae74a5493ac4aa1fd3d35850b9fe6b6bcfc82c43353c5925d6072c09ca",
+  "downloader_version": "aria2 1.37.0",
+  "downloader_zip_sha256": "67d015301eef0b612191212d564c5bb0a14b5b9c4796b76454276a4d28d9b288",
+  "downloader_probe": "official 53291-byte label CSV downloaded successfully; not WSI throughput or full resume proof",
+  "script_sha256": "7e74fd5f87abbabec030e79def0efc7f96d5865b09011503b5941bb45b1ef624",
+  "raw_files_current": 0
+}
