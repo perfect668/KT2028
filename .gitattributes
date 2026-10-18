@@ -1,5 +1,6 @@
 *.py text eol=lf
 *.md text eol=lf
 *.sh text eol=lf
+configs/predictor_mixed_survival.json text eol=lf
 # Audit receipts preserve the exact transferred bytes and recorded SHA256.
 records/** -text
