@@ -1,0 +1,67 @@
+{
+  "schema": "KT2028-mixed-survival-preparation-1",
+  "source_candidate_patients": 973,
+  "selected": {
+    "patients": 963,
+    "events": 254,
+    "cohorts": {
+      "surgen": 413,
+      "tcga": 550
+    },
+    "slides": 971,
+    "early_censored_zero_annual_nll": 59
+  },
+  "train": {
+    "patients": 866,
+    "events": 228,
+    "cohorts": {
+      "surgen": 372,
+      "tcga": 494
+    },
+    "slides": 874,
+    "early_censored_zero_annual_nll": 52
+  },
+  "validate": {
+    "patients": 97,
+    "events": 26,
+    "cohorts": {
+      "surgen": 41,
+      "tcga": 56
+    },
+    "slides": 97,
+    "early_censored_zero_annual_nll": 7
+  },
+  "internal_test_patients": 0,
+  "external_test_dataset_secured": false,
+  "clinical_review_exclusions": 10,
+  "nonprimary_slides_deferred": 1,
+  "split_rule": "one seed; SHA256 ordering within cohort x five-year event; 90/10 rounded per stratum",
+  "historical_surgen_split_retained_in_sources": true,
+  "old_weights_reused": false,
+  "validation_is_independent_test": false,
+  "identity_check": "source namespaces and unique slide IDs; no cross-source genomic identity proof",
+  "sources": {
+    "surgen_manifests": {
+      "train": "c908cd104d1d3e804ed320d2bb7badd140a3326d66886523f8b2fdb966c8b607",
+      "validate": "11931f5e397c67756c52891d74b56a6e61e9ea2b181bf3499129efebedf55d7e",
+      "test": "456707414a203982b8329545d69cad4e6d9a0d574cd06ab4b30364993a2a3d81"
+    },
+    "tcga_candidates_sha256": "d4e82acd09dc73cd44c0084508b6018341145841fad8f3d5bb6d8fd965aafc1d",
+    "config_sha256": "c3c8e4f0ef58be47e7e14465f5af6efde222d42a7a3208460ee88a5659c0e0a6"
+  },
+  "code_sha256": "eef03dcb5fa1803886652fad6b2ca19e70975bdbedd817c05c77001177f2de7e",
+  "training_started": false,
+  "manifest_sha256": {
+    "train_manifest": "5fbdc1395beb053078452d4ac1cdfa51f4844d9358eb3c6998560b07fcdf3d3d",
+    "validate_manifest": "8cb55641799e7ccf158bdaa5e5fa72dbeae701c539f10d29775b4bffd2150b7c"
+  },
+  "tcga_selected_slide_ids_covered_by_previous_full_audit": 558,
+  "software_checks_passed": 10,
+  "torch_checks_skipped": 2,
+  "real_model_forward_backward_performed": false,
+  "server_connection_available": false,
+  "gpu_preflight_complete": false,
+  "optimizer_steps": 0,
+  "epochs": 0,
+  "note": "Local missing-asset guard verified before model imports; TCGA server feature availability was previously audited, not revalidated over SSH this turn"
+}

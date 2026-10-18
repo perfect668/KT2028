@@ -37,11 +37,20 @@ class SurvivalPredictor(nn.Module):
     def readout(self, zc, zf, q):
         return self.survival_head(self.patient_fusion(torch.cat((zc, zf, q))))
 
-    def encode_fine(self, queries, padded, mask, positions):
-        local = self.local_attention(queries, padded, padded, key_padding_mask=mask, need_weights=False)[0][:, 0]
-        return self.fine_encoder((local+positions)[None])[0]
+    def context_by_slide(self, encoder, values, slide_indices):
+        if slide_indices is None or len(torch.unique(slide_indices)) == 1:
+            return encoder(values[None])[0]
+        result = torch.zeros_like(values)
+        for sid in torch.unique(slide_indices):
+            ix = torch.nonzero(slide_indices == sid, as_tuple=True)[0]
+            result = result.index_copy(0, ix, encoder(values[ix][None])[0])
+        return result
 
-    def forward(self, coarse, boxes, observed_fine, relative_xy, candidate_patch_count, *, return_aux=False):
+    def encode_fine(self, queries, padded, mask, positions, slide_indices=None):
+        local = self.local_attention(queries, padded, padded, key_padding_mask=mask, need_weights=False)[0][:, 0]
+        return self.context_by_slide(self.fine_encoder, local+positions, slide_indices)
+
+    def forward(self, coarse, boxes, observed_fine, relative_xy, candidate_patch_count, *, return_aux=False, slide_indices=None):
         if coarse.ndim != 2 or coarse.shape[1] != 1024 or not len(coarse) or boxes.shape != (len(coarse), 4):
             raise ValueError('Invalid coarse input')
         if not torch.isfinite(coarse).all() or not torch.isfinite(boxes).all():
@@ -51,8 +60,17 @@ class SurvivalPredictor(nn.Module):
             raise ValueError('Invalid observed-region/position keys')
         if candidate_patch_count < 0:
             raise ValueError('Invalid candidate patch count')
-        pos = self.region_position(normalized_boxes(boxes))
-        hc = self.coarse_encoder((self.coarse_projection(coarse)+pos)[None])[0]
+        if slide_indices is not None:
+            if slide_indices.shape != (len(coarse),) or slide_indices.dtype != torch.int64 or torch.any(slide_indices < 0):
+                raise ValueError('Invalid slide membership')
+            normalized = torch.zeros_like(boxes)
+            for sid in torch.unique(slide_indices):
+                ix = torch.nonzero(slide_indices == sid, as_tuple=True)[0]
+                normalized[ix] = normalized_boxes(boxes[ix])
+        else:
+            normalized = normalized_boxes(boxes)
+        pos = self.region_position(normalized)
+        hc = self.context_by_slide(self.coarse_encoder, self.coarse_projection(coarse)+pos, slide_indices)
         zc = self.coarse_pool(hc)[0][0]
         zero = zc.new_zeros(self.dim)
         q0 = zc.new_zeros(3)
@@ -77,7 +95,8 @@ class SurvivalPredictor(nn.Module):
         padded = pad_sequence(bags, batch_first=True)
         mask = torch.arange(padded.shape[1], device=coarse.device)[None] >= torch.tensor(lengths, device=coarse.device)[:, None]
         ix = torch.tensor(ids, device=coarse.device)
-        hf = self.encode_fine(hc[ix, None, :], padded, mask, pos[ix])
+        fine_slides = slide_indices[ix] if slide_indices is not None else None
+        hf = self.encode_fine(hc[ix, None, :], padded, mask, pos[ix], fine_slides)
         q = zc.new_tensor([1., len(ids)/len(hc), sum(lengths)/candidate_patch_count])
         qrows = q.expand(len(ids), -1)
         if self.fusion_mode == 'cross_gate':
@@ -94,7 +113,7 @@ class SurvivalPredictor(nn.Module):
         fine_aux = None
         if return_aux:
             # Same complete fine trunk, with a learned query independent of coarse values.
-            pure = self.encode_fine(self.fine_only_query.expand(len(ids), -1, -1), padded, mask, pos[ix])
+            pure = self.encode_fine(self.fine_only_query.expand(len(ids), -1, -1), padded, mask, pos[ix], fine_slides)
             fine_aux = self.readout(zero, self.fine_pool(pure)[0][0], q)
         hazards, survival = curve_from_logits(logits)
         return dict(logits=logits, hazards=hazards, survival=survival,

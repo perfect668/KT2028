@@ -1,0 +1,37 @@
+{
+  "schema": "KT2028-mixed-survival-predictor-1",
+  "plan": "0.25/W066: single-head mixed SurGen/TCGA development; no training authorization",
+  "data_contract": {
+    "endpoint": "overall_survival_5y_discrete",
+    "interval_edges_days": [0, 365, 730, 1095, 1460, 1825],
+    "administrative_censor_day": 1825,
+    "censoring": "TCGA observed follow-up; SurGen adopted common five-year assumption",
+    "likelihood": "existing discrete NLL; only completed intervals for censoring; early censor before day365 has zero likelihood contribution",
+    "feature_protocol": {
+      "coarse_mpp_um": 2.0,
+      "fine_mpp_um": 0.5,
+      "input_pixels": 224,
+      "feature_dimension": 1024,
+      "weight_sha256": "56ef09b44a25dc5c7eedc55551b3d47bcd17659a7a33837cf9abc9ec4e2ffb40"
+    }
+  },
+  "architecture": {"dim": 256, "heads": 4, "dropout": 0.25, "intervals": 5, "fusion": "cross_gate"},
+  "seed": 41,
+  "validation_fraction": 0.1,
+  "internal_test_fraction": 0,
+  "external_test_dataset_secured": false,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.001,
+  "gradient_clip": 5.0,
+  "accumulate_cases": 8,
+  "max_epochs": 100,
+  "patience": 15,
+  "loss_weights": {"partial": 0.4, "full": 0.4, "coarse_aux": 0.1, "fine_aux": 0.1},
+  "validation_modes": ["zero", "0.1", "0.2", "0.4", "full"],
+  "selection": "equal mean main-head NLL across five fixed observation modes over all validation patients",
+  "training_sampling": "patient-uniform permutation; cohort balance preserved by source-stratified split, no event oversampling",
+  "metrics": "Harrell C; source-stratified train-fitted censoring KM IPCW Brier and cumulative/dynamic AUROC; annual-grid IBS; per-source and pooled",
+  "fresh_initialization_required": true,
+  "old_checkpoint_reuse": false,
+  "training_default": "preflight only; explicit --execute required; no automatic RL"
+}

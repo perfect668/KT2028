@@ -106,7 +106,10 @@ class FusionDataset:
 
 
 def move(inputs, device):
-    return dict(coarse=inputs['coarse'].to(device), boxes=inputs['boxes'].to(device),
+    result = dict(coarse=inputs['coarse'].to(device), boxes=inputs['boxes'].to(device),
                 observed_fine={i: x.to(device) for i, x in inputs['observed_fine'].items()},
                 relative_xy={i: x.to(device) for i, x in inputs['relative_xy'].items()},
                 candidate_patch_count=inputs['candidate_patch_count'])
+    if 'slide_indices' in inputs:
+        result['slide_indices'] = inputs['slide_indices'].to(device)
+    return result
