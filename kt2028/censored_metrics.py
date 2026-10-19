@@ -67,15 +67,17 @@ def survival_metrics(rows, curves, edges, censoring):
     days, briers = {}, []
     for j, day in enumerate(edges[1:]):
         cases = (e == 1)&(t <= day)
-        controls = (t > day)|((e == 0)&(t == day))
+        controls = (t > day)|((e == 0)&(t == day)&(day == edges[-1]))
         weights = np.zeros(len(rows)); unsupported = 0
         for i, row in enumerate(rows):
             if not cases[i] and not controls[i]:
                 continue  # Censored before this endpoint: outcome is unknown.
             km = censoring[row['cohort']]
-            # "Known alive through day" includes a censor exactly on day:
-            # observability is C>=day, so the left limit is used for controls too.
-            g = km.probability(t[i], left=True) if cases[i] else km.probability(day,left=True)
+            # Match scikit-survival's right-continuous reverse-KM weights.
+            # The closed administrative endpoint is the sole exception: known
+            # alive through that endpoint, equivalent to censoring one ULP after it.
+            g = km.probability(t[i], left=t[i] == edges[-1]) if cases[i] else km.probability(
+                day,left=day == edges[-1])
             if g is None:
                 unsupported += 1
             else:
@@ -95,5 +97,5 @@ def survival_metrics(rows, curves, edges, censoring):
     result.update(by_day=days, risk_definition='minus_mean_annual_survival',
         integrated_brier_annual_grid=float(np.trapezoid(np.r_[0.,briers],edges)/edges[-1])
             if all(b is not None for b in briers) else None,
-        censoring_metric_contract='source-stratified training-only reverse KM; IPCW; annual grid; known-through-day left limits')
+        censoring_metric_contract='source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit')
     return result

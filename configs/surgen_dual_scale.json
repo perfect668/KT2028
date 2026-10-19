@@ -1,0 +1,48 @@
+{
+  "schema": "KT2028-SurGen-dual-scale-1",
+  "status": "W067 real local CZI 5x/20x preparation; frozen UNI; no predictor training",
+  "input_pixels": 224,
+  "coarse_mpp_um": 2.0,
+  "fine_mpp_um": 0.5,
+  "minimum_tissue_fraction": 0.01,
+  "tissue_channel_spread_min": 10,
+  "tissue_mean_min": 20,
+  "tissue_mean_max": 245,
+  "mask_source": "current source CZI thumbnail; independent of outcomes",
+  "pixel_resampling": "bilinear physical extent; white boundary padding",
+  "feature_dtype": "float32",
+  "feature_dimension": 1024,
+  "batch_size": 32,
+  "max_roi_pixels": 4000000,
+  "minimum_free_disk_bytes": 32212254720,
+  "uni": {
+    "repo_id": "MahmoodLab/UNI",
+    "revision": "b55a5ec6cade1a39edfe6534189a9b8ca7a022f0",
+    "filename": "pytorch_model.bin",
+    "size_bytes": 1213527781,
+    "sha256": "56ef09b44a25dc5c7eedc55551b3d47bcd17659a7a33837cf9abc9ec4e2ffb40",
+    "metadata_source": "official Hugging Face model API with blobs=true; checked 2026-10-12",
+    "model_name": "vit_large_patch16_224",
+    "init_values": 1e-05,
+    "output_dimension": 1024,
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "reference_sources": {
+    "UNI": "42715efc11722a496e0a67f3369505a8f277206c",
+    "DSCA": "a749074cb3415c3a6eb83bee39191bdb69968dcc",
+    "TRIDENT": "e4c98b2280d5b905fe83b00f01afac0f76755880",
+    "SurGen": "55c9bcb74ed7c8d35ca944af24398b11e5b960bf"
+  },
+  "maximum_native_upsampling_fraction": 0.02,
+  "thumbnail_maximum_edge": 2048,
+  "reader_backend": "ZEISS pylibCZIrw 6.1.0"
+}
