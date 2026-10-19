@@ -1,0 +1,337 @@
+{
+  "at_unix": 1792379018.389792,
+  "software_checks_passed": 21,
+  "reference_library": "scikit-survival 0.28.0",
+  "tcga_real_train_checks": {
+    "at_unix": 1792377141.9960449,
+    "source": "real new Train TCGA patients only",
+    "train_manifest_sha256": "5fbdc1395beb053078452d4ac1cdfa51f4844d9358eb3c6998560b07fcdf3d3d",
+    "checks": [
+      {
+        "states": {
+          "zero": {
+            "observed_regions": 0,
+            "observed_fine_patches": 0,
+            "interval_output": [
+              5
+            ],
+            "finite": true,
+            "survival_nonincreasing": true
+          },
+          "0.2": {
+            "observed_regions": 643,
+            "observed_fine_patches": 8382,
+            "interval_output": [
+              5
+            ],
+            "finite": true,
+            "survival_nonincreasing": true
+          },
+          "full": {
+            "observed_regions": 3212,
+            "observed_fine_patches": 40958,
+            "interval_output": [
+              5
+            ],
+            "finite": true,
+            "survival_nonincreasing": true
+          }
+        },
+        "gradient_paths": {
+          "coarse_projection": {
+            "finite": true,
+            "nonzero": true
+          },
+          "region_position": {
+            "finite": true,
+            "nonzero": true
+          },
+          "coarse_encoder": {
+            "finite": true,
+            "nonzero": true
+          },
+          "coarse_pool": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_projection": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_position": {
+            "finite": true,
+            "nonzero": true
+          },
+          "local_attention": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_encoder": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_pool": {
+            "finite": true,
+            "nonzero": true
+          },
+          "coarse_gate": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_gate": {
+            "finite": true,
+            "nonzero": true
+          },
+          "patient_fusion": {
+            "finite": true,
+            "nonzero": true
+          },
+          "survival_head": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_only_query": {
+            "finite": true,
+            "nonzero": true
+          }
+        },
+        "model_state_unchanged": true,
+        "strict_in_memory_reload": true,
+        "optimizer_steps": 0,
+        "epochs": 0,
+        "checkpoint_written": false,
+        "validation_predictions": false,
+        "slides": 1,
+        "coarse_regions": 3212,
+        "peak_cuda_allocated_bytes": 1322698240
+      },
+      {
+        "states": {
+          "zero": {
+            "observed_regions": 0,
+            "observed_fine_patches": 0,
+            "interval_output": [
+              5
+            ],
+            "finite": true,
+            "survival_nonincreasing": true
+          },
+          "0.2": {
+            "observed_regions": 627,
+            "observed_fine_patches": 8595,
+            "interval_output": [
+              5
+            ],
+            "finite": true,
+            "survival_nonincreasing": true
+          },
+          "full": {
+            "observed_regions": 3133,
+            "observed_fine_patches": 42945,
+            "interval_output": [
+              5
+            ],
+            "finite": true,
+            "survival_nonincreasing": true
+          }
+        },
+        "gradient_paths": {
+          "coarse_projection": {
+            "finite": true,
+            "nonzero": true
+          },
+          "region_position": {
+            "finite": true,
+            "nonzero": true
+          },
+          "coarse_encoder": {
+            "finite": true,
+            "nonzero": true
+          },
+          "coarse_pool": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_projection": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_position": {
+            "finite": true,
+            "nonzero": true
+          },
+          "local_attention": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_encoder": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_pool": {
+            "finite": true,
+            "nonzero": true
+          },
+          "coarse_gate": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_gate": {
+            "finite": true,
+            "nonzero": true
+          },
+          "patient_fusion": {
+            "finite": true,
+            "nonzero": true
+          },
+          "survival_head": {
+            "finite": true,
+            "nonzero": true
+          },
+          "fine_only_query": {
+            "finite": true,
+            "nonzero": true
+          }
+        },
+        "model_state_unchanged": true,
+        "strict_in_memory_reload": true,
+        "optimizer_steps": 0,
+        "epochs": 0,
+        "checkpoint_written": false,
+        "validation_predictions": false,
+        "slides": 2,
+        "coarse_regions": 3133,
+        "peak_cuda_allocated_bytes": 1151328768
+      }
+    ],
+    "optimizer_steps": 0,
+    "epochs": 0,
+    "validation_predictions": false
+  },
+  "surgen_real_train_checks": {
+    "source": "real new Train SurGen 5x/20x patient only",
+    "at_unix": 1792378104.6238315,
+    "train_manifest_sha256": "5fbdc1395beb053078452d4ac1cdfa51f4844d9358eb3c6998560b07fcdf3d3d",
+    "checks": {
+      "states": {
+        "zero": {
+          "observed_regions": 0,
+          "observed_fine_patches": 0,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        },
+        "0.2": {
+          "observed_regions": 305,
+          "observed_fine_patches": 4422,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        },
+        "full": {
+          "observed_regions": 1525,
+          "observed_fine_patches": 22282,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        }
+      },
+      "gradient_paths": {
+        "coarse_projection": {
+          "finite": true,
+          "nonzero": true
+        },
+        "region_position": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_encoder": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_pool": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_projection": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_position": {
+          "finite": true,
+          "nonzero": true
+        },
+        "local_attention": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_encoder": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_pool": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_gate": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_gate": {
+          "finite": true,
+          "nonzero": true
+        },
+        "patient_fusion": {
+          "finite": true,
+          "nonzero": true
+        },
+        "survival_head": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_only_query": {
+          "finite": true,
+          "nonzero": true
+        }
+      },
+      "model_state_unchanged": true,
+      "strict_in_memory_reload": true,
+      "optimizer_steps": 0,
+      "epochs": 0,
+      "checkpoint_written": false,
+      "validation_predictions": false,
+      "coarse_regions": 1525,
+      "peak_cuda_allocated_bytes": 580744704
+    },
+    "optimizer_steps": 0,
+    "epochs": 0,
+    "validation_predictions": false
+  },
+  "selected_tcga_slides_content_verified": 558,
+  "surgen_slides_content_verified": 1,
+  "missing_surgen_slides_in_preflight": 412,
+  "invalid_slides": 0,
+  "training_run_created": false,
+  "training_started": false,
+  "optimizer_steps": 0,
+  "epochs": 0,
+  "first_feature_backup_bytes": 93156826,
+  "first_feature_backup_sha256": "1b85e083fbbdd0c90ab5d830cbc25c68dfcdf344324d783d0848b36da71af7e6",
+  "local_original_preserved": true,
+  "source_sha256_transfer_verified": true,
+  "official_source_checksum_supplied": false,
+  "pipeline": {
+    "local_relay_pid": 10040,
+    "server_watch_pid": 195546,
+    "queue_gib": 12,
+    "upload_free_floor_gib": 32,
+    "extraction_free_floor_gib": 30
+  },
+  "feature_dataset_complete": false
+}
