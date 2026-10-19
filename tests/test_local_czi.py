@@ -7,7 +7,7 @@ from kt2028.local_czi import LocalCZI,native_mpp
 class CziReaderTests(unittest.TestCase):
     def test_native_scaling_uses_si_value_not_display_unit(self):
         xml='<Metadata><Scaling><Items><Distance Id="X"><Value>1e-7</Value><DefaultUnitFormat>um</DefaultUnitFormat></Distance><Distance Id="Y"><Value>2e-7</Value></Distance></Items></Scaling></Metadata>'
-        self.assertEqual(native_mpp(xml),(.1,.2))
+        np.testing.assert_allclose(native_mpp(xml),(.1,.2),rtol=0,atol=1e-15)
 
     def test_missing_scaling_is_not_guessed(self):
         with self.assertRaises(ValueError): native_mpp('<Metadata/>')
