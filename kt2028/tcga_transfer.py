@@ -28,6 +28,12 @@ def log(**record):
     print(json.dumps(dict(at=time.time(), **record), ensure_ascii=True), flush=True)
 
 
+def source_ready(path,size):
+    path=Path(path)
+    return (path.is_file() and not path.is_symlink() and path.stat().st_size==int(size)
+            and not path.with_suffix(path.suffix+'.aria2').exists())
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--host', required=True)
@@ -38,7 +44,11 @@ def main():
     ap.add_argument('--server-python', required=True)
     ap.add_argument('--server-root', required=True)
     ap.add_argument('--local-wsi', type=Path, required=True)
-    ap.add_argument('--gdc-manifest', type=Path, required=True)
+    ap.add_argument('--gdc-manifest', '--source-manifest', type=Path, required=True)
+    ap.add_argument('--worker-module',choices=['kt2028.prepare_tcga','kt2028.surgen_pipeline'],default='kt2028.prepare_tcga')
+    ap.add_argument('--source-layout',choices=['gdc','flat'],default='gdc')
+    ap.add_argument('--checksum-algorithm',choices=['md5','sha256'],default='md5')
+    ap.add_argument('--source-extension',choices=['.svs','.czi'],default='.svs')
     ap.add_argument('--samples', type=Path, required=True)
     ap.add_argument('--state', type=Path, required=True)
     ap.add_argument('--backup', type=Path, required=True)
@@ -48,6 +58,9 @@ def main():
     ap.add_argument('--watch', action='store_true')
     ap.add_argument('--poll-seconds', type=int, default=60)
     args = ap.parse_args()
+    expected = ('gdc','md5','.svs') if args.worker_module=='kt2028.prepare_tcga' else ('flat','sha256','.czi')
+    if (args.source_layout,args.checksum_algorithm,args.source_extension)!=expected:
+        raise ValueError('Worker/source layout/checksum/extension combination differs')
     args.backup.mkdir(parents=True, exist_ok=True)
     args.state.parent.mkdir(parents=True, exist_ok=True)
     import os
@@ -87,12 +100,14 @@ def main():
         return p.stdout.strip()
 
     def action(name, sid=None, backup_hash=None):
-        words = [args.server_python, '-m', 'kt2028.prepare_tcga', name,
+        words = [args.server_python, '-m', args.worker_module, name,
                  '--root', args.server_root, '--manifest', args.server_root+'/metadata/samples.json']
         if sid:
             words += ['--file-id', sid]
         if backup_hash:
             words += ['--backup-sha256', backup_hash]
+        if name == 'stage' and args.checksum_algorithm == 'sha256':
+            words += ['--source-sha256',state['verified'][sid]['sha256']]
         return json.loads(ssh('cd '+shlex.quote(args.server_repo)+' && '+shlex.join(words)))
 
     def sftp(command):
@@ -106,24 +121,25 @@ def main():
             batch.unlink()
 
     def local_source(s):
-        return args.local_wsi/s['id']/s['filename']
+        return args.local_wsi/s['filename'] if args.source_layout == 'flat' else args.local_wsi/s['id']/s['filename']
 
     def verified(s):
         p = local_source(s)
-        if not p.is_file() or p.is_symlink() or p.stat().st_size != s['size']:
+        if not source_ready(p,s['size']):
             return False
         signature = [p.stat().st_size, p.stat().st_mtime_ns]
         old = state['verified'].get(s['id'])
-        if old and old['signature'] == signature and old['md5'] == s['md5']:
+        algorithm=args.checksum_algorithm
+        if old and old['signature'] == signature and old.get(algorithm) and (algorithm=='sha256' or old[algorithm]==s['md5']):
             return True
-        log(event='checking_local_md5', file_id=s['id'], bytes=s['size'])
-        h = digest(p, 'md5')
+        log(event='checking_local_'+algorithm, file_id=s['id'], bytes=s['size'])
+        h = digest(p, algorithm)
         if p.stat().st_size != signature[0] or p.stat().st_mtime_ns != signature[1]:
             return False
-        if h != s['md5']:
+        if algorithm=='md5' and h != s['md5']:
             log(event='local_md5_mismatch_preserved', file_id=s['id'])
             return False
-        state['verified'][s['id']] = dict(signature=signature, md5=h)
+        state['verified'][s['id']] = dict(signature=signature, **{algorithm:h})
         save()
         return True
 
@@ -163,13 +179,14 @@ def main():
                     if not verified(sample):
                         log(event='local_original_unverified_no_retire', file_id=sid); continue
                     pending_wsi = sum(int(r['size']) for r in original
-                        if not ((args.local_wsi/r['id']/r['filename']).is_file()
-                                and (args.local_wsi/r['id']/r['filename']).stat().st_size == int(r['size'])))
+                        if not source_ready(local_source(r),r['size']))
                     free = shutil.disk_usage(args.backup).free
                     if free - pending_wsi - info['output_bytes'] < args.local_minimum_free_gib*1024**3:
                         log(event='waiting_local_backup_space', free_bytes=free, reserved_download_bytes=pending_wsi)
                         continue
                     archive = action('pack', sid)
+                    if args.checksum_algorithm=='sha256' and archive['source_sha256']!=state['verified'][sid]['sha256']:
+                        raise ValueError('Feature source differs from verified local CZI')
                     temp = final.with_suffix('.gz.partial')
                     if not final.exists():
                         sftp('get -a '+json.dumps(args.server_root+'/archives/'+sid+'.tar.gz')+' '+
@@ -215,7 +232,7 @@ def main():
                 if not verified(sample):
                     continue
                 source = local_source(sample)
-                remote = args.server_root+'/incoming/'+sid+'.svs.partial'
+                remote = args.server_root+'/incoming/'+sid+args.source_extension+'.partial'
                 # OpenSSH reput/put -a requires an existing remote target on Windows.
                 # Only resume partials; new transfers use ordinary put.
                 resume = ssh('test -f '+shlex.quote(remote)+' && echo yes || echo no') == 'yes'
@@ -226,7 +243,7 @@ def main():
                 action('stage', sid)
                 seconds = time.monotonic()-started
                 state['staged'].append(sid); save()
-                log(event='upload_md5_verified', file_id=sid, bytes=sample['size'],
+                log(event='upload_'+args.checksum_algorithm+'_verified', file_id=sid, bytes=sample['size'],
                     elapsed_seconds=round(seconds, 2), effective_mb_s=round(sample['size']/seconds/1e6, 3))
                 admitted = True
                 # Re-check space and back up completions after every file.
