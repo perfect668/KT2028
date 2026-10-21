@@ -16,6 +16,22 @@ SurGen恢复后保留两来源原Train/Val身份，混合主比较从全新初�
 
 下载暂停执行：当前本机无aria2/转运进程，E/F盘未挂载，无法重新核验硬盘中的断点或备份；服务器SurGen watch已用STOP正常退出，保留6份特征receipt及旧原片/备份记录，不把6份receipt视为本轮6份全内容复验。恢复下载/转运须先接回正确硬盘，再核对路径、断点、离机备份及移除本任务STOP；不自动重启。全413资产门槛仅约束后续混合实验，不再阻塞TCGA独立阶段。
 
+**W070启动命令（2026-10-21，用户自行执行）。** 已复用原后台启动器添加TCGA入口，当前代码/命令已同步服务器；没有代执行正式训练。SSH登录后运行：
+
+```bash
+bash /root/autodl-tmp/KT2028/repo/scripts/start_survival_training.sh --cohort tcga
+```
+
+后台采用nohup+setsid、stdin/out/err脱离SSH，flock防重复；前台仅tail日志，Ctrl+C或关闭SSH只结束查看。启动先复核558张资产（需数分钟，每50张显示进度）及真实Train无更新检查，通过后才开始拟合。Train494/Val56、最多100轮/连续15轮验证平均NLL不改善早停，五观察模式和所有训练参数不变。每8名训练患者/验证患者输出进度，每轮各模式显示NLL/C-index/五年AUROC/Brier/年度网格IBS与最佳轮次；无指标支持时NA，不填造数值。状态以真实日志为准，不因命令已交付声称训练已开始。
+
+重新登录只查看同一任务：
+
+```bash
+bash /root/autodl-tmp/KT2028/repo/scripts/start_survival_training.sh --cohort tcga --attach
+```
+
+输出 `runs/tcga_survival_s41_20261021`，日志 `launches/tcga_survival_s41_20261021/training.log`，新启动预检 `launches/tcga_survival_s41_20261021/preflight.json`（不覆盖W069预检）。重复启动活跃同名任务只接入日志；已有结束/失败记录时拒绝覆盖，不自动删除或改run-name重试。脚本路径/工具/干净源码 `--check`、bash语法及5入口检查均通过；未执行 `--execute`，无新run或控制目录。此处的断连继续是后台进程持续运行，不是进程死亡后自动从中间epoch恢复。
+
 修订记录：W069按用户“SurGen暂停、TCGA先做”的要求增加临时阶段，原W066–W067混合准备及历史缺资产快照保留，以下按当时状态理解。
 
 ### 0.25 W066：同尺度、单头混合训练前置准备（2026-10-18，实施中，不训练）
