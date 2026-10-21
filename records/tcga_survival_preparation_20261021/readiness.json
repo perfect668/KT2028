@@ -1,0 +1,142 @@
+{
+  "schema": "KT2028-tcga-interim-readiness-1",
+  "date": "2026-10-21",
+  "status": "READY_NOT_STARTED",
+  "source_commit": "285065f056345c2266aa75b09a50a78926988c5c",
+  "config_sha256": "b9b96db7070c80fc2645370592f17a79fc1ffb37314f178aa951f1a21298f6ec",
+  "partitions": {
+    "train": {
+      "patients": 494,
+      "slides": 502,
+      "events": 94,
+      "zero_annual_nll_censors": 52
+    },
+    "validate": {
+      "patients": 56,
+      "slides": 56,
+      "events": 11,
+      "zero_annual_nll_censors": 7
+    }
+  },
+  "parent_split_preserved": true,
+  "assets": {
+    "expected": 558,
+    "verified": 558,
+    "missing": 0,
+    "invalid": 0,
+    "feature_content_checked": true,
+    "assets_sha256": "720e3bf2ce01926ca4b16bee515559dabae4920ce5e8f6f1b2265d992c0cd0ea"
+  },
+  "checks": {
+    "tcga": {
+      "states": {
+        "zero": {
+          "observed_regions": 0,
+          "observed_fine_patches": 0,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        },
+        "0.2": {
+          "observed_regions": 627,
+          "observed_fine_patches": 8595,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        },
+        "full": {
+          "observed_regions": 3133,
+          "observed_fine_patches": 42945,
+          "interval_output": [
+            5
+          ],
+          "finite": true,
+          "survival_nonincreasing": true
+        }
+      },
+      "gradient_paths": {
+        "coarse_projection": {
+          "finite": true,
+          "nonzero": true
+        },
+        "region_position": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_encoder": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_pool": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_projection": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_position": {
+          "finite": true,
+          "nonzero": true
+        },
+        "local_attention": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_encoder": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_pool": {
+          "finite": true,
+          "nonzero": true
+        },
+        "coarse_gate": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_gate": {
+          "finite": true,
+          "nonzero": true
+        },
+        "patient_fusion": {
+          "finite": true,
+          "nonzero": true
+        },
+        "survival_head": {
+          "finite": true,
+          "nonzero": true
+        },
+        "fine_only_query": {
+          "finite": true,
+          "nonzero": true
+        }
+      },
+      "model_state_unchanged": true,
+      "strict_in_memory_reload": true,
+      "optimizer_steps": 0,
+      "epochs": 0,
+      "checkpoint_written": false,
+      "validation_predictions": false
+    }
+  },
+  "software_checks_passed": 5,
+  "training_started": false,
+  "epochs": 0,
+  "optimizer_steps": 0,
+  "training_run_created": false,
+  "validation_predictions": false,
+  "test_predictions": false,
+  "rl_started": false,
+  "surgen_watch_stopped": true,
+  "surgen_receipts_present_not_reaudited": 6,
+  "local_external_drives_not_mounted": [
+    "E",
+    "F"
+  ],
+  "later_mixed_run": "fresh initialization; preserve existing patient partitions; no automatic launch"
+}
