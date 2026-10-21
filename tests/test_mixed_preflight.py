@@ -17,7 +17,7 @@ class MixedPreflightTests(unittest.TestCase):
     def fixture(self, root, overlap=False):
         cfg=root/'config.json'
         cfg.write_text(json.dumps(dict(schema='KT2028-mixed-survival-predictor-1',
-                                      old_checkpoint_reuse=False,data_contract={})))
+                                      old_checkpoint_reuse=False,data_contract={},cohorts=['surgen'])))
         paths=[]
         for split,key in [('train','one'),('validate','one' if overlap else 'two')]:
             p=root/(split+'.json')
@@ -61,6 +61,28 @@ class MixedPreflightTests(unittest.TestCase):
             with (root/'validate.json').open('a') as f: f.write(' ')
             with patch.object(sys,'argv',argv):
                 with self.assertRaisesRegex(ValueError,'changed after registration'): main()
+
+    def test_registered_tcga_does_not_require_surgen_assets(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); argv=self.fixture(root)
+            cfg=root/'config.json'; value=json.loads(cfg.read_text())
+            value['cohorts']=['tcga']; cfg.write_text(json.dumps(value))
+            for name in ('train','validate'):
+                path=root/(name+'.json'); doc=json.loads(path.read_text())
+                doc['sources']['config_sha256']=sha256_file(cfg)
+                doc['patients'][0]['cohort']='tcga'; path.write_text(json.dumps(doc))
+            lock=root/'split_lock.json'; value=json.loads(lock.read_text())
+            value['config_sha256']=sha256_file(cfg)
+            value['manifest_sha256']={name:sha256_file(root/(part+'.json')) for name,part in
+                                      [('train_manifest','train'),('validate_manifest','validate')]}
+            lock.write_text(json.dumps(value))
+            ix=argv.index('--surgen-features'); del argv[ix:ix+2]
+            with patch.object(sys,'argv',argv),contextlib.redirect_stdout(io.StringIO()):
+                with self.assertRaises(SystemExit) as error: main()
+            self.assertEqual(error.exception.code,2)
+            report=json.loads((root/'report.json').read_text())
+            self.assertEqual({x['cohort'] for x in report['assets']['missing']},{'tcga'})
+            self.assertFalse((root/'run').exists())
 
 
 if __name__=='__main__': unittest.main()

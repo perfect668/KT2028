@@ -71,7 +71,7 @@ def main():
     ap.add_argument('--config',type=Path,required=True)
     ap.add_argument('--train-manifest',type=Path,required=True)
     ap.add_argument('--validation-manifest',type=Path,required=True)
-    ap.add_argument('--surgen-features',type=Path,required=True)
+    ap.add_argument('--surgen-features',type=Path)
     ap.add_argument('--tcga-features',type=Path,required=True)
     ap.add_argument('--output',type=Path,required=True)
     ap.add_argument('--preflight-report',type=Path,required=True)
@@ -93,6 +93,14 @@ def main():
             raise ValueError('Split or clinical/feature contract mismatch')
         if doc['sources']['config_sha256']!=sha256_file(args.config):
             raise ValueError('Configuration changed since registered split')
+    cohorts=cfg.get('cohorts',['surgen','tcga'])
+    if not cohorts or len(set(cohorts))!=len(cohorts) or not set(cohorts)<={'surgen','tcga'}:
+        raise ValueError('Invalid registered cohorts')
+    for doc in documents:
+        if {r['cohort'] for r in doc['patients']}!=set(cohorts):
+            raise ValueError('Manifest cohorts differ from registered configuration')
+    if 'surgen' in cohorts and args.surgen_features is None:
+        raise ValueError('SurGen feature root required for registered cohort')
     train_ids={r['canonical_case_key'] for r in documents[0]['patients']}
     val_ids={r['canonical_case_key'] for r in documents[1]['patients']}
     if train_ids&val_ids or len(train_ids)!=len(documents[0]['patients']) or len(val_ids)!=len(documents[1]['patients']):
@@ -126,7 +134,7 @@ def main():
     model=SurvivalPredictor(**cfg['architecture']).to(args.device)
     # Check one informative real training patient from EACH source, including multi-slide if available.
     checks={}
-    for cohort in ('surgen','tcga'):
+    for cohort in cohorts:
         eligible=[i for i,r in enumerate(train.rows) if r['cohort']==cohort and
                   (r['survival_target']['event'] or r['survival_target']['completed_intervals']>0)]
         i=max(eligible,key=lambda i:(len(train.rows[i]['slides']),len(train.case(i).coarse)))
