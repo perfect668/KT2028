@@ -13,6 +13,14 @@ from .mixed_survival_data import inspect_asset
 from .uni_encoder import sha256_file
 
 
+def progress(message):
+    print(time.strftime('[%Y-%m-%d %H:%M:%S] ')+message,flush=True)
+
+
+def metric_text(value):
+    return 'NA' if value is None else f'{value:.5f}'
+
+
 def asset_report(documents, roots, contract, verify_content=True):
     good, missing, invalid, assets = 0, [], [], {}
     seen = set()
@@ -36,6 +44,9 @@ def asset_report(documents, roots, contract, verify_content=True):
                 except Exception as error:
                     invalid.append(dict(cohort=patient['cohort'],slide_id=sid,
                         error=type(error).__name__+': '+str(error)[:300]))
+                if len(seen)%50==0:
+                    progress(f'输入核查：已检查{len(seen)}张，合格{good}张；尚未开始训练')
+    progress(f'输入核查结束：合格{good}张，缺失{len(missing)}张，无效{len(invalid)}张')
     return dict(expected_slides=len(seen),verified_slides=good,missing=missing,invalid=invalid,
                 feature_content_checked=verify_content,
                 assets_sha256=hashlib.sha256(json.dumps(assets,sort_keys=True).encode()).hexdigest())
@@ -48,11 +59,14 @@ def evaluate(model,dataset,modes,device,edges,censoring):
     model.eval(); scores={}
     with torch.no_grad():
         for mode in modes:
+            progress(f'验证观察模式={mode}，共{len(dataset)}名患者')
             curves=[]; losses=[]
             for i in range(len(dataset)):
                 inputs,target=dataset.sample(i,mode,0)
                 out=model(**move(inputs,device))
                 curves.append(out['survival'].cpu().numpy()); losses.append(float(discrete_nll(out['logits'],target)))
+                if (i+1)%8==0 or i+1==len(dataset):
+                    progress(f'验证模式={mode}，已完成{i+1}/{len(dataset)}名患者')
             curves=np.stack(curves)
             pooled=survival_metrics(dataset.rows,curves,edges,censoring)
             by_source={}
@@ -61,6 +75,12 @@ def evaluate(model,dataset,modes,device,edges,censoring):
                 value=survival_metrics([dataset.rows[i] for i in ix],curves[ix],edges,censoring)
                 value['nll']=float(np.mean(np.asarray(losses)[ix])); by_source[source]=value
             scores[mode]=dict(nll=float(np.mean(losses)),pooled=pooled,by_source=by_source)
+            five_year=pooled['by_day'][str(int(edges[-1]))]
+            progress(f"验证模式={mode}：NLL={scores[mode]['nll']:.5f}，"
+                     f"C-index={metric_text(pooled['c_index'])}，"
+                     f"五年AUROC={metric_text(five_year['auroc'])}，"
+                     f"五年Brier={metric_text(five_year['brier'])}，"
+                     f"IBS={metric_text(pooled['integrated_brier_annual_grid'])}")
             print(json.dumps(dict(event='validation_mode_complete',mode=mode,nll=scores[mode]['nll'],
                                   metrics=scores[mode])),flush=True)
     return scores
@@ -78,6 +98,7 @@ def main():
     ap.add_argument('--device',default='cuda')
     ap.add_argument('--execute',action='store_true')
     args=ap.parse_args()
+    progress('读取已登记配置和患者名单；先复核资产，未通过则不训练')
     cfg=json.loads(args.config.read_text(encoding='utf-8'))
     if cfg['schema']!='KT2028-mixed-survival-predictor-1' or cfg['old_checkpoint_reuse']:
         raise ValueError('Require registered fresh mixed protocol')
@@ -132,6 +153,7 @@ def main():
     val=MixedSurvivalDataset(args.validation_manifest,roots,contract=cfg['data_contract'],purpose='model_selection',seed=cfg['seed'])
     censoring=fit_censoring(train.rows)  # No validation observations used in fitted censoring.
     model=SurvivalPredictor(**cfg['architecture']).to(args.device)
+    progress('资产齐备，执行真实Train前向/梯度/重载检查；此检查不更新参数')
     # Check one informative real training patient from EACH source, including multi-slide if available.
     checks={}
     for cohort in cohorts:
@@ -152,8 +174,10 @@ def main():
     optimizer=torch.optim.AdamW(model.parameters(),lr=cfg['learning_rate'],weight_decay=cfg['weight_decay'])
     args.output.mkdir(parents=True)
     (args.output/'run.json').write_text(json.dumps(provenance,indent=2),encoding='utf-8')
+    progress(f"正式训练开始：Train={len(train)}人，Val={len(val)}人，最多{cfg['max_epochs']}轮；输出={args.output}")
     best,stale,best_epoch=float('inf'),0,-1
     for epoch in range(cfg['max_epochs']):
+        progress(f"第{epoch+1}/{cfg['max_epochs']}轮开始")
         model.train(); order=np.random.default_rng(cfg['seed']+epoch).permutation(len(train))
         optimizer.zero_grad(set_to_none=True); total=0.; accumulate=cfg['accumulate_cases']
         for j,i in enumerate(order):
@@ -164,7 +188,7 @@ def main():
             if (j+1)%accumulate==0 or j+1==len(order):
                 torch.nn.utils.clip_grad_norm_(model.parameters(),cfg['gradient_clip'],error_if_nonfinite=True)
                 optimizer.step(); optimizer.zero_grad(set_to_none=True)
-                print(f'epoch={epoch+1} patients={j+1}/{len(order)} loss={total/(j+1):.5f}',flush=True)
+                progress(f'第{epoch+1}轮训练：{j+1}/{len(order)}名患者，平均训练总损失={total/(j+1):.5f}')
         scores=evaluate(model,val,cfg['validation_modes'],args.device,cfg['data_contract']['interval_edges_days'],censoring)
         selection=float(np.mean([scores[m]['nll'] for m in cfg['validation_modes']]))
         with (args.output/'epochs.jsonl').open('a') as f:
@@ -175,12 +199,15 @@ def main():
             torch.save(dict(model=model.state_dict(),epoch=best_epoch,selection_nll=best,provenance=provenance),temporary)
             temporary.replace(args.output/'best.pt')
         else: stale+=1
+        progress(f"第{epoch+1}轮结束：五模式平均验证NLL={selection:.5f}；"
+                 f"最佳第{best_epoch}轮/NLL={best:.5f}；连续未改善{stale}/{cfg['patience']}轮")
         if stale>=cfg['patience']: break
     saved=torch.load(args.output/'best.pt',map_location=args.device,weights_only=True)
     model.load_state_dict(saved['model'],strict=True)
     (args.output/'completion.json').write_text(json.dumps(dict(completed_epochs=epoch+1,
         selected_epoch=best_epoch,checkpoint_sha256=sha256_file(args.output/'best.pt'),strict_reload=True,
         test_used=False,rl_started=False),indent=2),encoding='utf-8')
+    progress(f'训练完成：实际{epoch+1}轮，保留第{best_epoch}轮；权重严格重载通过，未运行Test/RL')
 
 
 if __name__=='__main__': main()
