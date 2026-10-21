@@ -1,0 +1,205 @@
+{
+  "schema": "KT2028-tcga-overfitting-audit-1",
+  "date": "2026-10-21",
+  "scope": "read-only snapshot; ongoing training not altered; no new predictions",
+  "source_commit": "20d5bf91ec831f499817fc34b58fad81b9f6b0c9",
+  "config_sha256": "b9b96db7070c80fc2645370592f17a79fc1ffb37314f178aa951f1a21298f6ec",
+  "completed_epochs_at_snapshot": 15,
+  "ongoing_epoch_at_first_log_check": 16,
+  "completion_present_at_first_check": false,
+  "selected_epoch_at_snapshot": 2,
+  "best_checkpoint_sha256": "31bae4a54f07a6917326281e18e50522190c24c635998a79603c9f630e619c01",
+  "strict_cpu_reload": true,
+  "all_source_shas_match": true,
+  "trainable_parameters": 2340615,
+  "tcga": {
+    "train": {
+      "patients": 494,
+      "five_year_deaths": 94,
+      "zero_annual_nll_censors": 52,
+      "known_alive_at_five_years": 37,
+      "median_observed_days": 669,
+      "completed_survival_interval_terms": 843
+    },
+    "validation": {
+      "patients": 56,
+      "five_year_deaths": 11,
+      "zero_annual_nll_censors": 7,
+      "known_alive_at_five_years": 3,
+      "censored_before_five_years": 42,
+      "median_observed_days": 728,
+      "completed_survival_interval_terms": 108
+    },
+    "training_reverse_km_at_five_years_left": 0.12043770134883637,
+    "optimizer_steps_per_epoch": 62
+  },
+  "historical_surgen": {
+    "train_patients": 248,
+    "train_five_year_deaths": 93,
+    "train_completed_survival_interval_terms": 919,
+    "validation_patients": 81,
+    "validation_five_year_deaths": 27,
+    "optimizer_steps_per_epoch": 31,
+    "selected_epoch": 6,
+    "different_scales_and_censoring_assumption": true
+  },
+  "epoch_summary": [
+    {
+      "epoch": 1,
+      "train_objective": 0.6767804674909785,
+      "selection_nll": 0.7280621348215001,
+      "zero_nll": 0.7273924207048756,
+      "full_nll": 0.7341475301821317,
+      "zero_c_index": 0.44813278008298757,
+      "full_c_index": 0.5062240663900415,
+      "full_five_year_auroc": 0.4723735478346385
+    },
+    {
+      "epoch": 2,
+      "train_objective": 0.6036836207252343,
+      "selection_nll": 0.5817257944294917,
+      "zero_nll": 0.5884797286375293,
+      "full_nll": 0.581793308025226,
+      "zero_c_index": 0.6597510373443983,
+      "full_c_index": 0.5975103734439834,
+      "full_five_year_auroc": 0.8172755657210234
+    },
+    {
+      "epoch": 3,
+      "train_objective": 0.5937782622617387,
+      "selection_nll": 0.6344957699866167,
+      "zero_nll": 0.6425898522471211,
+      "full_nll": 0.634684122566666,
+      "zero_c_index": 0.6182572614107884,
+      "full_c_index": 0.6016597510373444,
+      "full_five_year_auroc": 0.536467540310817
+    },
+    {
+      "epoch": 4,
+      "train_objective": 0.5521702469828037,
+      "selection_nll": 0.7749721847940237,
+      "zero_nll": 0.7802330282450255,
+      "full_nll": 0.7679396433356617,
+      "zero_c_index": 0.5726141078838174,
+      "full_c_index": 0.5767634854771784,
+      "full_five_year_auroc": 0.8087051736941124
+    },
+    {
+      "epoch": 5,
+      "train_objective": 0.5314130729407465,
+      "selection_nll": 0.7900421170318233,
+      "zero_nll": 0.8001063649343061,
+      "full_nll": 0.7855580537746262,
+      "zero_c_index": 0.6970954356846473,
+      "full_c_index": 0.7219917012448133,
+      "full_five_year_auroc": 0.8376400508369085
+    },
+    {
+      "epoch": 6,
+      "train_objective": 0.4401350497920443,
+      "selection_nll": 0.7697257815652329,
+      "zero_nll": 0.7654020924112827,
+      "full_nll": 0.7717985331504938,
+      "zero_c_index": 0.5726141078838174,
+      "full_c_index": 0.5311203319502075,
+      "full_five_year_auroc": 0.5339075609937608
+    },
+    {
+      "epoch": 7,
+      "train_objective": 0.39492794128016073,
+      "selection_nll": 0.8624072028182648,
+      "zero_nll": 0.8141235237874623,
+      "full_nll": 0.8967526311961203,
+      "zero_c_index": 0.5809128630705395,
+      "full_c_index": 0.6846473029045643,
+      "full_five_year_auroc": 0.9646122154467193
+    },
+    {
+      "epoch": 8,
+      "train_objective": 0.3238735591009097,
+      "selection_nll": 1.0475532500119047,
+      "zero_nll": 0.9972702273579281,
+      "full_nll": 1.079631781658723,
+      "zero_c_index": 0.6597510373443983,
+      "full_c_index": 0.6431535269709544,
+      "full_five_year_auroc": 0.9017876845513823
+    },
+    {
+      "epoch": 9,
+      "train_objective": 0.2682588892830498,
+      "selection_nll": 0.805470913942554,
+      "zero_nll": 0.8097090930262182,
+      "full_nll": 0.8137496216638412,
+      "zero_c_index": 0.6099585062240664,
+      "full_c_index": 0.5601659751037344,
+      "full_five_year_auroc": 0.6999706345857357
+    },
+    {
+      "epoch": 10,
+      "train_objective": 0.21305451143946808,
+      "selection_nll": 0.9827299362788576,
+      "zero_nll": 0.9970381339579555,
+      "full_nll": 0.9836682792561727,
+      "zero_c_index": 0.6721991701244814,
+      "full_c_index": 0.6556016597510373,
+      "full_five_year_auroc": 0.8213027249854284
+    },
+    {
+      "epoch": 11,
+      "train_objective": 0.13578749726020245,
+      "selection_nll": 0.9618152155185401,
+      "zero_nll": 1.0273504432916525,
+      "full_nll": 0.9295960723362181,
+      "zero_c_index": 0.5767634854771784,
+      "full_c_index": 0.4896265560165975,
+      "full_five_year_auroc": 0.643280203739736
+    },
+    {
+      "epoch": 12,
+      "train_objective": 0.09847833621970789,
+      "selection_nll": 0.9827108986025062,
+      "zero_nll": 0.9634915884338885,
+      "full_nll": 0.9998721518059028,
+      "zero_c_index": 0.6556016597510373,
+      "full_c_index": 0.6431535269709544,
+      "full_five_year_auroc": 0.8213027249854284
+    },
+    {
+      "epoch": 13,
+      "train_objective": 0.07316123968782563,
+      "selection_nll": 1.4519009014695516,
+      "zero_nll": 1.6588577609571595,
+      "full_nll": 1.3680334318955178,
+      "zero_c_index": 0.6763485477178424,
+      "full_c_index": 0.6556016597510373,
+      "full_five_year_auroc": 0.982590904318054
+    },
+    {
+      "epoch": 14,
+      "train_objective": 0.06662371415786986,
+      "selection_nll": 1.2692021033287997,
+      "zero_nll": 1.3409520473105658,
+      "full_nll": 1.2391289736447757,
+      "zero_c_index": 0.6431535269709544,
+      "full_c_index": 0.6265560165975104,
+      "full_five_year_auroc": 0.8764275506582111
+    },
+    {
+      "epoch": 15,
+      "train_objective": 0.04589141147824613,
+      "selection_nll": 0.9971385105622176,
+      "zero_nll": 0.9306711667070756,
+      "full_nll": 1.0325104821495188,
+      "zero_c_index": 0.6431535269709544,
+      "full_c_index": 0.6224066390041494,
+      "full_five_year_auroc": 0.7319540874781425
+    }
+  ],
+  "interpretation": {
+    "overfitting_confirmed": true,
+    "causes_not_isolated": true,
+    "five_year_metrics_few_known_survivors": true,
+    "interval_terms_are_not_independent_samples": true,
+    "no_algorithm_or_run_change": true
+  }
+}
