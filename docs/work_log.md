@@ -166,6 +166,17 @@
 
 ## 工作条目
 
+### W075｜2026-10-21：DSCA实验与过拟合证据核对（只读文献/源码）
+
+- 用户询问DSCA怎样实验、是否没有过拟合。严格沿用W074：本轮只查论文/作者官方main分支源码，不改我们的预测器、头、损失、参数或划分，不连接服务器/运行实验。官方GitHub tree API限流，改读raw源码完成核查，不声称取得其训练日志或重新复现结果。
+- [论文v4](https://arxiv.org/html/2206.05782)表2/3：NLST447人/死亡35.9%、BRCA978/13.5%、LGG486/23.4%；分别训练评价OS，纳入删失病例。5×/20×、256像素、截断ResNet50的1024维预提特征；四离散风险输出+删失NLL，不是精确天数MSE。主表五折C为0.66803±0.05817、0.61224±0.05350、0.70181±0.04321，不能和我们单次CRC验证直接排名。
+- 论文4.2.2声明患者级外层五折，每折训练部分再留20%作为早停/学习率验证；比例换算约64%拟合、16%内层验证、20%外层留出。官方[model_handler.py](https://raw.githubusercontent.com/liupei101/DSCA/main/model/model_handler.py)读取train/val/test IDs，按validation monitor保存best，最终test_model从best重载；每轮同时计算test（如提供），不据此把作者执行过程或全部预处理认定严格独立无泄漏。
+- [官方BRCA配置](https://raw.githubusercontent.com/liupei101/DSCA/main/config/config_hier.yaml)及handler：dropout0.6、L1=1e-5、weight_decay5e-4、lr8e-5、累积16、上限150、早停30轮；ReduceLROnPlateau验证损失10轮不降则lr×0.5。论文写Adam，公开该配置opt为lookahead_adam，不能把两者完全等同；这些不是我们当前参数或适用于全部情况的最优值。[EarlyStopping](https://raw.githubusercontent.com/liupei101/DSCA/main/utils/train_utils.py)保存验证最佳，不默认最后一轮。
+- [WSIPatchData.py](https://raw.githubusercontent.com/liupei101/DSCA/main/dataset/WSIPatchData.py)显示按死亡患者时间分位数生成4区间，删失患者仍参与生存监督；不是我们的五个固定年度区间。源码在筛patient_ids前读整份标签CSV并qcut，若该CSV包含全队列则分箱涉及外层结局；这是公开实现的信息隔离核查点，不以此推断作者全部历史结果无效，不移植该做法/不改我们的标签。
+- 本轮未找到公开逐轮训练/验证损失曲线、各折最佳/早停轮数或完整训练日志；不能声称作者没有过拟合，也不能声称已证有同等过拟合。官方训练过程写TensorBoard train/val/test loss/C，但记录功能不等于日志已公开。五折用来评估划分稳定性，不是消除过拟合。
+- 对我们仅作解释：后期过拟合与保留已有最佳权重并不矛盾，按既定验证损失选best的思路和DSCA相同；不能据此证明已充分泛化或跨癌种更优。W074不改模型决定不变，本轮无新方法建议或执行前置。
+
+
 ### W074｜2026-10-21：用户明确保留预测器与两项工作，不再改方案
 
 - 用户指出现有预测器已完成，应保留作为工作一，工作二在该基础上继续、目前暂定强化学习，明确“不改”。助手承认把过拟合诊断扩成方法重设计造成不必要反复；本次落实用户决定，不争辩或增加新实验前提。
