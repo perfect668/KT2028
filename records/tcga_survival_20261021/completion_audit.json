@@ -1,0 +1,611 @@
+{
+  "schema": "KT2028-tcga-training-completion-audit-1",
+  "date": "2026-10-21",
+  "source_commit": "20d5bf91ec831f499817fc34b58fad81b9f6b0c9",
+  "completion": {
+    "completed_epochs": 17,
+    "selected_epoch": 2,
+    "checkpoint_sha256": "31bae4a54f07a6917326281e18e50522190c24c635998a79603c9f630e619c01",
+    "strict_reload": true,
+    "test_used": false,
+    "rl_started": false
+  },
+  "completed_at_server_beijing": "2026-10-21 14:06:11",
+  "train_patients": 494,
+  "validation_patients": 56,
+  "selection": "equal mean main-head NLL over zero/10%/20%/40%/full; not chosen by AUROC",
+  "best_epoch_metrics": {
+    "epoch": 2,
+    "train_objective": 0.6036836207252343,
+    "selection_nll": 0.5817257944294917,
+    "validation": {
+      "zero": {
+        "nll": 0.5884797286375293,
+        "pooled": {
+          "c_index": 0.6597510373443983,
+          "comparable_pairs": 241,
+          "risk_tied_pairs": 0,
+          "by_day": {
+            "365": {
+              "brier": 0.018932568050700063,
+              "auroc": 0.4893617021276594,
+              "observed_deaths": 1,
+              "known_survivors": 47,
+              "censored_before_endpoint": 8,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "730": {
+              "brier": 0.0912034180592841,
+              "auroc": 0.7004145114829415,
+              "observed_deaths": 4,
+              "known_survivors": 27,
+              "censored_before_endpoint": 25,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1095": {
+              "brier": 0.13373959522267212,
+              "auroc": 0.644668826415987,
+              "observed_deaths": 5,
+              "known_survivors": 19,
+              "censored_before_endpoint": 32,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1460": {
+              "brier": 0.3145762759133342,
+              "auroc": 0.654312324409854,
+              "observed_deaths": 9,
+              "known_survivors": 10,
+              "censored_before_endpoint": 37,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1825": {
+              "brier": 0.26308785366017545,
+              "auroc": 0.7582704887230861,
+              "observed_deaths": 11,
+              "known_survivors": 3,
+              "censored_before_endpoint": 42,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            }
+          },
+          "risk_definition": "minus_mean_annual_survival",
+          "integrated_brier_annual_grid": 0.13799915681521563,
+          "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit"
+        },
+        "by_source": {
+          "tcga": {
+            "c_index": 0.6597510373443983,
+            "comparable_pairs": 241,
+            "risk_tied_pairs": 0,
+            "by_day": {
+              "365": {
+                "brier": 0.018932568050700063,
+                "auroc": 0.4893617021276594,
+                "observed_deaths": 1,
+                "known_survivors": 47,
+                "censored_before_endpoint": 8,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "730": {
+                "brier": 0.0912034180592841,
+                "auroc": 0.7004145114829415,
+                "observed_deaths": 4,
+                "known_survivors": 27,
+                "censored_before_endpoint": 25,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1095": {
+                "brier": 0.13373959522267212,
+                "auroc": 0.644668826415987,
+                "observed_deaths": 5,
+                "known_survivors": 19,
+                "censored_before_endpoint": 32,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1460": {
+                "brier": 0.3145762759133342,
+                "auroc": 0.654312324409854,
+                "observed_deaths": 9,
+                "known_survivors": 10,
+                "censored_before_endpoint": 37,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1825": {
+                "brier": 0.26308785366017545,
+                "auroc": 0.7582704887230861,
+                "observed_deaths": 11,
+                "known_survivors": 3,
+                "censored_before_endpoint": 42,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              }
+            },
+            "risk_definition": "minus_mean_annual_survival",
+            "integrated_brier_annual_grid": 0.13799915681521563,
+            "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit",
+            "nll": 0.5884797286375293
+          }
+        }
+      },
+      "0.1": {
+        "nll": 0.579154751596174,
+        "pooled": {
+          "c_index": 0.6016597510373444,
+          "comparable_pairs": 241,
+          "risk_tied_pairs": 0,
+          "by_day": {
+            "365": {
+              "brier": 0.018787435455571575,
+              "auroc": 0.42553191489361686,
+              "observed_deaths": 1,
+              "known_survivors": 47,
+              "censored_before_endpoint": 8,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "730": {
+              "brier": 0.0931242568365587,
+              "auroc": 0.5629705876678958,
+              "observed_deaths": 4,
+              "known_survivors": 27,
+              "censored_before_endpoint": 25,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1095": {
+              "brier": 0.13475668597472498,
+              "auroc": 0.5934580715647327,
+              "observed_deaths": 5,
+              "known_survivors": 19,
+              "censored_before_endpoint": 32,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1460": {
+              "brier": 0.3271942374712299,
+              "auroc": 0.5563954804551774,
+              "observed_deaths": 9,
+              "known_survivors": 10,
+              "censored_before_endpoint": 37,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1825": {
+              "brier": 0.27552580983889585,
+              "auroc": 0.8172755657210234,
+              "observed_deaths": 11,
+              "known_survivors": 3,
+              "censored_before_endpoint": 42,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            }
+          },
+          "risk_definition": "minus_mean_annual_survival",
+          "integrated_brier_annual_grid": 0.14232510413150665,
+          "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit"
+        },
+        "by_source": {
+          "tcga": {
+            "c_index": 0.6016597510373444,
+            "comparable_pairs": 241,
+            "risk_tied_pairs": 0,
+            "by_day": {
+              "365": {
+                "brier": 0.018787435455571575,
+                "auroc": 0.42553191489361686,
+                "observed_deaths": 1,
+                "known_survivors": 47,
+                "censored_before_endpoint": 8,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "730": {
+                "brier": 0.0931242568365587,
+                "auroc": 0.5629705876678958,
+                "observed_deaths": 4,
+                "known_survivors": 27,
+                "censored_before_endpoint": 25,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1095": {
+                "brier": 0.13475668597472498,
+                "auroc": 0.5934580715647327,
+                "observed_deaths": 5,
+                "known_survivors": 19,
+                "censored_before_endpoint": 32,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1460": {
+                "brier": 0.3271942374712299,
+                "auroc": 0.5563954804551774,
+                "observed_deaths": 9,
+                "known_survivors": 10,
+                "censored_before_endpoint": 37,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1825": {
+                "brier": 0.27552580983889585,
+                "auroc": 0.8172755657210234,
+                "observed_deaths": 11,
+                "known_survivors": 3,
+                "censored_before_endpoint": 42,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              }
+            },
+            "risk_definition": "minus_mean_annual_survival",
+            "integrated_brier_annual_grid": 0.14232510413150665,
+            "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit",
+            "nll": 0.579154751596174
+          }
+        }
+      },
+      "0.2": {
+        "nll": 0.5793522982858121,
+        "pooled": {
+          "c_index": 0.6099585062240664,
+          "comparable_pairs": 241,
+          "risk_tied_pairs": 0,
+          "by_day": {
+            "365": {
+              "brier": 0.018775467814196454,
+              "auroc": 0.404255319148936,
+              "observed_deaths": 1,
+              "known_survivors": 47,
+              "censored_before_endpoint": 8,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "730": {
+              "brier": 0.09311232965063958,
+              "auroc": 0.5736957639121407,
+              "observed_deaths": 4,
+              "known_survivors": 27,
+              "censored_before_endpoint": 25,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1095": {
+              "brier": 0.1345094240460512,
+              "auroc": 0.6177018928400458,
+              "observed_deaths": 5,
+              "known_survivors": 19,
+              "censored_before_endpoint": 32,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1460": {
+              "brier": 0.32656282907474593,
+              "auroc": 0.583799841589193,
+              "observed_deaths": 9,
+              "known_survivors": 10,
+              "censored_before_endpoint": 37,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1825": {
+              "brier": 0.2771477454425327,
+              "auroc": 0.8172755657210234,
+              "observed_deaths": 11,
+              "known_survivors": 3,
+              "censored_before_endpoint": 42,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            }
+          },
+          "risk_definition": "minus_mean_annual_survival",
+          "integrated_brier_annual_grid": 0.14230678466137991,
+          "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit"
+        },
+        "by_source": {
+          "tcga": {
+            "c_index": 0.6099585062240664,
+            "comparable_pairs": 241,
+            "risk_tied_pairs": 0,
+            "by_day": {
+              "365": {
+                "brier": 0.018775467814196454,
+                "auroc": 0.404255319148936,
+                "observed_deaths": 1,
+                "known_survivors": 47,
+                "censored_before_endpoint": 8,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "730": {
+                "brier": 0.09311232965063958,
+                "auroc": 0.5736957639121407,
+                "observed_deaths": 4,
+                "known_survivors": 27,
+                "censored_before_endpoint": 25,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1095": {
+                "brier": 0.1345094240460512,
+                "auroc": 0.6177018928400458,
+                "observed_deaths": 5,
+                "known_survivors": 19,
+                "censored_before_endpoint": 32,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1460": {
+                "brier": 0.32656282907474593,
+                "auroc": 0.583799841589193,
+                "observed_deaths": 9,
+                "known_survivors": 10,
+                "censored_before_endpoint": 37,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1825": {
+                "brier": 0.2771477454425327,
+                "auroc": 0.8172755657210234,
+                "observed_deaths": 11,
+                "known_survivors": 3,
+                "censored_before_endpoint": 42,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              }
+            },
+            "risk_definition": "minus_mean_annual_survival",
+            "integrated_brier_annual_grid": 0.14230678466137991,
+            "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit",
+            "nll": 0.5793522982858121
+          }
+        }
+      },
+      "0.4": {
+        "nll": 0.5798488856027169,
+        "pooled": {
+          "c_index": 0.5975103734439834,
+          "comparable_pairs": 241,
+          "risk_tied_pairs": 0,
+          "by_day": {
+            "365": {
+              "brier": 0.018750201457688204,
+              "auroc": 0.42553191489361686,
+              "observed_deaths": 1,
+              "known_survivors": 47,
+              "censored_before_endpoint": 8,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "730": {
+              "brier": 0.09315134661309776,
+              "auroc": 0.5728455046985357,
+              "observed_deaths": 4,
+              "known_survivors": 27,
+              "censored_before_endpoint": 25,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1095": {
+              "brier": 0.1341856536190047,
+              "auroc": 0.5934580715647327,
+              "observed_deaths": 5,
+              "known_survivors": 19,
+              "censored_before_endpoint": 32,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1460": {
+              "brier": 0.3260422559740056,
+              "auroc": 0.583799841589193,
+              "observed_deaths": 9,
+              "known_survivors": 10,
+              "censored_before_endpoint": 37,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1825": {
+              "brier": 0.28052570595690296,
+              "auroc": 0.8172755657210234,
+              "observed_deaths": 11,
+              "known_survivors": 3,
+              "censored_before_endpoint": 42,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            }
+          },
+          "risk_definition": "minus_mean_annual_survival",
+          "integrated_brier_annual_grid": 0.14247846212844956,
+          "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit"
+        },
+        "by_source": {
+          "tcga": {
+            "c_index": 0.5975103734439834,
+            "comparable_pairs": 241,
+            "risk_tied_pairs": 0,
+            "by_day": {
+              "365": {
+                "brier": 0.018750201457688204,
+                "auroc": 0.42553191489361686,
+                "observed_deaths": 1,
+                "known_survivors": 47,
+                "censored_before_endpoint": 8,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "730": {
+                "brier": 0.09315134661309776,
+                "auroc": 0.5728455046985357,
+                "observed_deaths": 4,
+                "known_survivors": 27,
+                "censored_before_endpoint": 25,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1095": {
+                "brier": 0.1341856536190047,
+                "auroc": 0.5934580715647327,
+                "observed_deaths": 5,
+                "known_survivors": 19,
+                "censored_before_endpoint": 32,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1460": {
+                "brier": 0.3260422559740056,
+                "auroc": 0.583799841589193,
+                "observed_deaths": 9,
+                "known_survivors": 10,
+                "censored_before_endpoint": 37,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1825": {
+                "brier": 0.28052570595690296,
+                "auroc": 0.8172755657210234,
+                "observed_deaths": 11,
+                "known_survivors": 3,
+                "censored_before_endpoint": 42,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              }
+            },
+            "risk_definition": "minus_mean_annual_survival",
+            "integrated_brier_annual_grid": 0.14247846212844956,
+            "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit",
+            "nll": 0.5798488856027169
+          }
+        }
+      },
+      "full": {
+        "nll": 0.581793308025226,
+        "pooled": {
+          "c_index": 0.5975103734439834,
+          "comparable_pairs": 241,
+          "risk_tied_pairs": 0,
+          "by_day": {
+            "365": {
+              "brier": 0.018657295628410276,
+              "auroc": 0.4680851063829785,
+              "observed_deaths": 1,
+              "known_survivors": 47,
+              "censored_before_endpoint": 8,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "730": {
+              "brier": 0.09322455687042461,
+              "auroc": 0.5822998265823423,
+              "observed_deaths": 4,
+              "known_survivors": 27,
+              "censored_before_endpoint": 25,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1095": {
+              "brier": 0.13373971340303542,
+              "auroc": 0.6079716325266526,
+              "observed_deaths": 5,
+              "known_survivors": 19,
+              "censored_before_endpoint": 32,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1460": {
+              "brier": 0.3265834837667863,
+              "auroc": 0.533032150121242,
+              "observed_deaths": 9,
+              "known_survivors": 10,
+              "censored_before_endpoint": 37,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            },
+            "1825": {
+              "brier": 0.29182872846863855,
+              "auroc": 0.8172755657210234,
+              "observed_deaths": 11,
+              "known_survivors": 3,
+              "censored_before_endpoint": 42,
+              "unsupported_ipcw_observations": 0,
+              "reason": null
+            }
+          },
+          "risk_definition": "minus_mean_annual_survival",
+          "integrated_brier_annual_grid": 0.14362388278059518,
+          "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit"
+        },
+        "by_source": {
+          "tcga": {
+            "c_index": 0.5975103734439834,
+            "comparable_pairs": 241,
+            "risk_tied_pairs": 0,
+            "by_day": {
+              "365": {
+                "brier": 0.018657295628410276,
+                "auroc": 0.4680851063829785,
+                "observed_deaths": 1,
+                "known_survivors": 47,
+                "censored_before_endpoint": 8,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "730": {
+                "brier": 0.09322455687042461,
+                "auroc": 0.5822998265823423,
+                "observed_deaths": 4,
+                "known_survivors": 27,
+                "censored_before_endpoint": 25,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1095": {
+                "brier": 0.13373971340303542,
+                "auroc": 0.6079716325266526,
+                "observed_deaths": 5,
+                "known_survivors": 19,
+                "censored_before_endpoint": 32,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1460": {
+                "brier": 0.3265834837667863,
+                "auroc": 0.533032150121242,
+                "observed_deaths": 9,
+                "known_survivors": 10,
+                "censored_before_endpoint": 37,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              },
+              "1825": {
+                "brier": 0.29182872846863855,
+                "auroc": 0.8172755657210234,
+                "observed_deaths": 11,
+                "known_survivors": 3,
+                "censored_before_endpoint": 42,
+                "unsupported_ipcw_observations": 0,
+                "reason": null
+              }
+            },
+            "risk_definition": "minus_mean_annual_survival",
+            "integrated_brier_annual_grid": 0.14362388278059518,
+            "censoring_metric_contract": "source-stratified training-only reverse KM; right-continuous IPCW; closed admin endpoint left limit",
+            "nll": 0.581793308025226
+          }
+        }
+      }
+    }
+  },
+  "local_best_backup_sha256_matches": true,
+  "server_best_sha256_matches": true,
+  "validation_deaths_by_five_years": 11,
+  "validation_known_survivors_at_five_years": 3,
+  "validation_censored_before_five_years": 42,
+  "new_predictions_executed_in_audit": false,
+  "model_changed": false
+}
