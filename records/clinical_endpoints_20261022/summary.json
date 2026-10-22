@@ -1,0 +1,814 @@
+{
+  "schema": "KT2028-clinical-endpoint-audit-W082",
+  "date": "2026-10-22",
+  "repo_commit": "0953d2615e3f065e57c8db18e7dfde32d1eb449d",
+  "official_cdr_url": "https://api.gdc.cancer.gov/data/1b5f413e-a8d1-4d10-92eb-7c4ae739ed81",
+  "cdr_bytes": 2945129,
+  "cdr_md5": "a4591b2dcee39591f59e5e25a6ce75fa",
+  "cdr_total_rows": 11160,
+  "audit_code_sha256": "745d78b2943804e244666b3dc395dcd5ee4e02bed76217ce70e74cdb756c635b",
+  "current_manifest_matches_gdc_derived_targets": true,
+  "current_gdc": {
+    "all550": {
+      "patients": 550,
+      "slides": 558,
+      "full_os_deaths": 113,
+      "five_year_deaths": 105,
+      "raw_deaths_after_five_years": 8,
+      "five_year_known_survivors": 40,
+      "censored_before_five_years": 405,
+      "annual_nll_zero": 59,
+      "full_os_observed_time": {
+        "n": 550,
+        "minimum": 6.0,
+        "median": 671.5,
+        "q25": 396.0,
+        "q75": 1095.0,
+        "maximum": 4502.0
+      },
+      "at_days": {
+        "365": {
+          "deaths": 46,
+          "known_survivors": 445,
+          "censored_before": 59
+        },
+        "730": {
+          "deaths": 72,
+          "known_survivors": 263,
+          "censored_before": 215
+        },
+        "1095": {
+          "deaths": 84,
+          "known_survivors": 138,
+          "censored_before": 328
+        },
+        "1460": {
+          "deaths": 98,
+          "known_survivors": 65,
+          "censored_before": 387
+        },
+        "1825": {
+          "deaths": 105,
+          "known_survivors": 40,
+          "censored_before": 405
+        }
+      }
+    },
+    "train494": {
+      "patients": 494,
+      "slides": 502,
+      "full_os_deaths": 101,
+      "five_year_deaths": 94,
+      "raw_deaths_after_five_years": 7,
+      "five_year_known_survivors": 37,
+      "censored_before_five_years": 363,
+      "annual_nll_zero": 52,
+      "full_os_observed_time": {
+        "n": 494,
+        "minimum": 6.0,
+        "median": 669.0,
+        "q25": 395.25,
+        "q75": 1083.75,
+        "maximum": 4502.0
+      },
+      "at_days": {
+        "365": {
+          "deaths": 45,
+          "known_survivors": 397,
+          "censored_before": 52
+        },
+        "730": {
+          "deaths": 68,
+          "known_survivors": 235,
+          "censored_before": 191
+        },
+        "1095": {
+          "deaths": 79,
+          "known_survivors": 119,
+          "censored_before": 296
+        },
+        "1460": {
+          "deaths": 89,
+          "known_survivors": 55,
+          "censored_before": 350
+        },
+        "1825": {
+          "deaths": 94,
+          "known_survivors": 37,
+          "censored_before": 363
+        }
+      }
+    },
+    "validation56": {
+      "patients": 56,
+      "slides": 56,
+      "full_os_deaths": 12,
+      "five_year_deaths": 11,
+      "raw_deaths_after_five_years": 1,
+      "five_year_known_survivors": 3,
+      "censored_before_five_years": 42,
+      "annual_nll_zero": 7,
+      "full_os_observed_time": {
+        "n": 56,
+        "minimum": 30.0,
+        "median": 728.0,
+        "q25": 479.5,
+        "q75": 1254.75,
+        "maximum": 2988.0
+      },
+      "at_days": {
+        "365": {
+          "deaths": 1,
+          "known_survivors": 48,
+          "censored_before": 7
+        },
+        "730": {
+          "deaths": 4,
+          "known_survivors": 28,
+          "censored_before": 24
+        },
+        "1095": {
+          "deaths": 5,
+          "known_survivors": 19,
+          "censored_before": 32
+        },
+        "1460": {
+          "deaths": 9,
+          "known_survivors": 10,
+          "censored_before": 37
+        },
+        "1825": {
+          "deaths": 11,
+          "known_survivors": 3,
+          "censored_before": 42
+        }
+      }
+    }
+  },
+  "cdr_linkage": {
+    "current550": {
+      "patients": 550,
+      "cdr_matched": 550,
+      "cdr_unmatched": 0,
+      "cancer_types": {
+        "COAD": 403,
+        "READ": 147
+      },
+      "endpoints": {
+        "OS": {
+          "matched_patients": 550,
+          "complete_time_event": 550,
+          "positive_time_usable": 550,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 0,
+          "all_observed_events": 112,
+          "observed_time_days": {
+            "n": 550,
+            "minimum": 6.0,
+            "median": 670.5,
+            "q25": 396.0,
+            "q75": 1095.0,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 46,
+              "known_event_free": 445,
+              "censored_before": 59
+            },
+            "1095": {
+              "events": 83,
+              "known_event_free": 138,
+              "censored_before": 329
+            },
+            "1825": {
+              "events": 104,
+              "known_event_free": 40,
+              "censored_before": 406
+            }
+          }
+        },
+        "DSS": {
+          "matched_patients": 550,
+          "complete_time_event": 531,
+          "positive_time_usable": 531,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 19,
+          "all_observed_events": 69,
+          "observed_time_days": {
+            "n": 531,
+            "minimum": 6.0,
+            "median": 670.0,
+            "q25": 396.5,
+            "q75": 1091.0,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 32,
+              "known_event_free": 431,
+              "censored_before": 68
+            },
+            "1095": {
+              "events": 56,
+              "known_event_free": 131,
+              "censored_before": 344
+            },
+            "1825": {
+              "events": 65,
+              "known_event_free": 38,
+              "censored_before": 428
+            }
+          }
+        },
+        "DFI": {
+          "matched_patients": 550,
+          "complete_time_event": 218,
+          "positive_time_usable": 218,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 332,
+          "all_observed_events": 29,
+          "observed_time_days": {
+            "n": 218,
+            "minimum": 16.0,
+            "median": 812.5,
+            "q25": 518.0,
+            "q75": 1120.75,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 10,
+              "known_event_free": 197,
+              "censored_before": 11
+            },
+            "1095": {
+              "events": 23,
+              "known_event_free": 60,
+              "censored_before": 135
+            },
+            "1825": {
+              "events": 28,
+              "known_event_free": 14,
+              "censored_before": 176
+            }
+          }
+        },
+        "PFI": {
+          "matched_patients": 550,
+          "complete_time_event": 550,
+          "positive_time_usable": 548,
+          "nonpositive_time": 2,
+          "missing_or_invalid": 0,
+          "all_observed_events": 145,
+          "observed_time_days": {
+            "n": 548,
+            "minimum": 6.0,
+            "median": 592.0,
+            "q25": 364.75,
+            "q75": 981.0,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 67,
+              "known_event_free": 410,
+              "censored_before": 71
+            },
+            "1095": {
+              "events": 131,
+              "known_event_free": 103,
+              "censored_before": 314
+            },
+            "1825": {
+              "events": 140,
+              "known_event_free": 30,
+              "censored_before": 378
+            }
+          }
+        }
+      }
+    },
+    "train494": {
+      "patients": 494,
+      "cdr_matched": 494,
+      "cdr_unmatched": 0,
+      "cancer_types": {
+        "COAD": 363,
+        "READ": 131
+      },
+      "endpoints": {
+        "OS": {
+          "matched_patients": 494,
+          "complete_time_event": 494,
+          "positive_time_usable": 494,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 0,
+          "all_observed_events": 100,
+          "observed_time_days": {
+            "n": 494,
+            "minimum": 6.0,
+            "median": 669.0,
+            "q25": 395.25,
+            "q75": 1083.75,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 45,
+              "known_event_free": 397,
+              "censored_before": 52
+            },
+            "1095": {
+              "events": 78,
+              "known_event_free": 119,
+              "censored_before": 297
+            },
+            "1825": {
+              "events": 93,
+              "known_event_free": 37,
+              "censored_before": 364
+            }
+          }
+        },
+        "DSS": {
+          "matched_patients": 494,
+          "complete_time_event": 475,
+          "positive_time_usable": 475,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 19,
+          "all_observed_events": 62,
+          "observed_time_days": {
+            "n": 475,
+            "minimum": 6.0,
+            "median": 669.0,
+            "q25": 396.0,
+            "q75": 1065.5,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 31,
+              "known_event_free": 383,
+              "censored_before": 61
+            },
+            "1095": {
+              "events": 52,
+              "known_event_free": 112,
+              "censored_before": 311
+            },
+            "1825": {
+              "events": 58,
+              "known_event_free": 35,
+              "censored_before": 382
+            }
+          }
+        },
+        "DFI": {
+          "matched_patients": 494,
+          "complete_time_event": 200,
+          "positive_time_usable": 200,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 294,
+          "all_observed_events": 27,
+          "observed_time_days": {
+            "n": 200,
+            "minimum": 16.0,
+            "median": 798.0,
+            "q25": 501.75,
+            "q75": 1110.25,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 10,
+              "known_event_free": 180,
+              "censored_before": 10
+            },
+            "1095": {
+              "events": 21,
+              "known_event_free": 54,
+              "censored_before": 125
+            },
+            "1825": {
+              "events": 26,
+              "known_event_free": 14,
+              "censored_before": 160
+            }
+          }
+        },
+        "PFI": {
+          "matched_patients": 494,
+          "complete_time_event": 494,
+          "positive_time_usable": 492,
+          "nonpositive_time": 2,
+          "missing_or_invalid": 0,
+          "all_observed_events": 127,
+          "observed_time_days": {
+            "n": 492,
+            "minimum": 6.0,
+            "median": 580.0,
+            "q25": 364.0,
+            "q75": 975.25,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 60,
+              "known_event_free": 368,
+              "censored_before": 64
+            },
+            "1095": {
+              "events": 116,
+              "known_event_free": 91,
+              "censored_before": 285
+            },
+            "1825": {
+              "events": 123,
+              "known_event_free": 28,
+              "censored_before": 341
+            }
+          }
+        }
+      }
+    },
+    "validation56": {
+      "patients": 56,
+      "cdr_matched": 56,
+      "cdr_unmatched": 0,
+      "cancer_types": {
+        "COAD": 40,
+        "READ": 16
+      },
+      "endpoints": {
+        "OS": {
+          "matched_patients": 56,
+          "complete_time_event": 56,
+          "positive_time_usable": 56,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 0,
+          "all_observed_events": 12,
+          "observed_time_days": {
+            "n": 56,
+            "minimum": 30.0,
+            "median": 728.0,
+            "q25": 479.5,
+            "q75": 1254.75,
+            "maximum": 2988.0
+          },
+          "at_days": {
+            "365": {
+              "events": 1,
+              "known_event_free": 48,
+              "censored_before": 7
+            },
+            "1095": {
+              "events": 5,
+              "known_event_free": 19,
+              "censored_before": 32
+            },
+            "1825": {
+              "events": 11,
+              "known_event_free": 3,
+              "censored_before": 42
+            }
+          }
+        },
+        "DSS": {
+          "matched_patients": 56,
+          "complete_time_event": 56,
+          "positive_time_usable": 56,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 0,
+          "all_observed_events": 7,
+          "observed_time_days": {
+            "n": 56,
+            "minimum": 30.0,
+            "median": 728.0,
+            "q25": 479.5,
+            "q75": 1254.75,
+            "maximum": 2988.0
+          },
+          "at_days": {
+            "365": {
+              "events": 1,
+              "known_event_free": 48,
+              "censored_before": 7
+            },
+            "1095": {
+              "events": 4,
+              "known_event_free": 19,
+              "censored_before": 33
+            },
+            "1825": {
+              "events": 7,
+              "known_event_free": 3,
+              "censored_before": 46
+            }
+          }
+        },
+        "DFI": {
+          "matched_patients": 56,
+          "complete_time_event": 18,
+          "positive_time_usable": 18,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 38,
+          "all_observed_events": 2,
+          "observed_time_days": {
+            "n": 18,
+            "minimum": 360.0,
+            "median": 950.0,
+            "q25": 637.5,
+            "q75": 1255.5,
+            "maximum": 1612.0
+          },
+          "at_days": {
+            "365": {
+              "events": 0,
+              "known_event_free": 17,
+              "censored_before": 1
+            },
+            "1095": {
+              "events": 2,
+              "known_event_free": 6,
+              "censored_before": 10
+            },
+            "1825": {
+              "events": 2,
+              "known_event_free": 0,
+              "censored_before": 16
+            }
+          }
+        },
+        "PFI": {
+          "matched_patients": 56,
+          "complete_time_event": 56,
+          "positive_time_usable": 56,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 0,
+          "all_observed_events": 18,
+          "observed_time_days": {
+            "n": 56,
+            "minimum": 21.0,
+            "median": 685.5,
+            "q25": 365.0,
+            "q75": 1005.5,
+            "maximum": 2988.0
+          },
+          "at_days": {
+            "365": {
+              "events": 7,
+              "known_event_free": 42,
+              "censored_before": 7
+            },
+            "1095": {
+              "events": 15,
+              "known_event_free": 12,
+              "censored_before": 29
+            },
+            "1825": {
+              "events": 17,
+              "known_event_free": 2,
+              "censored_before": 37
+            }
+          }
+        }
+      }
+    },
+    "images616": {
+      "patients": 616,
+      "cdr_matched": 614,
+      "cdr_unmatched": 2,
+      "cancer_types": {
+        "READ": 164,
+        "COAD": 450
+      },
+      "endpoints": {
+        "OS": {
+          "matched_patients": 614,
+          "complete_time_event": 613,
+          "positive_time_usable": 591,
+          "nonpositive_time": 22,
+          "missing_or_invalid": 1,
+          "all_observed_events": 121,
+          "observed_time_days": {
+            "n": 591,
+            "minimum": 6.0,
+            "median": 672.0,
+            "q25": 396.0,
+            "q75": 1096.0,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 49,
+              "known_event_free": 474,
+              "censored_before": 68
+            },
+            "1095": {
+              "events": 88,
+              "known_event_free": 154,
+              "censored_before": 349
+            },
+            "1825": {
+              "events": 112,
+              "known_event_free": 50,
+              "censored_before": 429
+            }
+          }
+        },
+        "DSS": {
+          "matched_patients": 614,
+          "complete_time_event": 593,
+          "positive_time_usable": 571,
+          "nonpositive_time": 22,
+          "missing_or_invalid": 21,
+          "all_observed_events": 74,
+          "observed_time_days": {
+            "n": 571,
+            "minimum": 6.0,
+            "median": 670.0,
+            "q25": 396.0,
+            "q75": 1096.0,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 34,
+              "known_event_free": 459,
+              "censored_before": 78
+            },
+            "1095": {
+              "events": 60,
+              "known_event_free": 146,
+              "censored_before": 365
+            },
+            "1825": {
+              "events": 70,
+              "known_event_free": 48,
+              "censored_before": 453
+            }
+          }
+        },
+        "DFI": {
+          "matched_patients": 614,
+          "complete_time_event": 234,
+          "positive_time_usable": 234,
+          "nonpositive_time": 0,
+          "missing_or_invalid": 380,
+          "all_observed_events": 31,
+          "observed_time_days": {
+            "n": 234,
+            "minimum": 16.0,
+            "median": 821.5,
+            "q25": 518.0,
+            "q75": 1126.0,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 11,
+              "known_event_free": 210,
+              "censored_before": 13
+            },
+            "1095": {
+              "events": 25,
+              "known_event_free": 66,
+              "censored_before": 143
+            },
+            "1825": {
+              "events": 30,
+              "known_event_free": 19,
+              "censored_before": 185
+            }
+          }
+        },
+        "PFI": {
+          "matched_patients": 614,
+          "complete_time_event": 613,
+          "positive_time_usable": 589,
+          "nonpositive_time": 24,
+          "missing_or_invalid": 1,
+          "all_observed_events": 152,
+          "observed_time_days": {
+            "n": 589,
+            "minimum": 6.0,
+            "median": 607.0,
+            "q25": 360.0,
+            "q75": 1005.0,
+            "maximum": 4502.0
+          },
+          "at_days": {
+            "365": {
+              "events": 71,
+              "known_event_free": 438,
+              "censored_before": 80
+            },
+            "1095": {
+              "events": 137,
+              "known_event_free": 118,
+              "censored_before": 334
+            },
+            "1825": {
+              "events": 147,
+              "known_event_free": 39,
+              "censored_before": 403
+            }
+          }
+        }
+      }
+    }
+  },
+  "cdr_gdc_comparison": {
+    "status_counts": {
+      "same_time_event": 549,
+      "different": 1
+    },
+    "changed_event": 1,
+    "changed_current_five_year_target": 1,
+    "cdr_time_longer": 0,
+    "cdr_time_shorter": 1
+  },
+  "surgen": {
+    "raw_rows": 427,
+    "raw_columns": [
+      "case_id",
+      "died_within_5_years",
+      "days_till_death",
+      "crc_primary_cause_of_death",
+      "age_at_diagnosis",
+      "sex",
+      "site_of_tumour",
+      "site_of_tumour_grouping",
+      "kras_ex_2",
+      "kras_ex_3",
+      "kras_codon_117",
+      "nras_ex_2",
+      "nras_ex_3",
+      "braf_mutant_status",
+      "mmr_ihc",
+      "mmr_loss_binary",
+      "primary_metastatic",
+      "stage",
+      "stage_subgroup",
+      "pT",
+      "pN",
+      "pM",
+      "tumour_type",
+      "differentiation",
+      "peri_surface_involved",
+      "distance_to_peritoneum_macroscopic_measurement",
+      "em_lvi",
+      "em_lvi_notes",
+      "pre-op_radio",
+      "pre-op_chemo"
+    ],
+    "selected_patients": 413,
+    "selected_events": 149,
+    "selected_censored": 264,
+    "selected_source_time_types": {
+      "numeric": 149,
+      "Alive": 264
+    },
+    "crc_cause_raw_counts": {
+      "": 332,
+      "1": 95
+    },
+    "crc_cause_selected_counts": {
+      "": 322,
+      "1": 91
+    },
+    "source_has_individual_alive_followup": false,
+    "source_has_recurrence_time": false,
+    "assumptions": "Selected Alive assigned day1825 under existing common administrative censoring; not observed per-person follow-up",
+    "raw_numeric_days": {
+      "n": 160,
+      "minimum": 0.0,
+      "median": 770.5,
+      "q25": 331.0,
+      "q75": 1268.0,
+      "maximum": 2297.0
+    },
+    "raw_zero_times": 1,
+    "raw_numeric_after_1825": 9
+  },
+  "source_sha256": {
+    "tcga_survival_w069_20261021\\train_manifest.json": "fba0820e6104838b3603f2c4181997b499733367d53a6623fa3a255ade4a226a",
+    "tcga_survival_w069_20261021\\validate_manifest.json": "83177efb2c0e96998d587eb8a15bf40caac280fc216041a22fd18eddaea82b89",
+    "tcga_pipeline_w059_20261015\\clinical_canonical_backup\\candidate_os.json": "dc0eb6a8afba8d15bb7a2d953497e5e5ce67ecbcb45aae5bdbc0fd628a0730e3",
+    "TCGA-CDR-SupplementalTableS1.xlsx": "ea594c0fbb6731477c7ac511fab449ca9c38b0d42d269591ed9f5c4090e75a5a",
+    "r2_preparation_20261014\\SR386_labels.csv": "992cc6cc68dd5c1a7145512af362b04961eb052b268b571821c016ecf519a8e4",
+    "mixed_survival_w066_20261018\\train_manifest.json": "5fbdc1395beb053078452d4ac1cdfa51f4844d9358eb3c6998560b07fcdf3d3d",
+    "mixed_survival_w066_20261018\\validate_manifest.json": "8cb55641799e7ccf158bdaa5e5fa72dbeae701c539f10d29775b4bffd2150b7c"
+  },
+  "no_training_or_predictions": true,
+  "no_label_or_split_changes": true,
+  "no_feature_content_reaudit": true,
+  "limitations": [
+    "CDR is a distinct curated historical source, not automatically a correction of current GDC.",
+    "DFI/PFI are not interchangeable with postoperative DFS.",
+    "Positive-time availability is not proof of clinical endpoint validity or absence of timing errors.",
+    "Clinical known-through counts include censoring exactly on the endpoint; not a reimplementation of dynamic-AUC controls.",
+    "Feature presence uses existing audited cohort identity, not live server full-file inspection."
+  ]
+}
