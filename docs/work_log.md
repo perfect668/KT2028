@@ -6,6 +6,8 @@
 
 ## 当前状态
 
+**W091官方架构优先（2026-10-26，用户明确）：以做出两章为先，优先官方DSCA双流和PROGPATH癌种router/专家输出，最小适配，撤下默认自设计患者门控/特征专家方案。已读两边核心模型/配置，公开PROGPATH门控只由癌种编码驱动、强制临床接口与15癌种等不能忽略。R3代码/权重保留，五癌种OS/UNI准备建议不变；未改算法、克隆安装或实验，详见0.28/W091。**
+
 **W090多尺度＋多癌种前置方案（2026-10-26，建议未实施）：唯一方案0.27推荐TCGA CRC/LUAD/BLCA/KIRC/STAD、统一OS、冻结原UNI/224/5×20×/1024维。现CDR只读正OS时间候选2477、五年事件777，新增图像/MPP/特征未匹配；现CRC550可复用，旧标签/划分/权重不改。工作一癌种内验证尺度融合，工作二同队列共享无MoE/条件MoE比较；SurGen不阻塞、RL非默认。已写前置输入/输出/验收/下一最小元数据工作，无下载/代码或实际实验。**
 
 **W089 PROGPATH数据与实验核对（2026-10-26）：TCGA15癌种6670患者/7999片联合训练，外部17队列4441患者/7374片，只验证不并入训练；公开10队列、私有7。已按正文核各癌种切片数、来源/OS-DSS-DFI差别、五折4:1/20轮/输入和基线适配。正文主要模态消融仍保留router，不能据此单独量化MoE收益；补充材料下载失败，不编患者分项/事件或内层选模细节。仅文献解释，无模型/数据协议变更或实验。**
@@ -193,6 +195,15 @@
 ```
 
 ## 工作条目
+
+### W091｜2026-10-26：官方源码架构优先与最小适配原则（已采纳原则，未实施）
+
+- 用户明确不追求过多自定义创新、首要做出两项工作、尽量按两篇官方源码架构。基准cab7f79905f2e8d36f86a7f2e5453566fab634f8/干净。本轮按新指令调整实施优先级，不再将W085/W090自行设计的g(z,c)＋轻量特征专家＋独立癌种头视为必做；数据和生存任务建议保持，旧R3/权重/历史结果不动。
+- 一手读取：DSCA README、main.py、model/__init__.py、model/HierNet.py、config/config_hier.yaml；PROGPATH utils/model_factory.py、projects/configs/cfg_progpath.yaml、models/stable_models/ProgPath.py的主体与forward。未执行或完整审计两仓库全部依赖/数据/训练损失逻辑。官方DSCA是WSIHierNet，公开配置dims1024-384-384-4、capool/双流Transformer等，当前示例fusion为相加、dropout0.6/lookahead_adam，不把论文concat/Adam或本项目256维默认与该配置说成完全一致；实现前对照版本记录选择，不盲抄路径/金字塔level。
+- PROGPATH源码size_dict已有uni=[1024,768,384]接口选项，但不代表完整UNI双尺度接入已成；公开forward必须有clinical_feature。癌种encoder输入15、gate输出15、15个classifier，top_experts默认5，current-cancer偏置log7/top选择后log4，温度参数0.9。raw_gates仅由癌种编码产生，非患者图像/临床条件；患者差异体现在专家输入/输出。若五癌种直接保留top5则全专家混合，不冒称稀疏选取；未知新癌种亦不能直接使用。
+- PROGPATH示例配置dss/cox/20epoch/AdamW/批量256，与现OS离散NLL不同；还实际给出CosineAnnealingLR/T_max20/eta_min1e-6及Early_stopping type=cindex/patient10/stop_epoch20。补充W089“正文未明确”的边界：源码示例有这些字段，实际调用逻辑和论文每折选模尚未审计，不把字段存在当已执行或严格内层验证。
+- 建议实现：第一章从官方DSCA主体与训练接口起步适配，现R3保留作已有版本；第二章在其表示上移植官方癌种路由及分类器式专家/输出加权，不另加新的特征MoE。只改数据/维度/正确缺失mask/癌种数/统一生存输出等必要处。为保留曲线，专家输出末层可适配为统一K个hazard logit并用同离散NLL；这仍是明确适配，不称完全原样PROGPATH。临床入口取舍要核作者路径，不伪造数据或自动增加临床研究任务。原DSCA需16N子patch，现变长QC不能直接reshape、补零当真实内容或自动全量重提。
+- ls-remote：DSCA首次schannel TLS失败，PROGPATH HEAD实得a1be77b95c71b31b18530ed3a26ab708c90a1bc9；DSCA另用openssl重试成功实得HEAD a749074cb3415c3a6eb83bee39191bdb69968dcc。两者为远端版本核准，不将网页main文件阅读或HEAD查询当已完成本地源码固定/运行验收。未克隆/拉取到仓库、安装依赖、下载研究数据/权重、改算法/配置/标签/划分、训练或推理。本轮更新唯一方案0.28/AGENTS/上下文/日志；下一源码小任务为固定版本和官方模块最小改动表，数据小任务仍为W090图像-临床交集/容量，均不自动启动实验。
 
 ### W090｜2026-10-26：多尺度＋多癌种开题方案与前置数据条件（建议完成）
 
