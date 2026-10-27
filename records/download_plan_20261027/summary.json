@@ -1,0 +1,153 @@
+{
+  "schema": "KT2028-W102-download-plan",
+  "date": "2026-10-27",
+  "repo_commit": "f898dd79105875f003fbe1692fe62e49d66ee6b4",
+  "cancer_groups": [
+    "CRC",
+    "STAD",
+    "LUAD",
+    "PAAD"
+  ],
+  "all_projects": [
+    "TCGA-COAD",
+    "TCGA-READ",
+    "TCGA-STAD",
+    "TCGA-LUAD",
+    "TCGA-PAAD"
+  ],
+  "new_download_projects": [
+    "TCGA-STAD",
+    "TCGA-LUAD",
+    "TCGA-PAAD"
+  ],
+  "existing_crc": "Reuse previously accepted CRC550 patients/558 slides; no new CRC download manifest or label overwrite this task.",
+  "selection_policy": [
+    "GDC open SVS Diagnostic Slide",
+    "Unique exact GDC slide submitter ID to filename and sample mapping",
+    "Primary Tumor and barcode sample01; tissue Tumor; preservation FFPE",
+    "TCGA-CDR project matches, OS status0/1 and finite positive OS.time",
+    "Defer known timeline obfuscation, histology Discrepancy and pancreatic undifferentiated histology for review; preserve all source records",
+    "Keep early censoring and post-five-year deaths in source; do not select deaths only",
+    "Not a final training cohort: nativeMPP/image quality and remaining clinical anomalies await raw-image checks"
+  ],
+  "sources": {
+    "gdc_query": {
+      "date": "2026-10-27",
+      "fetched_utc": "2026-10-27T15:41:34.621575+00:00",
+      "parameters": {
+        "filters": "{\"op\": \"and\", \"content\": [{\"op\": \"in\", \"content\": {\"field\": \"cases.project.project_id\", \"value\": [\"TCGA-STAD\", \"TCGA-LUAD\", \"TCGA-PAAD\"]}}, {\"op\": \"in\", \"content\": {\"field\": \"data_type\", \"value\": [\"Slide Image\"]}}, {\"op\": \"in\", \"content\": {\"field\": \"experimental_strategy\", \"value\": [\"Diagnostic Slide\"]}}, {\"op\": \"in\", \"content\": {\"field\": \"data_format\", \"value\": [\"SVS\"]}}, {\"op\": \"in\", \"content\": {\"field\": \"access\", \"value\": [\"open\"]}}]}",
+        "size": 2000,
+        "expand": "cases.samples.portions.slides,cases.demographic",
+        "fields": "file_id,file_name,file_size,md5sum,state,cases.case_id,cases.submitter_id,cases.project.project_id,cases.samples.sample_id,cases.samples.submitter_id,cases.samples.sample_type,cases.samples.tissue_type,cases.samples.preservation_method,cases.samples.portions.portion_id,cases.samples.portions.slides.slide_id,cases.samples.portions.slides.submitter_id,cases.demographic.age_is_obfuscated",
+        "format": "JSON"
+      },
+      "raw_bytes": 1918383,
+      "raw_sha256": "b6267e0254b1038a468fc4a92559b1f7f6f3b2e6e73ea17eb2eb5d7f25b097fd",
+      "warnings": {}
+    },
+    "cdr_sha256": "ea594c0fbb6731477c7ac511fab449ca9c38b0d42d269591ed9f5c4090e75a5a",
+    "sample_type_reference": "https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes"
+  },
+  "cohorts": [
+    {
+      "project": "TCGA-STAD",
+      "original_files": 442,
+      "selected_files": 403,
+      "selected_patients": 377,
+      "download_bytes": 342710721085,
+      "download_GB": 342.711,
+      "full_os_events": 156,
+      "five_year_events": 154,
+      "deferred_files": 39,
+      "defer_reason_counts_nonexclusive": {
+        "age_obfuscated_timeline_review": 7,
+        "invalid_or_nonpositive_OS": 24,
+        "not_confirmed_FFPE": 7,
+        "histology_discrepancy_review": 1
+      }
+    },
+    {
+      "project": "TCGA-LUAD",
+      "original_files": 541,
+      "selected_files": 526,
+      "selected_patients": 464,
+      "download_bytes": 409824857159,
+      "download_GB": 409.825,
+      "full_os_events": 162,
+      "five_year_events": 155,
+      "deferred_files": 15,
+      "defer_reason_counts_nonexclusive": {
+        "not_primary_tumor": 1,
+        "invalid_or_nonpositive_OS": 13,
+        "age_obfuscated_timeline_review": 1
+      }
+    },
+    {
+      "project": "TCGA-PAAD",
+      "original_files": 209,
+      "selected_files": 200,
+      "selected_patients": 180,
+      "download_bytes": 240295430965,
+      "download_GB": 240.295,
+      "full_os_events": 99,
+      "five_year_events": 97,
+      "deferred_files": 9,
+      "defer_reason_counts_nonexclusive": {
+        "not_primary_tumor": 6,
+        "not_confirmed_tumor_tissue": 6,
+        "nonconfirmed_adenocarcinoma_histology_review": 1,
+        "age_obfuscated_timeline_review": 1,
+        "invalid_or_nonpositive_OS": 1
+      }
+    }
+  ],
+  "totals": {
+    "files": 1129,
+    "patients": 1021,
+    "bytes": 992831009209,
+    "GB": 992.831,
+    "five_year_events": 406,
+    "deferred_files": 63
+  },
+  "manifests": [
+    {
+      "name": "gdc_manifest_TCGA-STAD.tsv",
+      "files": 403,
+      "bytes": 342710721085,
+      "sha256": "ebd8258668b7d4ba8827c7ee07447875d0e865427a1e8daeb1dd216b5451a5dd"
+    },
+    {
+      "name": "gdc_manifest_TCGA-LUAD.tsv",
+      "files": 526,
+      "bytes": 409824857159,
+      "sha256": "5c902fbec26cb05485f363eeb20d110e362fbc70161727a0b1137e3edb23b00a"
+    },
+    {
+      "name": "gdc_manifest_TCGA-PAAD.tsv",
+      "files": 200,
+      "bytes": 240295430965,
+      "sha256": "b84725494ddbdb6b5c81776f544d8a4e7e175708dce0b8e9cd1885b862789c2f"
+    },
+    {
+      "name": "gdc_manifest_new_three_projects.tsv",
+      "files": 1129,
+      "bytes": 992831009209,
+      "sha256": "f8fcc353ee7cc7dfa96f249b77eeb525252a749028aaa5c63843ab8deff5cd34"
+    }
+  ],
+  "raw_wsi_download_started": false,
+  "training_cohort_locked": false,
+  "algorithm_changed": false,
+  "drive_destination_assigned": false,
+  "manifest_validation": {
+    "headers_counts_sizes_sha256_passed": true,
+    "per_project_merge_equal": true,
+    "duplicate_file_ids": 0
+  },
+  "download_order": [
+    "TCGA-STAD",
+    "TCGA-PAAD",
+    "TCGA-LUAD"
+  ],
+  "declared_scope": "Four cancer groups CRC/STAD/LUAD/PAAD; five TCGA projects including existing COAD/READ. Multiscale first work and multicancer expert second work unchanged."
+}
