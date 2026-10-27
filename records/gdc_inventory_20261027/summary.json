@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-27",
+  "fetched_utc": "2026-10-27T14:40:09.745373+00:00",
+  "filters": {
+    "op": "and",
+    "content": [
+      {
+        "op": "in",
+        "content": {
+          "field": "cases.project.project_id",
+          "value": [
+            "TCGA-COAD",
+            "TCGA-READ",
+            "TCGA-LUAD",
+            "TCGA-BLCA",
+            "TCGA-KIRC",
+            "TCGA-STAD"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "data_type",
+          "value": [
+            "Slide Image"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "experimental_strategy",
+          "value": [
+            "Diagnostic Slide"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "data_format",
+          "value": [
+            "SVS"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "access",
+          "value": [
+            "open"
+          ]
+        }
+      }
+    ]
+  },
+  "fields": "file_id,file_name,file_size,md5sum,data_type,experimental_strategy,data_format,access,state,cases.case_id,cases.submitter_id,cases.project.project_id",
+  "metadata_bytes": 1344598,
+  "metadata_sha256": "87242c9109f3be7365a957c2eda2ff01bb3c83ffe69b2921ae47f2d6e02de179",
+  "warnings": {},
+  "cohorts": [
+    {
+      "project": "TCGA-COAD",
+      "files": 459,
+      "patients": 451,
+      "bytes": 283667484028,
+      "GB": 283.667,
+      "GiB": 264.186
+    },
+    {
+      "project": "TCGA-READ",
+      "files": 166,
+      "patients": 165,
+      "bytes": 79480439259,
+      "GB": 79.48,
+      "GiB": 74.022
+    },
+    {
+      "project": "TCGA-LUAD",
+      "files": 541,
+      "patients": 478,
+      "bytes": 415086197424,
+      "GB": 415.086,
+      "GiB": 386.579
+    },
+    {
+      "project": "TCGA-BLCA",
+      "files": 457,
+      "patients": 386,
+      "bytes": 713381643021,
+      "GB": 713.382,
+      "GiB": 664.388
+    },
+    {
+      "project": "TCGA-KIRC",
+      "files": 519,
+      "patients": 513,
+      "bytes": 475735785670,
+      "GB": 475.736,
+      "GiB": 443.063
+    },
+    {
+      "project": "TCGA-STAD",
+      "files": 442,
+      "patients": 416,
+      "bytes": 355554936412,
+      "GB": 355.555,
+      "GiB": 331.136
+    }
+  ],
+  "note": "Metadata inventory only; no raw image download, no clinical or native-MPP eligibility asserted.",
+  "totals": {
+    "all_projects": {
+      "files": 2584,
+      "patients": 2409,
+      "bytes": 2322906485814
+    },
+    "new_four_projects": {
+      "files": 1959,
+      "patients": 1793,
+      "bytes": 1959758562527
+    }
+  },
+  "crc_previous_inventory_comparison": {
+    "previous_files": 625,
+    "current_files": 625,
+    "file_ids_equal": true,
+    "file_name_size_md5_mismatches": 0,
+    "note": "Inventory comparison only, not a current scan of local or server image assets."
+  },
+  "clinical_intersection_performed": false,
+  "native_mpp_verified": false,
+  "primary_tumor_ffpe_per_file_verified": false,
+  "raw_wsi_download_started": false,
+  "query_source": "https://api.gdc.cancer.gov/files",
+  "repo_commit": "a0df862090faeecf97dadd4e3df9b1bcfa1043a2"
+}
