@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-27",
+  "fetched_utc": "2026-10-27T15:03:36.797790+00:00",
+  "filters": {
+    "op": "and",
+    "content": [
+      {
+        "op": "in",
+        "content": {
+          "field": "cases.project.project_id",
+          "value": [
+            "TCGA-HNSC",
+            "TCGA-LUSC",
+            "TCGA-CESC",
+            "TCGA-LIHC",
+            "TCGA-PAAD"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "data_type",
+          "value": [
+            "Slide Image"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "experimental_strategy",
+          "value": [
+            "Diagnostic Slide"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "data_format",
+          "value": [
+            "SVS"
+          ]
+        }
+      },
+      {
+        "op": "in",
+        "content": {
+          "field": "access",
+          "value": [
+            "open"
+          ]
+        }
+      }
+    ]
+  },
+  "cohorts": [
+    {
+      "project": "TCGA-HNSC",
+      "files": 472,
+      "patients": 450,
+      "bytes": 455929531100,
+      "GB": 455.93,
+      "GB_per_imaged_patient": 1.013
+    },
+    {
+      "project": "TCGA-LUSC",
+      "files": 512,
+      "patients": 478,
+      "bytes": 408575360821,
+      "GB": 408.58,
+      "GB_per_imaged_patient": 0.855
+    },
+    {
+      "project": "TCGA-CESC",
+      "files": 279,
+      "patients": 269,
+      "bytes": 238400541736,
+      "GB": 238.4,
+      "GB_per_imaged_patient": 0.886
+    },
+    {
+      "project": "TCGA-LIHC",
+      "files": 379,
+      "patients": 365,
+      "bytes": 503460349855,
+      "GB": 503.46,
+      "GB_per_imaged_patient": 1.379
+    },
+    {
+      "project": "TCGA-PAAD",
+      "files": 209,
+      "patients": 183,
+      "bytes": 244527547707,
+      "GB": 244.53,
+      "GB_per_imaged_patient": 1.336
+    }
+  ],
+  "metadata_bytes": 715378,
+  "metadata_sha256": "e43d7ca8453b40d451c39a2b3d32c3b5bc3b8f7f8cbbb331c7685fa316cf020c",
+  "clinical_intersection_performed": false,
+  "raw_wsi_download_started": false,
+  "query_source": "https://api.gdc.cancer.gov/files",
+  "existing_inventory_source": "records/gdc_inventory_20261027/summary.json",
+  "existing_cohorts": [
+    {
+      "project": "TCGA-LUAD",
+      "files": 541,
+      "patients": 478,
+      "bytes": 415086197424,
+      "GB": 415.086,
+      "GiB": 386.579,
+      "GB_per_imaged_patient": 0.868
+    },
+    {
+      "project": "TCGA-BLCA",
+      "files": 457,
+      "patients": 386,
+      "bytes": 713381643021,
+      "GB": 713.382,
+      "GiB": 664.388,
+      "GB_per_imaged_patient": 1.848
+    },
+    {
+      "project": "TCGA-KIRC",
+      "files": 519,
+      "patients": 513,
+      "bytes": 475735785670,
+      "GB": 475.736,
+      "GiB": 443.063,
+      "GB_per_imaged_patient": 0.927
+    },
+    {
+      "project": "TCGA-STAD",
+      "files": 442,
+      "patients": 416,
+      "bytes": 355554936412,
+      "GB": 355.555,
+      "GiB": 331.136,
+      "GB_per_imaged_patient": 0.855
+    }
+  ],
+  "comparisons": {
+    "replace_BLCA_with_LUSC": {
+      "saved_bytes": 304806282200,
+      "saved_percent_of_BLCA": 42.727,
+      "imaged_patient_change": 92,
+      "candidate_new_four_bytes": 1654952280327
+    },
+    "replace_BLCA_with_HNSC": {
+      "saved_bytes": 257452111921,
+      "imaged_patient_change": 64
+    }
+  },
+  "proposal": "Defer BLCA; audit LUSC clinical/image intersection as preferred replacement candidate; HNSC optional for organ diversity. No cohort replacement or download executed.",
+  "notes": [
+    "Counts refer to unique patients with open SVS Diagnostic Slide files, not OS/QC-eligible training patients.",
+    "No claim that byte size equals information value or proportional feature-extraction compute.",
+    "Cost comparison only; no algorithm, label, split or training changes."
+  ]
+}
