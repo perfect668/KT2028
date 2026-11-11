@@ -1,0 +1,61 @@
+{
+  "schema": "KT2028-network-snapshot-validation-1",
+  "checked_at_unix": 1794378481.2808855,
+  "python": "3.12.3",
+  "dependencies": {
+    "torch": "2.8.0+cu128",
+    "numpy": "2.3.2",
+    "zarr": "3.4.0",
+    "matplotlib": "3.10.5",
+    "h5py": "3.16.0",
+    "einops": "0.8.2",
+    "nystrom-attention": "0.0.11"
+  },
+  "source_hashes_verified": 22,
+  "software_checks": [
+    {
+      "pattern": "test_multicancer.py",
+      "returncode": 0,
+      "tests": [
+        "conditioned_heads_and_gradients (test_multicancer.MulticancerChecks.test_conditioned_heads_and_gradients)",
+        "nested_split_patient_isolation_and_outer_coverage (test_multicancer.MulticancerChecks.test_nested_split_patient_isolation_and_outer_coverage)"
+      ],
+      "count": 2,
+      "result": "passed"
+    },
+    {
+      "pattern": "test_selection.py",
+      "returncode": 0,
+      "tests": [
+        "budget_eligibility_and_log_probability (test_selection.SelectionTests.test_budget_eligibility_and_log_probability)",
+        "completed_restart_skips_training_and_rejects_changed_checkpoint (test_selection.SelectionTests.test_completed_restart_skips_training_and_rejects_changed_checkpoint)",
+        "open_gate_reproduces_attention_and_padding_is_masked (test_selection.SelectionTests.test_open_gate_reproduces_attention_and_padding_is_masked)",
+        "parameter_count_and_strict_gate_reload (test_selection.SelectionTests.test_parameter_count_and_strict_gate_reload)",
+        "selector_only_updates_selector (test_selection.SelectionTests.test_selector_only_updates_selector)"
+      ],
+      "count": 5,
+      "result": "passed"
+    },
+    {
+      "pattern": "test_dsca_source.py",
+      "returncode": 0,
+      "tests": [
+        "censor_adapter_matches_current_nll_at_every_boundary (test_dsca_source.DSCASourceTests.test_censor_adapter_matches_current_nll_at_every_boundary)",
+        "full_grid_matches_unmodified_source_forward_and_backward (test_dsca_source.DSCASourceTests.test_full_grid_matches_unmodified_source_forward_and_backward)",
+        "grid_slots_use_nominal_field_even_at_clipped_edge (test_dsca_source.DSCASourceTests.test_grid_slots_use_nominal_field_even_at_clipped_edge)",
+        "masked_children_have_no_value_or_gradient_effect (test_dsca_source.DSCASourceTests.test_masked_children_have_no_value_or_gradient_effect)",
+        "official_lookahead_restart_preserves_next_update (test_dsca_source.DSCASourceTests.test_official_lookahead_restart_preserves_next_update)"
+      ],
+      "count": 5,
+      "result": "passed"
+    }
+  ],
+  "training_started": false,
+  "patient_data_used": false,
+  "passed": true,
+  "total_tests": 12,
+  "notes": [
+    "Synthetic-input software checks; no clinical assets or new training fits.",
+    "Official DSCA Lookahead emitted a PyTorch add_ deprecation warning; its restart-equivalence check passed."
+  ]
+}

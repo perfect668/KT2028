@@ -112,4 +112,6 @@ def move(inputs, device):
                 candidate_patch_count=inputs['candidate_patch_count'])
     if 'slide_indices' in inputs:
         result['slide_indices'] = inputs['slide_indices'].to(device)
+    if 'cancer_id' in inputs:
+        result['cancer_id'] = inputs['cancer_id']
     return result

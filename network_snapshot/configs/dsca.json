@@ -1,0 +1,219 @@
+{
+  "schema": "KT2028-mixed-survival-predictor-1",
+  "plan": "W140 official-source DSCA controlled adaptation; preserve W135/W136",
+  "data_contract": {
+    "endpoint": "overall_survival_5y_discrete",
+    "interval_edges_days": [
+      0,
+      365,
+      730,
+      1095,
+      1460,
+      1825
+    ],
+    "administrative_censor_day": 1825,
+    "censoring": "TCGA-CDR observed OS; five-year administrative censoring",
+    "likelihood": "existing discrete NLL; only completed intervals for censoring; early censor before day365 has zero likelihood contribution",
+    "feature_protocol": {
+      "coarse_mpp_um": 2.0,
+      "fine_mpp_um": 0.5,
+      "input_pixels": 224,
+      "feature_dimension": 1024,
+      "weight_sha256": "56ef09b44a25dc5c7eedc55551b3d47bcd17659a7a33837cf9abc9ec4e2ffb40"
+    }
+  },
+  "architecture": {
+    "dim": 256,
+    "heads": 4,
+    "dropout": 0.25,
+    "intervals": 5,
+    "fusion": "cross_gate"
+  },
+  "seed": 41,
+  "validation_fraction": 0.1,
+  "internal_test_fraction": 0,
+  "external_test_dataset_secured": false,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.001,
+  "gradient_clip": 5.0,
+  "accumulate_cases": 8,
+  "max_epochs": 100,
+  "patience": 15,
+  "loss_weights": {
+    "partial": 0.4,
+    "full": 0.4,
+    "coarse_aux": 0.1,
+    "fine_aux": 0.1
+  },
+  "validation_modes": [
+    "zero",
+    "0.1",
+    "0.2",
+    "0.4",
+    "full"
+  ],
+  "selection": "equal cancer macro NLL, then equal mean across unchanged five observation modes",
+  "training_sampling": "patient-uniform permutation; weight N/(C*N_c) for equal-cancer objective",
+  "metrics": "Harrell C; source-stratified train-fitted censoring KM IPCW Brier and cumulative/dynamic AUROC; annual-grid IBS; per-source and pooled",
+  "fresh_initialization_required": true,
+  "old_checkpoint_reuse": false,
+  "training_default": "preflight only; explicit --execute required; no automatic RL",
+  "cohorts": [
+    "tcga"
+  ],
+  "outer_folds": 5,
+  "label_source": "fixed TCGA-CDR; CRC new labels from W082 audited comparison; original GDC run preserved",
+  "schedule": [
+    "CRC",
+    "STAD",
+    "LUAD",
+    "PAAD",
+    "shared",
+    "moe"
+  ],
+  "official_commit": "a749074cb3415c3a6eb83bee39191bdb69968dcc",
+  "official_source_sha256": {
+    ".gitignore": "9b3ba74ab1e0a9d49cf285bd7dfa1f1ee158bd79563a8e4ef0d5e2dcf639cbb9",
+    "README.md": "b02c72eeadd09acf6fbaccd6fe4cedf39115c87dff4aebdc3d4918515f3177b4",
+    "config/config_hier.yaml": "5033575866d63c5e9dfea2f0ce984f862f4b5e81e407fd87b4b9ae48fb437144",
+    "data_split/.DS_Store": "36f13ce894a7f9a0ca1a7faf8c39ab325067af9a878fd3d4193113c3f3bda406",
+    "data_split/nlst/.DS_Store": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3",
+    "data_split/nlst/nlst-seed42-fold0.npz": "ef2bfcee2b5c9cc89f5aa7c37ed2a70c54135ce1bcb34975045b5a01e5282861",
+    "data_split/nlst/nlst-seed42-fold1.npz": "7b38e515875028315179ae85bc1166f1200b83cda97f048a949e24833d58458b",
+    "data_split/nlst/nlst-seed42-fold2.npz": "7fb7eb5b3bd0a80101c3965347041d02832d73c5ecc9b8114ace9aa84078935b",
+    "data_split/nlst/nlst-seed42-fold3.npz": "9eced7c7d1b23fb40a6ac0b38bddf722ff69cb9171843a7b315a19074be7d86e",
+    "data_split/nlst/nlst-seed42-fold4.npz": "035a68dbdcfd704263838af3f0fef0b0a89376580bd42476f884752da352822c",
+    "data_split/nlst/nlst_path_full.csv": "db16846e914234281fe89302f30608061220b0ae1aa8952d0449e6128bc1f291",
+    "data_split/tcga_brca/.DS_Store": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3",
+    "data_split/tcga_brca/tcga_brca-seed54-fold0.npz": "31531b31c0cd6ca923f3e8d680bd40a36d5ad3665529a19912780c94bd94a1a8",
+    "data_split/tcga_brca/tcga_brca-seed54-fold1.npz": "7007756ec727a447b8acc5bd53f35f225251310c245c36b188e6173ffa837c5d",
+    "data_split/tcga_brca/tcga_brca-seed54-fold2.npz": "8f0be18b21b1b15837a0544837eecd1500b0525032e6cee12492c510d94169e9",
+    "data_split/tcga_brca/tcga_brca-seed54-fold3.npz": "bc00721439557f0f6a0db87d1d46e6484ccbfa5aae324d66d2a8f9db1e2a334e",
+    "data_split/tcga_brca/tcga_brca-seed54-fold4.npz": "578e72223d580cabff328c9d0306fb570a493b46c85d51131b736df5f8541c59",
+    "data_split/tcga_brca/tcga_brca_path_full.csv": "d88d13b86cf27746675658f2a82bd5f2e363f4262d37bb7f4705252ce9979dd4",
+    "data_split/tcga_lgg/.DS_Store": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3",
+    "data_split/tcga_lgg/TCGA_LGG_path_full.csv": "307524b2216674d087f2610bdac07b421016554120d7422e4c6a70687b727fce",
+    "data_split/tcga_lgg/tcga_lgg-seed783-fold0.npz": "638c06e2798a2c8da72e869e05bf32b96ec582d8a53f8fc4a2b8f44102d9f3f5",
+    "data_split/tcga_lgg/tcga_lgg-seed783-fold1.npz": "cde735490d6d440e27823625b380a5080a536bc17657f7fbe8e5686bedc18c0c",
+    "data_split/tcga_lgg/tcga_lgg-seed783-fold2.npz": "41b9662083532af1159a9cca50aa8f8b934205ec3a0ef4c3527462b59b4d514b",
+    "data_split/tcga_lgg/tcga_lgg-seed783-fold3.npz": "e5eb38dc5b47c253e37e20abc69bed96583fb263387a7fcf40cfcacee6f86cb0",
+    "data_split/tcga_lgg/tcga_lgg-seed783-fold4.npz": "8d7dff5ec0de8505be19a9dfc125670161b1930866675289ab5ed07f36c8a4e3",
+    "dataset/WSIPatchData.py": "f885826c7b29aee3205c3ff1412f2f672f9a4a4d71327688c814afdfe5e4372d",
+    "dataset/__init__.py": "dc8561275567b263d3c5025584e0fe4ef62ac9b4643cf6dd6776ea4b6c54f490",
+    "dataset/dataset_interface.py": "dd76fc349b1b14ca75eefb8caaaf5112961716181983b0ebb04b6ef70538d3c8",
+    "doc/dsca-arch.png": "91417a6b87d7671d51fd873216a06df312ca0f6b2618ea17ed233ab76e652d00",
+    "doc/requirements.txt": "bacfd0dda946d8c7c0a499258de8d0c829abc10f6430b19bbf28492678885f2a",
+    "doc/res-ablation.png": "54e948287464ba24dcb1f342a6aafa6446837ff9c8349ac5fd085460241ece36",
+    "doc/res-cmp.png": "e43096c68dcf8bc71a8460b3f922763a3b382077489fb7b11bcd7616b4003d46",
+    "doc/vis-cap.png": "cb8d103182026c304292581a9640b4b73f37af73419f1667624f198bfdfa5d1d",
+    "doc/vis-gap.png": "57da9dbdb12878ea392e12c458153056f8256b2ca151947eaa5418f360c6dede",
+    "eval/__init__.py": "fed313e2261efa5318f2d52ad0e5f35a55e8de361b0610871d07a2f626b13ce0",
+    "eval/metrics.py": "14b9968a26d9b8bf808b6baef431f75df764e051e57298da11de72629248f91b",
+    "eval/survival_eval.py": "eaf9f45b3fcdbfbe65761cf8ce55775eec569add761e97f209d5f84fa6ff113b",
+    "loss/__init__.py": "6cdbc6848bcef278431864ea700ce29fa25389e6a2dd442a66c6cd449dfe8542",
+    "loss/loss_interface.py": "60eceb664ea9b4e08ae987ce0161d36bef6658ccedf672bbd2e136778ff772e1",
+    "main.py": "e22688f3c1c76d430ec3afaa664bce69cf97d29662c92f9f68934b17ac5ab329",
+    "model/.DS_Store": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3",
+    "model/HierNet.py": "10134f524edecb8c4f841800a8d44e0c0bd41aa4a4f7401ded9b62bc8e692bd7",
+    "model/__init__.py": "b2f63ea8441f4338ae212faeff5b1ec75c8934a36b55019aa6b592b0ea3beaa0",
+    "model/model_handler.py": "30fe5199d2970f678bc0878fb727c0165b6a2f97ae59b973da9e373e6281079b",
+    "model/model_utils.py": "d0598651a2ff907f2dd3413a9b9f14a7ee3b8b947b4f074885bd2f714e5e5ddc",
+    "model/model_utils_extra.py": "223380473c02e30794eaac859b3d47c783b25fcd27e115eaf43e2197ace18bb3",
+    "optim/__init__.py": "0a330060c47a0c86f40237b1003be764b016b98e07cf7181b412bd8d3273a3f1",
+    "optim/adafactor.py": "22952956c0102539b9cc3f1bb64b085b4dbf452d543c45a8cb31a576489be3fd",
+    "optim/adahessian.py": "6f4e3ea44f62a5c0ede87b1e50d17a0822cb3fcafd16eb68d1d2204104fd3212",
+    "optim/adamp.py": "38a98770c8217f957d8b619a6f7a14a00a4a679d4e48f1a8dd72f00ba3e6db27",
+    "optim/adamw.py": "32c50135d8c88800187e26dbc592a9c99700a156cbbba2231d91ddff0830166a",
+    "optim/lookahead.py": "f738220df4dc380a9c0c61b169ab5a95226773cdf447b6b7285c6669ec14f7d2",
+    "optim/nadam.py": "d1bdf42bddd03a1aae126adb9e3c47a303b32aa113cdc0d4f5b9473a4422acb3",
+    "optim/novograd.py": "7f09937881c5c832b2d15d3e65f4be52dd975053505952463d9c606796d617c6",
+    "optim/nvnovograd.py": "373e143fbcc77ab7805936cdc89f6a18b045a16e41546cb7aa41afa38e26edf3",
+    "optim/optim_factory.py": "2e5c5bccb8b0fb57a442b9fe25da5436079fe5c633c4d00471aa6115ccf95cd7",
+    "optim/radam.py": "357e6dc4b29d2f7d000541056096819ff433b44803a497c7d6a3f2f80c0427aa",
+    "optim/rmsprop_tf.py": "8d1b51dcda04323486249853158023e15db61fba21e8f1115f0ea96254e81f1f",
+    "optim/sgdp.py": "6cf5fcb49406474a08d9a0fdd5b506940d2cf5560db855d26e09d85f0536410f",
+    "tools/big_to_small_patching.py": "9f8c14d811a25898e60062f74a0564b0dd922987eb75ba2f53a090228f505148",
+    "tools/compute_model_thop.py": "928beaf7bd09ece4ec82e8c56f9246a9c37e03dbf9ebf8f9cfbd514e4b26b1c0",
+    "tools/data_split.py": "fd22e1f4b267a88f3bde9c46ad9d33ae4afec64e510f79c520067b185e74e665",
+    "utils/__init__.py": "ec9c85cf1003573264f3a4cb41da5558a384a12e7a580466476b4482101077d7",
+    "utils/func.py": "7c221e2cb52baff0e34f6a693484bc313494288a2e4497f122d5a041a2243999",
+    "utils/train_utils.py": "d463fc046622dbd745f7a95d01a74dbe035214c7e36f65b77113f1410c6695e3"
+  },
+  "cancers": [
+    "CRC",
+    "LUAD",
+    "STAD",
+    "PAAD"
+  ],
+  "cpu_threads": 16,
+  "gpu_minimum_free_mib": 18432,
+  "gpu_memory_fraction": 0.4,
+  "official_recipe": {
+    "dropout": 0.6,
+    "lr": 8e-05,
+    "weight_decay": 0.0005,
+    "l1": 1e-05,
+    "alpha": 0.1,
+    "accumulate": 16,
+    "max_epochs": 150,
+    "patience": 30,
+    "scheduler": true,
+    "clip": null,
+    "optimizer": "official_lookahead_adam"
+  },
+  "matched_recipe": {
+    "dropout": 0.25,
+    "lr": 0.0001,
+    "weight_decay": 0.001,
+    "l1": 0.0,
+    "alpha": 0.0,
+    "accumulate": 8,
+    "max_epochs": 100,
+    "patience": 15,
+    "scheduler": false,
+    "clip": 5.0,
+    "optimizer": "adamw"
+  },
+  "jobs": [
+    {
+      "cancer": "CRC",
+      "arm": "dsca_official_recipe",
+      "outer_evaluation": true
+    },
+    {
+      "cancer": "CRC",
+      "arm": "dsca_matched_recipe",
+      "outer_evaluation": false
+    },
+    {
+      "cancer": "CRC",
+      "arm": "r3_full_only",
+      "outer_evaluation": false
+    },
+    {
+      "cancer": "LUAD",
+      "arm": "dsca_official_recipe",
+      "outer_evaluation": true
+    },
+    {
+      "cancer": "STAD",
+      "arm": "dsca_official_recipe",
+      "outer_evaluation": true
+    },
+    {
+      "cancer": "PAAD",
+      "arm": "dsca_official_recipe",
+      "outer_evaluation": true
+    }
+  ],
+  "adaptations": [
+    "Same frozen UNI features and W135 fold0; output=5 fixed annual intervals",
+    "QC-missing child grid positions masked, no fake/duplicated features",
+    "Official SurvMLE labels map censor t+1 to completed intervals; zero-completed cases remain zero",
+    "Independent per-case backward equivalent to additive batch mean, L1 once per optimizer step",
+    "Consume final incomplete accumulation group; legacy CLI dropped it",
+    "Source modules byte-identical; package loader avoids unused training CLI imports",
+    "Legacy Lookahead slow state saved by parameter name for valid checkpoint restart",
+    "CPU-first while two prior GPU queues live; no changes to prior source/config/weights"
+  ]
+}

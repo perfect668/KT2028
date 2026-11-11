@@ -1,0 +1,28 @@
+{
+  "base_commit": "77b5910cd3c34b511ad39070130ecedb96628542",
+  "source_files": {
+    "kt2028/__init__.py": "7ac7823728a5eec8b98b5e93cc3db3e2e17d7f6a6794b81d4ee5aab1d2e61af8",
+    "kt2028/censored_metrics.py": "5c5a7762d585dffb312f8558dddf7805c7565445ffefbf3d62b45063d5da4001",
+    "kt2028/dsca_source_adapter.py": "2c146b6d631ed6789360fe09bae517476f4910050c9a92ec0120829b8851fd6a",
+    "kt2028/fusion_data.py": "247067afd3a11c52c3f7049e41588faa292a276522993d44ed0299ae648de32a",
+    "kt2028/fusion_network.py": "ecd425189e45bb8c9b69c3c63882ef2760250a316978c992ea9b6b9a56660464",
+    "kt2028/mixed_survival_data.py": "ed71854d66d0b443352d3c8f6a74f14281c45659f820687a971f88fa641652c0",
+    "kt2028/multicancer_network.py": "b891b705aff38476ca1bb9aa23ef419a07d4640781964f2682e7cc33f8238810",
+    "kt2028/network.py": "fc6450822fec53af0761ce5ce33dc5f621c9215d3f0d2d666c7f83f2c8e7a585",
+    "kt2028/prepare_mixed_survival.py": "eef03dcb5fa1803886652fad6b2ca19e70975bdbedd817c05c77001177f2de7e",
+    "kt2028/prepare_survival.py": "db61338ecb4ae151e137b2335ef2c982a224b03725e97f5f405ac8ccd259d712",
+    "kt2028/run_dsca_comparison.py": "81b8dc2e97fe09cd9141f89f15044c84d01fc90b010087a414651ff28a023f05",
+    "kt2028/run_multicancer.py": "1254930ac57c4f1cb0f5c99abb96aeaee0873527a568640ca073de5c8fe68c63",
+    "kt2028/run_selection_ablation.py": "61b427f9745ed6c652b4bc05e4eb9fce830a6689bacbbdb4f1414995a7417db5",
+    "kt2028/selection_network.py": "606abd7b0ab86186a133e0956fa83e57f72ff97b46d4249c9988f9bf70dc0443",
+    "kt2028/survival.py": "18f2c6db8c56285f983531af0601ddbc0d4505088c04f4d9e78a61a709b701ea",
+    "kt2028/survival_data.py": "3ef0dce7d9de948acb3a7acb28d2f009d4caf1551854ac54f9bde610a2e97aa1",
+    "kt2028/survival_network.py": "ab2842c488c1697882d1ebba776158411d9c123df816468c69c44f7e5d5eb068",
+    "kt2028/train_survival.py": "b0346e9e2d3e557e1eb375f926daef5bab0744e474872ca56524d56f51801f5b",
+    "kt2028/uni_encoder.py": "1b30243fb2cd80700e6591624e1653e8cec939585fe4c3a06cbc2972d7524467",
+    "tests/test_multicancer.py": "722463902de9258948460ac4371d378e921a9801408244afea570205b310fce3",
+    "tests/test_selection.py": "4982847fb3ca8a9b135cfe269ba2cac3316f524ec53041b1e75a538352c43dca",
+    "tests/test_dsca_source.py": "c08d41427a561a27e261c33de635af9168f968f4d50aeb69756d6be5561c2fe4"
+  },
+  "configs_copied_byte_identical": true
+}

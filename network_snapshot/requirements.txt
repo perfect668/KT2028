@@ -1,0 +1,10 @@
+# Feature-based network/training runtime; tested Python 3.12 / PyTorch 2.8.
+# Install a PyTorch build appropriate to the machine; the verified server used cu128.
+torch==2.8.0
+numpy==2.3.2
+zarr==3.4.0
+matplotlib==3.10.5
+# Required by the pristine DSCA source adapter only:
+h5py==3.16.0
+einops==0.8.2
+nystrom-attention==0.0.11
