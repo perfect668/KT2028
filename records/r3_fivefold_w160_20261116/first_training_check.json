@@ -1,0 +1,21 @@
+{
+  "checked_beijing": "2026-11-16T14:03:26+08:00",
+  "actual_optimizer_steps": [
+    4,
+    4,
+    4,
+    0,
+    0
+  ],
+  "active_python_processes": [
+    818448,
+    818449,
+    818450
+  ],
+  "gpu_utilization_percent": 91,
+  "gpu_memory_mib": 6339,
+  "failures": 0,
+  "online_branch": "research/r3-exposure-fivefold-20261116",
+  "source_backup_commit": "03009881a3222c04c9640c4b14129b9d67e63048",
+  "note": "Running; five-fold results not completed at this check"
+}

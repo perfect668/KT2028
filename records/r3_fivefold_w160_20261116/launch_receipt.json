@@ -1,0 +1,31 @@
+{
+  "state": "launched",
+  "workers": [
+    {
+      "worker": 0,
+      "pid": 818445
+    },
+    {
+      "worker": 1,
+      "pid": 818446
+    },
+    {
+      "worker": 2,
+      "pid": 818447
+    }
+  ],
+  "at": 1794808934.607349,
+  "beijing": "2026-11-16T14:02:14.607358+08:00",
+  "preflight": {
+    "finite_backward": true,
+    "strict_reload": true,
+    "parameters_unchanged": true,
+    "optimizer_steps": 0,
+    "train_union_patients": 542,
+    "largest_coarse_regions": 3461,
+    "peak_reserved_bytes": 1799356416,
+    "provenance_sha256": "331148dcfbe61ebe2292a4fb02fb2abbca30632a37158508bdce7b620e288c27",
+    "completed_unix": 1794808907.1517985
+  },
+  "code_backup_commit": "03009881a3222c04c9640c4b14129b9d67e63048"
+}

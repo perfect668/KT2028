@@ -1,0 +1,11 @@
+{
+  "finite_backward": true,
+  "strict_reload": true,
+  "parameters_unchanged": true,
+  "optimizer_steps": 0,
+  "train_union_patients": 542,
+  "largest_coarse_regions": 3461,
+  "peak_reserved_bytes": 1799356416,
+  "provenance_sha256": "331148dcfbe61ebe2292a4fb02fb2abbca30632a37158508bdce7b620e288c27",
+  "completed_unix": 1794808907.1517985
+}
